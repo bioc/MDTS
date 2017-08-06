@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' calcBins() 
-calcBins <- function(pData, n, rl, med, seed=1337){
+calcBins <- function(pData, n, rl, med, min, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
 	
