@@ -1,6 +1,6 @@
 processChr = function(chr, proto_info, covs, rl, med){
 	print(paste0("Selecting Proto-regions in Chr ", chr)); flush.console()
-	proto_region = red[[chr]]
+	proto_region = proto_info[[chr]]
 	proto_gr = reduce(GRanges(seqnames=chr, IRanges(start=proto_region, end=proto_region)))
 	proto_gr_covs_rle = lapply(covs, function(x) x[proto_gr])
 	proto_gr_covs = lapply(proto_gr_covs_rle, function(x) lapply(x, sum))
