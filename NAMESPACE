@@ -2,3 +2,9 @@
 
 export(calcBins)
 export(pData)
+import(GenomicRanges)
+import(IRanges)
+import(Repitools)
+import(S4Vectors)
+import(methods)
+import(stringr)
