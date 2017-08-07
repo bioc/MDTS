@@ -18,7 +18,7 @@ processChr = function(chr, proto_info, covs, rl, med){
 			setTxtProgressBar(pb, i)
 			chr_out = c(chr_out, divideSegs(proto_gr_select[i], covs, rl, med))
 		}
-		print(); flush.console()
+		print(""); flush.console()
 		chr_out = do.call('c', chr_out)
 	}else{
 		return(NULL)
