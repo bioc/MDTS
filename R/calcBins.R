@@ -4,12 +4,15 @@
 #' @pData A table in the format of the output of pData()
 #' @n The number of subsamples to use
 #' @med The median number of reads across sub-samples to reach before creating a new bin
+#' @min
+#' @genome
+#' @map_file
 #' @seed Sets the seed so results are reproducible. Defaults to 1337
 #' @keywords calcBins
 #' @export
 #' @examples
 #' calcBins() 
-calcBins <- function(pData, n, rl, med, min, seed=1337){
+calcBins <- function(pData, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
 	
@@ -31,5 +34,27 @@ calcBins <- function(pData, n, rl, med, min, seed=1337){
 		bins = c(bins, processChr(chromosome, red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
+
+	if(sum(str_detect(seqlevels(bins), "chr"))==0){
+		seqlevels(bins) = paste0("chr", seqlevels(bins))
+	}
+	seqs = getSeq(genome, bins)
+	map_track = import(map_file)
+	GC = sapply(seqs, calcGC)
+	map = sapply(bins, calcMap, map_track)
+	bins_out$GC = GC
+	bins_out$mappability = map
+	return(bins_out)
 }
 
+# source("https://bioconductor.org/biocLite.R")
+# biocLite("BSgenome.Hsapiens.UCSC.hg19")
+# library(BSgenome.Hsapiens.UCSC.hg19)
+# library(stringr)
+
+# genome <- BSgenome.Hsapiens.UCSC.hg19
+# seqlevels(bins) = paste0("chr", seqlevels(bins))
+# seqs = getSeq(genome, bins)
+
+
+# map_track = import.bw("~/trios/wgEncodeCrgMapabilityAlign100mer.bigWig")
