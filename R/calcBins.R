@@ -52,10 +52,10 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	return(bins_out)
 }
 
-library(BSgenome.Hsapiens.UCSC.hg19)
-genome <- BSgenome.Hsapiens.UCSC.hg19
-map_file = "~/trios/wgEncodeCrgMapabilityAlign100mer.bigWig"
-pD = pData("~/pD_sample.txt")
-start.time = Sys.time()
-calcBins(pD, n=25, rl=100, med=5, min=160, genome, map_file)
-end.time = Sys.time()
+# library(BSgenome.Hsapiens.UCSC.hg19)
+# genome <- BSgenome.Hsapiens.UCSC.hg19
+# map_file = "~/trios/wgEncodeCrgMapabilityAlign100mer.bigWig"
+# pD = pData("~/pD_sample.txt")
+# start.time = Sys.time()
+# calcBins(pD, n=25, rl=100, med=5, min=160, genome, map_file)
+# end.time = Sys.time()
