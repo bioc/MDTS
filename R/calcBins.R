@@ -12,7 +12,7 @@
 #' @export
 #' @examples
 #' calcBins() 
-calcBins <- function(pData, n, rl, med, min, genome, map_file, seed=1337){
+calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
 	
