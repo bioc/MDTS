@@ -8,9 +8,7 @@ processChr = function(chr, proto_info, covs, rl, med){
 	proto_gr_covs_mat_normed = t(t(proto_gr_covs_mat)/rl)
 	proto_gr_covs_mat_med = apply(proto_gr_covs_mat_normed, 2, median)
 		proto_gr$reads = proto_gr_covs_mat_med
-	print(length(proto_gr)); flush.console()
 	proto_gr_select = proto_gr[proto_gr$reads>=med]
-	print(length(proto_gr_select)); flush.console()
 
 	if(length(proto_gr_select)>0){
 		print(paste0("Segmenting Chr ", chr, " Proto-regions")); flush.console()
@@ -41,7 +39,6 @@ divideSegs = function(seg, covs, rl, med){
 	cov_sub = lapply(covs, function(x) x[seg])
 	cov_sub_mat = do.call(rbind, lapply(cov_sub, extractCounts))
 	while(count<num_segs){
-		print(paste0(count, "-", num_segs)); flush.console()
 		cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
 		cov_sub_cs_normed = cov_sub_cs/rl
 		medz = apply(cov_sub_cs_normed, 2, median)
