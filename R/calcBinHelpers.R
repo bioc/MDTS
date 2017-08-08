@@ -32,22 +32,23 @@ extractCounts = function(cov_list){
 
 divideSegs = function(seg, covs, rl, med){
 	output = NULL
-	i = 1
+	j = 1
 	count = 1
+	reads_remain = seg$read
 	num_segs = floor(seg$reads/med)
 	cov_sub = lapply(covs, function(x) x[seg])
 	cov_sub_mat = do.call(rbind, lapply(cov_sub, extractCounts))
 	while(count<num_segs){
-		cov_sub_cs = t(apply(cov_sub_mat[,i:dim(cov_sub_mat)[2]], 1, cumsum))
+		cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
 		cov_sub_cs_normed = cov_sub_cs/rl
 		medz = apply(cov_sub_cs_normed, 2, median)
 		cut = which(medz>=med)[1]
 		if(!is.na(cut)){
 			output = rbind(output, c(cut, medz[cut]))
 		}
-		count = count+1; i = sum(output[,1])+1
+		count = count+1; j = sum(output[,1])+1
 	}
-	cov_sub_cs = t(apply(cov_sub_mat[,i:dim(cov_sub_mat)[2]], 1, cumsum))
+	cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
 	cov_sub_cs_normed = cov_sub_cs/rl
 	medz = apply(cov_sub_cs_normed, 2, median)
 	output = rbind(output, c(width(seg)-sum(output[,1]), max(medz)))

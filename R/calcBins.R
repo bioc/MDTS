@@ -34,27 +34,21 @@ calcBins <- function(pData, n, rl, med, min, genome, map_file, seed=1337){
 		bins = c(bins, processChr(chromosome, red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
+	print("Bin segmentation complete"); flush.console()
 
 	if(sum(str_detect(seqlevels(bins), "chr"))==0){
 		seqlevels(bins) = paste0("chr", seqlevels(bins))
 	}
 	seqs = getSeq(genome, bins)
-	map_track = import(map_file)
+	print("Calculating GC content"); flush.console()
 	GC = sapply(seqs, calcGC)
-	map = sapply(bins, calcMap, map_track)
 	bins_out$GC = GC
+
+	print("Calculating mappability"); flush.console()
+	map_track = import(map_file)
+	map = sapply(bins, calcMap, map_track)
 	bins_out$mappability = map
+
 	return(bins_out)
 }
 
-# source("https://bioconductor.org/biocLite.R")
-# biocLite("BSgenome.Hsapiens.UCSC.hg19")
-# library(BSgenome.Hsapiens.UCSC.hg19)
-# library(stringr)
-
-# genome <- BSgenome.Hsapiens.UCSC.hg19
-# seqlevels(bins) = paste0("chr", seqlevels(bins))
-# seqs = getSeq(genome, bins)
-
-
-# map_track = import.bw("~/trios/wgEncodeCrgMapabilityAlign100mer.bigWig")
