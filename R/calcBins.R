@@ -31,7 +31,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 
 	bins = NULL
 	for(chromosome in 1:22){
-		bins = c(bins, processChr(chromosome, red, covs, rl, med))
+		bins = c(bins, processChr(as.character(chromosome), red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
 	print("Bin segmentation complete"); flush.console()

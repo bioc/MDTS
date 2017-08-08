@@ -8,8 +8,8 @@ processChr = function(chr, proto_info, covs, rl, med){
 	proto_gr_covs_mat_normed = t(t(proto_gr_covs_mat)/rl)
 	proto_gr_covs_mat_med = apply(proto_gr_covs_mat_normed, 2, median)
 		proto_gr$reads = proto_gr_covs_mat_med
+	print(length(proto_gr)); flush.console()
 	proto_gr_select = proto_gr[proto_gr$reads>=med]
-
 	print(length(proto_gr_select)); flush.console()
 
 	if(length(proto_gr_select)>0){
