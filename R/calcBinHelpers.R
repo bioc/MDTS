@@ -10,6 +10,8 @@ processChr = function(chr, proto_info, covs, rl, med){
 		proto_gr$reads = proto_gr_covs_mat_med
 	proto_gr_select = proto_gr[proto_gr$reads>=med]
 
+	print(length(proto_gr_select)); flush.console()
+
 	if(length(proto_gr_select)>0){
 		print(paste0("Segmenting Chr ", chr, " Proto-regions")); flush.console()
 		pb = txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
