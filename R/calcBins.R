@@ -28,7 +28,6 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	print("Calculating Proto-regions"); flush.console()
 	track = lapply(covs, function(x) which(x>=min))
 	red = base::Reduce(intersect, track)
-	print(sapply(red, length)); flush.console()
 
 	bins = NULL
 	for(chromosome in 1:22){
@@ -52,11 +51,3 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 
 	return(bins_out)
 }
-
-# library(BSgenome.Hsapiens.UCSC.hg19)
-# genome <- BSgenome.Hsapiens.UCSC.hg19
-# map_file = "~/trios/wgEncodeCrgMapabilityAlign100mer.bigWig"
-# pD = pData("~/pD_sample.txt")
-# start.time = Sys.time()
-# calcBins(pD, n=5, rl=100, med=5, min=160, genome, map_file)
-# end.time = Sys.time()
