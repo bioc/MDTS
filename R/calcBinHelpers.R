@@ -39,6 +39,7 @@ divideSegs = function(seg, covs, rl, med){
 	cov_sub = lapply(covs, function(x) x[seg])
 	cov_sub_mat = do.call(rbind, lapply(cov_sub, extractCounts))
 	while(count<num_segs){
+		print(paste0(count, "-", num_segs)); flush.console()
 		cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
 		cov_sub_cs_normed = cov_sub_cs/rl
 		medz = apply(cov_sub_cs_normed, 2, median)
