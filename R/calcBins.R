@@ -36,17 +36,17 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	bins_out = suppressWarnings(do.call('c', bins))
 	print("Bin segmentation complete"); flush.console()
 
-	if(sum(str_detect(seqlevels(bins), "chr"))==0){
-		seqlevels(bins) = paste0("chr", seqlevels(bins))
+	if(sum(str_detect(seqlevels(bins_out), "chr"))==0){
+		seqlevels(bins_out) = paste0("chr", seqlevels(bins_out))
 	}
-	seqs = getSeq(genome, bins)
+	seqs = getSeq(genome, bins_out)
 	print("Calculating GC content"); flush.console()
 	GC = sapply(seqs, calcGC)
 	bins_out$GC = GC
 
 	print("Calculating mappability"); flush.console()
 	map_track = import(map_file)
-	map = sapply(bins, calcMap, map_track)
+	map = sapply(bins_out, calcMap, map_track)
 	bins_out$mappability = map
 
 	return(bins_out)
