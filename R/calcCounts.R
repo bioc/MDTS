@@ -9,7 +9,7 @@
 #' calcCounts() 
 calcCounts <- function(pD, bins){
 	cov_list = lapply(pD$bam_path, countHelper, bins)
-	cov_matrix = do.call(cbind, test)
+	cov_matrix = do.call(cbind, cov_list)
 	colnames(cov_matrix) = pD$subj_id
 	return(cov_matrix)
 }
