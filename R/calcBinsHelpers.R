@@ -65,24 +65,8 @@ calcGC = function(biostring){
 	return(str_count(string, "G|C")/nchar(string))
 }
 
-calcMap = function(bins, map_track){
-	ol = findOverlaps(bins, map_track)
-	segment_counts = by(rep(1, length(ol)), queryHits(ol), sum)
-	map = rep(0, length(bins))
-	map[as.numeric(names(segment_counts)[which(segment_counts==1)])] =
-		 map_track$score[subjectHits(ol)[which(segment_counts==1)]]
-	
-	ind_compute = names(segment_counts)[which(segment_counts>1)]
-	map[as.numeric(names(segment_counts)[which(segment_counts>1)])] =
-		 sapply(bins[as.numeric(ind_compute)], calcMapHelper, map_track)
-	return(map)
-}
-
-calcMapHelper = function(bin, map_track){
-	ol = findOverlaps(bin, map_track)
-	map_track_sub = map_track[subjectHits(ol)]
-	map_track_red = do.call(c, lapply(map_track_sub[c(1, length(ol))], intersect, bin))
-	map_track_red$score = map_track_sub$score[c(1, length(ol))]
-	map_track_sub[c(1, length(ol))] = map_track_red
-	return(sum(width(map_track_sub)*map_track_sub$score)/width(bin))
+mappabilityHelper = function(i, ol, bins, map){
+	overlaps <- pintersect(map[subjectHits(ol)[queryHits(ol)==i]], bins[i])
+	percentOverlap <- width(overlaps) / width(bins[i])
+	return(sum(percentOverlap*overlaps$score))
 }

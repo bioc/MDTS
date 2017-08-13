@@ -46,9 +46,16 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 
 	print("Calculating mappability"); flush.console()
 	map_track = import(map_file)
-	map = sapply(bins_out, calcMap, map_track)
+	ol = findOverlaps(bins_out, map_track)
+	segment_sums = by(rep(1, length(ol)), queryHits(ol), sum)
+		segment_sums_1 = as.numeric(names(segment_sums)[which(segment_sums==1)])
+	map = rep(0, length(segment_sums))
+		map[segment_sums_1] = map_track$score[subjectHits(ol)[match(segment_sums_1, queryHits(ol))]]
+	ol_remain = ol[!queryHits(ol) %in% segment_sums_1]
+	map[unique(queryHits(ol_remain))] = sapply(unique(queryHits(ol_remain)), mappabilityHelper, ol_remain, bins_out, map_track)
 	bins_out$mappability = map
 
+	print("Filtering bins based on GC and Mappability"); flush.console()
 	rm_ind = unique(c(which(bins_out$mappability<0.75), which(bins_out$GC>0.85 | bins_out$GC<0.15)))
 	if(length(rm_ind)>0){bins_out = bins_out[-rm_ind]}
 
