@@ -49,5 +49,8 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	map = sapply(bins_out, calcMap, map_track)
 	bins_out$mappability = map
 
+	rm_ind = unique(c(which(bins_out$mappability<0.75), which(bins_out$GC>0.85 | bins_out$GC<0.15)))
+	if(length(rm_ind)>0){bins_out = bins_out[-rm_ind]}
+
 	return(bins_out)
 }
