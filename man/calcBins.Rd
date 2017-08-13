@@ -4,7 +4,7 @@
 \alias{calcBins}
 \title{Sample driven calculation of bins for counting}
 \usage{
-calcBins(pData, n, rl, med, seed = 1337)
+calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 }
 \description{
 This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
