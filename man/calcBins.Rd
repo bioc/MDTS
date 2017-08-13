@@ -6,6 +6,21 @@
 \usage{
 calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 }
+\arguments{
+\item{pD}{A table in the format of the output of pData()}
+
+\item{n}{The number of subsamples to use}
+
+\item{med}{The median number of reads across sub-samples to reach before creating a new bin}
+
+\item{min}{The miminum number of coverage across all sub-samples required to create the proto-region}
+
+\item{genome}{The BSGenome object that assists in calculations of the GC content of the bins}
+
+\item{map_file}{A path to the bigwig file of 100mer mappability of the corresponding genome}
+
+\item{seed}{Sets the seed so results are reproducible. Defaults to 1337}
+}
 \description{
 This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
 }

@@ -1,13 +1,13 @@
 #' Sample driven calculation of bins for counting
 #'
 #' This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
-#' @pData A table in the format of the output of pData()
-#' @n The number of subsamples to use
-#' @med The median number of reads across sub-samples to reach before creating a new bin
-#' @min
-#' @genome
-#' @map_file
-#' @seed Sets the seed so results are reproducible. Defaults to 1337
+#' @param pD A table in the format of the output of pData()
+#' @param n The number of subsamples to use
+#' @param med The median number of reads across sub-samples to reach before creating a new bin
+#' @param min The miminum number of coverage across all sub-samples required to create the proto-region
+#' @param genome The BSGenome object that assists in calculations of the GC content of the bins
+#' @param map_file A path to the bigwig file of 100mer mappability of the corresponding genome
+#' @param seed Sets the seed so results are reproducible. Defaults to 1337
 #' @keywords calcBins
 #' @export
 #' @examples

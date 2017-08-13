@@ -6,6 +6,11 @@
 \usage{
 calcCounts(pD, bins)
 }
+\arguments{
+\item{pD}{A table in the format of the output of pData()}
+
+\item{bins}{The set of bins determined by calcBins}
+}
 \description{
 This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
 }
