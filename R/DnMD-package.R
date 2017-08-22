@@ -10,4 +10,5 @@
 #' @import stringr
 #' @import methods
 #' @import DNAcopy
+#' @import stringr
 NULL
