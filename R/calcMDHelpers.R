@@ -18,7 +18,8 @@ fitLoess = function(i, bins, full_data, adjust){
 	}
 	if(adjust=="Mappability"){
 		loess_ind = which(bins$mappability<1)
-		res = residuals(loess(full_data[loess_ind,i]~bins$mappability[loess_ind]))
+		res = full_data[,i]
+		res[loess_ind] = residuals(loess(full_data[loess_ind,i]~bins$mappability[loess_ind]))
 	}
 	return(res)
 }
