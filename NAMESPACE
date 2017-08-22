@@ -3,6 +3,7 @@
 export(calcBins)
 export(calcCounts)
 export(pData)
+import(DNAcopy)
 import(GenomicRanges)
 import(IRanges)
 import(Repitools)

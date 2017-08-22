@@ -9,4 +9,5 @@
 #' @import Repitools
 #' @import stringr
 #' @import methods
+#' @import DNAcopy
 NULL
