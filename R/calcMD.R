@@ -1,3 +1,10 @@
+#' Calculating a minimum-distance matrix from raw counts, bins, and pData
+#'
+#' This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
+#' @param pData A table in the format of the output of pData()
+#' @param bins The set of bins determined by calcBins
+#' @keywords calcMD
+#' @export
 calcMD = function(counts, bins, pData){
 	normedCounts = normalizeCounts(counts, bins)
 
@@ -14,4 +21,3 @@ calcMD = function(counts, bins, pData){
 	colnames(md) = proband
 	return(md)
 }
-

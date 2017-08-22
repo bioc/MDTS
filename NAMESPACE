@@ -2,7 +2,9 @@
 
 export(calcBins)
 export(calcCounts)
+export(calcMD)
 export(pData)
+export(segmentMD)
 import(DNAcopy)
 import(GenomicRanges)
 import(IRanges)
