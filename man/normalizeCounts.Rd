@@ -4,10 +4,10 @@
 \alias{normalizeCounts}
 \title{Normalizes the raw coverage counts to M scores}
 \usage{
-normalizeCounts(countMat, bins)
+normalizeCounts(counts, bins)
 }
 \arguments{
-\item{countMat}{A matrix of raw coverage output by calcCounts() where each column is a sample, and each row a bin}
+\item{counts}{A matrix of raw coverage output by calcCounts() where each column is a sample, and each row a bin}
 
 \item{bins}{The set of bins determined by calcBins}
 }

@@ -4,10 +4,10 @@
 \alias{calcCounts}
 \title{Creating the count matrix using the calculated bins}
 \usage{
-calcCounts(pD, bins)
+calcCounts(pData, bins)
 }
 \arguments{
-\item{pD}{A table in the format of the output of pData()}
+\item{pData}{A table in the format of the output of pData()}
 
 \item{bins}{The set of bins determined by calcBins}
 }

@@ -4,14 +4,14 @@
 \alias{calcMD}
 \title{Calculating a minimum-distance matrix using raw counts and the corresponding pData information}
 \usage{
-calcMD(mcounts, bins, pData)
+calcMD(mCounts, bins, pData)
 }
 \arguments{
+\item{mCounts}{A matrix of normalized coverage output by normalizedCounts() where each column is a sample, and each row a bin}
+
 \item{bins}{The set of bins determined by calcBins}
 
 \item{pData}{A table in the format of the output of pData()}
-
-\item{counts}{A matrix of normalized coverage output by normalizedCounts() where each column is a sample, and each row a bin}
 }
 \description{
 This function will return a matrix object where ecah column is a family, and each row is the count in a bin

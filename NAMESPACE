@@ -3,7 +3,7 @@
 export(calcBins)
 export(calcCounts)
 export(calcMD)
-export(filter)
+export(denovoDeletions)
 export(normalizeCounts)
 export(pData)
 export(segmentMD)
