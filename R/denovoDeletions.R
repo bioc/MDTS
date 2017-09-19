@@ -9,10 +9,13 @@
 denovoDeletions = function(cbs, mCounts, bins){
 	print("Selecting Ccndidate deNnvo deletions")
 	candidate = cbs[abs(cbs$m+1)<0.3]
-	candidate_fam_count = by(1:length(candidate), candidate$famid, sum)
+	candidate_fam_count = by(rep(1, length(candidate)), candidate$famid, sum)
 
 	print("Filtering out families with probable sequencing failure")
 	bad_families = names(candidate_fam_count)[candidate_fam_count>4]
+	if(length(bad_families)>0){
+		mCounts = mCounts[-str_replace(colnames(mCounts), "_[0-9]*", "") %in% bad_families]
+	}
 	candidate = candidate[!candidate$famid %in% bad_families]
 
 	print("Calculating problematic bins")

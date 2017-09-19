@@ -5,7 +5,6 @@
 #' @param bins The set of bins determined by calcBins
 #' @keywords calcCounts
 #' @export
-#' @examples
 calcCounts <- function(pData, bins){
 	cov_list = lapply(pData$bam_path, countHelper, bins)
 	cov_matrix = do.call(cbind, cov_list)
