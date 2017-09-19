@@ -6,7 +6,6 @@
 #' @keywords calcCounts
 #' @export
 #' @examples
-#' calcCounts() 
 calcCounts <- function(pD, bins){
 	cov_list = lapply(pD$bam_path, countHelper, bins)
 	cov_matrix = do.call(cbind, cov_list)

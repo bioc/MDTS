@@ -14,7 +14,4 @@ calcCounts(pD, bins)
 \description{
 This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
 }
-\examples{
-calcCounts() 
-}
 \keyword{calcCounts}

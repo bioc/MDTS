@@ -2,16 +2,18 @@
 % Please edit documentation in R/calcMD.R
 \name{calcMD}
 \alias{calcMD}
-\title{Calculating a minimum-distance matrix from raw counts, bins, and pData}
+\title{Calculating a minimum-distance matrix using raw counts and the corresponding pData information}
 \usage{
-calcMD(counts, bins, pData)
+calcMD(mcounts, bins, pData)
 }
 \arguments{
 \item{bins}{The set of bins determined by calcBins}
 
 \item{pData}{A table in the format of the output of pData()}
+
+\item{counts}{A matrix of normalized coverage output by normalizedCounts() where each column is a sample, and each row a bin}
 }
 \description{
-This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
+This function will return a matrix object where ecah column is a family, and each row is the count in a bin
 }
 \keyword{calcMD}

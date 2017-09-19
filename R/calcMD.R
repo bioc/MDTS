@@ -1,13 +1,12 @@
-#' Calculating a minimum-distance matrix from raw counts, bins, and pData
+#' Calculating a minimum-distance matrix using raw counts and the corresponding pData information
 #'
-#' This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
+#' This function will return a matrix object where ecah column is a family, and each row is the count in a bin
+#' @param counts A matrix of normalized coverage output by normalizedCounts() where each column is a sample, and each row a bin
 #' @param pData A table in the format of the output of pData()
 #' @param bins The set of bins determined by calcBins
 #' @keywords calcMD
 #' @export
-calcMD = function(counts, bins, pData){
-	normedCounts = normalizeCounts(counts, bins)
-
+calcMD = function(mcounts, bins, pData){
 	proband_ind = which(pData$father_id %in% pData$subj_id)
 	proband = pData$subj_id[proband_ind]
 

@@ -3,6 +3,8 @@
 export(calcBins)
 export(calcCounts)
 export(calcMD)
+export(filter)
+export(normalizeCounts)
 export(pData)
 export(segmentMD)
 import(DNAcopy)
