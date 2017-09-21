@@ -31,6 +31,8 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 		reads = reads[names(reads) %in% 1:22]
 		covs[[i]] = reads
 	}
+	print(covs)
+	print(lapply(covs, class))
 
 	print("Calculating Proto-regions"); flush.console()
 	track = lapply(covs, function(x) which(x>=min))
