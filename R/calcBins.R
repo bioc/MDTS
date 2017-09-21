@@ -15,12 +15,19 @@
 calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
-	
+	hasChr = FALSE
+
 	print("Reading coverage information of subsamples"); flush.console()
 	covs = list()
 	for(i in 1:length(pD_sub$bam_path)){
 		GR=BAM2GRanges(pD_sub$bam_path[i])
 		reads = coverage(GR)
+		if(sum(str_detect(names(reads), "chr"))>0){
+			hasChr=TRUE
+		}
+		if(hasChr==TRUE){
+			names(reads) = str_replace(names(reads), "chr", "")
+		}
 		reads = reads[names(reads) %in% 1:22]
 		covs[[i]] = reads
 	}
@@ -30,7 +37,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	red = base::Reduce(intersect, track)
 
 	bins = NULL
-	for(chromosome in 1:22){
+	for(chromosome in names(red)){
 		bins = c(bins, processChr(as.character(chromosome), red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
@@ -58,6 +65,10 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	print("Filtering bins based on GC and Mappability"); flush.console()
 	rm_ind = unique(c(which(bins_out$mappability<0.75), which(bins_out$GC>0.85 | bins_out$GC<0.15)))
 	if(length(rm_ind)>0){bins_out = bins_out[-rm_ind]}
+
+	if(hasChr==TRUE){
+		seqlevels(bins_out) = paste0("chr", seqlevels(bins_out))
+	}
 
 	return(bins_out)
 }
