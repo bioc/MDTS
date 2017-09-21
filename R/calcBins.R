@@ -45,6 +45,9 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	bins_out = suppressWarnings(do.call('c', bins))
 	print("Bin segmentation complete"); flush.console()
 
+	if(sum(str_detect(seqlevels(bins_out), "chr"))==0){
+		seqlevels(bins_out) = paste0("chr", seqlevels(bins_out))
+	}
 	seqs = getSeq(genome, bins_out)
 	print("Calculating GC content"); flush.console()
 	GC = sapply(seqs, calcGC)
