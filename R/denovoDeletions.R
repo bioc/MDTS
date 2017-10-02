@@ -7,10 +7,11 @@
 #' @keywords denovoDeletions
 #' @export
 denovoDeletions = function(cbs, mCounts, bins){
+	dels = GRanges()
+	
 	print("Selecting Ccndidate deNnvo deletions")
 	candidate = cbs[abs(cbs$m+1)<0.3]
 	candidate_fam_count = by(rep(1, length(candidate)), candidate$famid, sum)
-
 	print("Filtering out families with probable sequencing failure")
 	bad_families = names(candidate_fam_count)[candidate_fam_count>4]
 	if(length(bad_families)>0){
@@ -26,15 +27,16 @@ denovoDeletions = function(cbs, mCounts, bins){
 	print("Filtering candidates by problematic bins")
 	ol_filter = findOverlaps(candidate, bins_filter)
 	ol_bins = findOverlaps(candidate, bins)
-	count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
-	count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
-	filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
-	filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
-	filtering = merge(filtering_info, filtering_info2, by="id", sort=F)
-	ratios = filtering[,3]/filtering[,2]
-	cut = which(ratios>=0.5)
-	drop_ids = as.numeric(as.character(filtering$id[cut]))
-	
-	dels = candidate[-drop_ids]
+	if(length(ol_filter)>0){
+		count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
+		count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
+		filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
+		filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
+		filtering = merge(filtering_info, filtering_info2, by="id", sort=F)
+		ratios = filtering[,3]/filtering[,2]
+		cut = which(ratios>=0.5)
+		drop_ids = as.numeric(as.character(filtering$id[cut]))
+		dels = candidate[-drop_ids]
+	}
 	return(dels)
 }
