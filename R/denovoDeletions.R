@@ -20,10 +20,11 @@ denovoDeletions = function(cbs, mCounts, bins){
 	}
 	candidate = candidate[!candidate$famid %in% bad_families]
 	mCounts_local = mCounts
-	for(cand in candidate){
+	for(i in 1:length(candidate)){
+		cand = candidate[i]
 		ol = findOverlaps(cand, bins)	
 		fam = cand$famid
-		col = which(sapply(cand$famid, str_detect, colnames(mCounts)))
+		col = which(colnames(mCounts_local)==fam)
 		mCounts_local[subjectHits(ol),col] = 0
 	}
 
