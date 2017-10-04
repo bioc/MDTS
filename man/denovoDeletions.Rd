@@ -2,18 +2,19 @@
 % Please edit documentation in R/denovoDeletions.R
 \name{denovoDeletions}
 \alias{denovoDeletions}
-\title{This function will report the denovo deletions based on the copy number segment GRanges object with appropriate filters}
+\title{Denovo Deletion Calling}
 \usage{
-denovoDeletions(cbs, mCounts, bins)
+denovoDeletions(cbs, mCounts, bins, normCutOff = 0.95)
 }
 \arguments{
-\item{cbs}{The GRanges output from segmentMD() that contains the copy number segments of the families}
+\item{cbs}{The GRanges output from segmentMD() that contains the copy number segments of the families.}
 
-\item{mCounts}{The normalized counts matrix output by normalizeCounts()}
+\item{mCounts}{The normalized counts matrix output by normalizeCounts().}
 
-\item{bins}{The set of bins determined by calcBins}
+\item{bins}{The set of bins determined by calcBins.}
 }
 \description{
-This function will return a single GRanges object containing all denovo deletions that passed filtering
+This function will return a single GRanges object containing all denovo deletions 
+		that passed filtering from a Circular Binary Segmentation object with supplementary information.
 }
 \keyword{denovoDeletions}

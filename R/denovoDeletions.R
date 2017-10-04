@@ -1,14 +1,15 @@
-#' This function will report the denovo deletions based on the copy number segment GRanges object with appropriate filters
+#' Denovo Deletion Calling
 #'
-#' This function will return a single GRanges object containing all denovo deletions that passed filtering
-#' @param cbs The GRanges output from segmentMD() that contains the copy number segments of the families
-#' @param mCounts The normalized counts matrix output by normalizeCounts()
-#' @param bins The set of bins determined by calcBins
+#' This function will return a single GRanges object containing all denovo deletions 
+#' 		that passed filtering from a Circular Binary Segmentation object with supplementary information.
+#' @param cbs The GRanges output from segmentMD() that contains the copy number segments of the families.
+#' @param mCounts The normalized counts matrix output by normalizeCounts().
+#' @param bins The set of bins determined by calcBins.
 #' @keywords denovoDeletions
 #' @export
-denovoDeletions = function(cbs, mCounts, bins){
+denovoDeletions = function(cbs, mCounts, bins, normCutOff=0.95){
 	dels = GRanges()
-	
+
 	print("Selecting Ccndidate deNnvo deletions")
 	candidate = cbs[abs(cbs$m+1)<0.3]
 	candidate_fam_count = by(rep(1, length(candidate)), candidate$famid, sum)
@@ -18,11 +19,18 @@ denovoDeletions = function(cbs, mCounts, bins){
 		mCounts = mCounts[-str_replace(colnames(mCounts), "_[0-9]*", "") %in% bad_families]
 	}
 	candidate = candidate[!candidate$famid %in% bad_families]
+	mCounts_local = mCounts
+	for(cand in candidate){
+		ol = findOverlaps(cand, bins)	
+		fam = cand$famid
+		col = which(sapply(cand$famid, str_detect, colnames(mCounts)))
+		mCounts_local[subjectHits(ol),col] = 0
+	}
 
 	print("Calculating problematic bins")
 	win = 0.5
-	raw = abs(mCounts)<win
-	bins_filter = bins[which(apply(raw, 1, mean)<0.95)]
+	raw = abs(mCounts_local)<win
+	bins_filter = bins[which(apply(raw, 1, mean)<normCutOff)]
 
 	print("Filtering candidates by problematic bins")
 	ol_filter = findOverlaps(candidate, bins_filter)
@@ -37,6 +45,8 @@ denovoDeletions = function(cbs, mCounts, bins){
 		cut = which(ratios>=0.5)
 		drop_ids = as.numeric(as.character(filtering$id[cut]))
 		dels = candidate[-drop_ids]
+	}else{
+		dels = candidate
 	}
 	return(dels)
 }
