@@ -37,9 +37,9 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	for(i in 2:length(covs)){
 		track = track + covs[[i]]
 	}
-	track = which(track>=min*n)
+	red = which(track>=min*n)
 	# track = lapply(covs, function(x) which(x>=min))
-	red = base::Reduce(intersect, track)
+	# red = base::Reduce(intersect, track)
 
 	bins = NULL
 	for(chromosome in names(red)){
