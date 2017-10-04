@@ -7,7 +7,7 @@
 #' @param bins The set of bins determined by calcBins.
 #' @keywords denovoDeletions
 #' @export
-denovoDeletions = function(cbs, mCounts, bins, normCutOff=0.95){
+denovoDeletions = function(cbs, mCounts, bins){
 	dels = GRanges()
 
 	print("Selecting Ccndidate deNnvo deletions")
@@ -30,7 +30,7 @@ denovoDeletions = function(cbs, mCounts, bins, normCutOff=0.95){
 	print("Calculating problematic bins")
 	win = 0.5
 	raw = abs(mCounts_local)<win
-	bins_filter = bins[which(apply(raw, 1, mean)<normCutOff)]
+	bins_filter = bins[which(apply(raw, 1, mean)<0.95)]
 
 	print("Filtering candidates by problematic bins")
 	ol_filter = findOverlaps(candidate, bins_filter)

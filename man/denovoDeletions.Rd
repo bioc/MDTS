@@ -4,7 +4,7 @@
 \alias{denovoDeletions}
 \title{Denovo Deletion Calling}
 \usage{
-denovoDeletions(cbs, mCounts, bins, normCutOff = 0.95)
+denovoDeletions(cbs, mCounts, bins)
 }
 \arguments{
 \item{cbs}{The GRanges output from segmentMD() that contains the copy number segments of the families.}
