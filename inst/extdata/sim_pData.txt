@@ -1,0 +1,16 @@
+subj_id	family_id	father_id	mother_id	gender	bam_path	CNP1	CNP2	CNP
+F1_1	F1	F1_2	F1_3	1	F1_1_sorted.bam	2	0	2
+F1_2	F1	0	0	1	F1_2_sorted.bam	1	1	2
+F1_3	F1	0	0	2	F1_3_sorted.bam	1	1	2
+F2_1	F2	F2_2	F2_3	1	F2_1_sorted.bam	1	0	1
+F2_2	F2	0	0	1	F2_2_sorted.bam	0	1	1
+F2_3	F2	0	0	2	F2_3_sorted.bam	0	0	0
+F3_1	F3	F3_2	F3_3	1	F3_1_sorted.bam	1	0	1
+F3_2	F3	0	0	1	F3_2_sorted.bam	0	1	1
+F3_3	F3	0	0	2	F3_3_sorted.bam	0	0	0
+F4_1	F4	F4_2	F4_3	1	F4_1_sorted.bam	2	0	2
+F4_2	F4	0	0	1	F4_2_sorted.bam	1	1	2
+F4_3	F4	0	0	2	F4_3_sorted.bam	0	1	1
+F5_1	F5	F5_2	F5_3	1	F5_1_sorted.bam	0	0	0
+F5_2	F5	0	0	1	F5_2_sorted.bam	0	0	0
+F5_3	F5	0	0	2	F5_3_sorted.bam	0	0	0
