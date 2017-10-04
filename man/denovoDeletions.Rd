@@ -11,7 +11,7 @@ denovoDeletions(cbs, mCounts, bins)
 
 \item{mCounts}{The normalized counts matrix output by normalizeCounts().}
 
-\item{bins}{The set of bins determined by calcBins.}
+\item{bins}{The set of bins determined by calcBins().}
 }
 \description{
 This function will return a single GRanges object containing all denovo deletions 

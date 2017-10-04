@@ -4,7 +4,7 @@
 #' 		that passed filtering from a Circular Binary Segmentation object with supplementary information.
 #' @param cbs The GRanges output from segmentMD() that contains the copy number segments of the families.
 #' @param mCounts The normalized counts matrix output by normalizeCounts().
-#' @param bins The set of bins determined by calcBins.
+#' @param bins The set of bins determined by calcBins().
 #' @keywords denovoDeletions
 #' @export
 denovoDeletions = function(cbs, mCounts, bins){
