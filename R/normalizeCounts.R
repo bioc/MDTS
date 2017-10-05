@@ -1,8 +1,8 @@
-#' Normalizes the raw coverage counts to M scores
+#' Calculating the normalized M scores
 #'
-#' This function will return a matrix object where ecah column is a family, and each row is the M score in a bin
-#' @param counts A matrix of raw coverage output by calcCounts() where each column is a sample, and each row a bin
-#' @param bins The set of bins determined by calcBins
+#' This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.
+#' @param counts A matrix of raw coverage output by calcCounts().
+#' @param bins The set of bins determined by calcBins().
 #' @keywords normalizeCounts
 #' @export
 normalizeCounts = function(counts, bins){

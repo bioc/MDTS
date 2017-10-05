@@ -1,9 +1,9 @@
-#' Calculating a minimum-distance matrix using raw counts and the corresponding pData information
+#' Calculating the Minimum Distance matrix
 #'
-#' This function will return a matrix object where ecah column is a family, and each row is the count in a bin
-#' @param mCounts A matrix of normalized coverage output by normalizedCounts() where each column is a sample, and each row a bin
-#' @param pData A table in the format of the output of pData()
-#' @param bins The set of bins determined by calcBins
+#' This function will return a matrix of minimum distances where ecah column is a family, and each row is a bin.
+#' @param mCounts A matrix of normalized coverage output by normalizedCounts().
+#' @param pData A table in the format of the output of pData().
+#' @param bins The set of bins determined by calcBins().
 #' @keywords calcMD
 #' @export
 calcMD = function(mCounts, bins, pData){

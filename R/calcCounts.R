@@ -1,9 +1,9 @@
-#' Creating the count matrix using the calculated bins
+#' Creating the raw count matrix
 #'
-#' This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
-#' @param pData A table in the format of the output of pData()
-#' @param bins The set of bins determined by calcBins
-#' @param rl The read length of the experiment
+#' This function will return a matrix of read counts where ecah column is a sample, and each row is a bin.
+#' @param pData A table in the format of the output of pData().
+#' @param bins The set of bins determined by calcBins().
+#' @param rl The read length of the experiment.
 #' @keywords calcCounts
 #' @export
 calcCounts <- function(pData, bins, rl){
