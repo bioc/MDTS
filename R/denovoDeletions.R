@@ -10,23 +10,23 @@
 denovoDeletions = function(cbs, mCounts, bins){
 	dels = GRanges()
 
-	print("Selecting Ccndidate deNnvo deletions")
+	print("Selecting Ccndidate de Novo deletions")
 	candidate = cbs[abs(cbs$m+1)<0.3]
 	candidate_fam_count = by(rep(1, length(candidate)), candidate$famid, sum)
-	print("Filtering out families with probable sequencing failure")
-	bad_families = names(candidate_fam_count)[candidate_fam_count>4]
-	if(length(bad_families)>0){
-		mCounts = mCounts[-str_replace(colnames(mCounts), "_[0-9]*", "") %in% bad_families]
-	}
-	candidate = candidate[!candidate$famid %in% bad_families]
+	# print("Filtering out families with probable sequencing failure")
+	# bad_families = names(candidate_fam_count)[candidate_fam_count>4]
+	# if(length(bad_families)>0){
+	# 	mCounts = mCounts[-str_replace(colnames(mCounts), "_[0-9]*", "") %in% bad_families]
+	# }
+	# candidate = candidate[!candidate$famid %in% bad_families]
 	mCounts_local = mCounts
-	for(i in 1:length(candidate)){
-		cand = candidate[i]
-		ol = findOverlaps(cand, bins)	
-		fam = cand$famid
-		col = which(colnames(mCounts_local)==fam)
-		mCounts_local[subjectHits(ol),col] = 0
-	}
+	# for(i in 1:length(candidate)){
+	# 	cand = candidate[i]
+	# 	ol = findOverlaps(cand, bins)	
+	# 	fam = cand$famid
+	# 	col = which(colnames(mCounts_local)==fam)
+	# 	mCounts_local[subjectHits(ol),col] = 0
+	# }
 
 	print("Calculating problematic bins")
 	win = 0.5
