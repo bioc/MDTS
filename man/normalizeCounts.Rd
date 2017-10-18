@@ -2,16 +2,16 @@
 % Please edit documentation in R/normalizeCounts.R
 \name{normalizeCounts}
 \alias{normalizeCounts}
-\title{Normalizes the raw coverage counts to M scores}
+\title{Calculating the normalized M scores}
 \usage{
 normalizeCounts(counts, bins)
 }
 \arguments{
-\item{counts}{A matrix of raw coverage output by calcCounts() where each column is a sample, and each row a bin}
+\item{counts}{A matrix of raw coverage output by calcCounts().}
 
-\item{bins}{The set of bins determined by calcBins}
+\item{bins}{The set of bins determined by calcBins().}
 }
 \description{
-This function will return a matrix object where ecah column is a family, and each row is the M score in a bin
+This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.
 }
 \keyword{normalizeCounts}

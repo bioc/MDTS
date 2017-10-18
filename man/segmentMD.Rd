@@ -2,16 +2,18 @@
 % Please edit documentation in R/segmentMD.R
 \name{segmentMD}
 \alias{segmentMD}
-\title{This function calls CBS on a matrix of minimum distances to calculate copy number segments}
+\title{Circular Binary Segmentation on Minimum Distances}
 \usage{
 segmentMD(md, bins)
 }
 \arguments{
-\item{md}{The minimum distance matrix produced by calcMD}
+\item{md}{The minimum distance matrix produced by calcMD.}
 
-\item{bins}{The set of bins determined by calcBins}
+\item{bins}{The set of bins determined by calcBins.}
 }
 \description{
-This function will return a single GRanges object containing the copy number segments of all families in input
+This function will return a GRanges object containing the copy number 
+segments of all families in the input minimum distance matrix. It calls
+segment() from DNACopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4)
 }
 \keyword{segmentMD}

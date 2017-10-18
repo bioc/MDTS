@@ -2,16 +2,18 @@
 % Please edit documentation in R/calcCounts.R
 \name{calcCounts}
 \alias{calcCounts}
-\title{Creating the count matrix using the calculated bins}
+\title{Creating the raw count matrix}
 \usage{
-calcCounts(pData, bins)
+calcCounts(pData, bins, rl)
 }
 \arguments{
-\item{pData}{A table in the format of the output of pData()}
+\item{pData}{A table in the format of the output of pData().}
 
-\item{bins}{The set of bins determined by calcBins}
+\item{bins}{The set of bins determined by calcBins().}
+
+\item{rl}{The read length of the experiment.}
 }
 \description{
-This function will return a matrix object where ecah column is a sample, and each row is the count in a bin
+This function will return a matrix of read counts where ecah column is a sample, and each row is a bin.
 }
 \keyword{calcCounts}

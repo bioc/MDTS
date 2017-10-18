@@ -1,7 +1,7 @@
-#' The DnMD package for Detection of Denovo Deletions from Targeted Sequencing Data Using Minimum-Distance
+#' The MDTS package for Detection of Denovo Deletions from Targeted Sequencing Data Using Minimum-Distance
 #'
-#' @name DnMD-package
-#' @aliases DnMD
+#' @name MDTS-package
+#' @aliases MDTS
 #' @docType package
 #' @import GenomicRanges
 #' @import IRanges
