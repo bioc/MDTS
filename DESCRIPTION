@@ -7,8 +7,7 @@ Depends: R (>= 3.3.0),
 	GenomicRanges,
 	stringr,
 	DNAcopy,
-	Repitools,
-	BSgenome.Hsapiens.UCSC.hg19
+	Repitools
 Imports:
 License: What license is it under?
 Encoding: UTF-8
