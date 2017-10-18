@@ -1,0 +1,91 @@
+---
+title: "MDTS Workflow"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MDTS}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+## Overview
+
+This package provides the necessary infrastructure to take raw trio bam files in order to produce de novo deletion calls.
+
+## Raw Data
+
+The example data used in this package is available as the data package `MDTSData`. It includes: 
+
+1. 15 simulated bam files organized in 5 trios using the software `capsim`
+2. A pedigree file denoting the trio kinships and the file paths to the raw bam files
+3. A bw file that includes mappability information
+
+This process also requires the `BSgenome.Hsapiens.UCSC.hg19` package. Slighly processed versions of the data is included with `MDTS`.
+
+## Calculating MDTS Bins
+
+Our method uses empirically derived bins for calculating coverage of targeted seqeucning data. These bins can be significantly different from the probe design file. This portion of the vignette requires using raw data from `MDTSData`. The primary function responsbile for calculating the MDTS bins is `calcBins()`.
+
+```{r, echo=FALSE, message=FALSE}
+library(MDTS)
+```
+
+```{r, eval=F}
+library(MDTS); library(BSgenome.Hsapiens.UCSC.hg19)
+
+# Using the raw data from MDTSData
+setwd(system.file("data", package="MDTSData")) 
+
+# Importing the pedigree file that includes information on where to locate the raw bam files
+pD = pData("pData.ped")
+
+# Information on the GC content and mappability to estimate GC and mappability for the MDTS bins
+genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr22_100mer_map.bw"
+
+# This command now subsets 5 samples to determine MDTS bins
+bins = calcBins(pD, n=5, rl=100, med=100, min=5, genome, map_file)
+```
+
+## Calculating coverage of MDTS bins
+
+Now that we have a set of MDTS bins, we can proceed to calculate the number of reads that fall into these bins for the entirety of our sample.
+
+```{r, eval=F}
+counts = calcCounts(pD, bins, rl=100)
+```
+
+The MDTS bins, raw counts, and pedigree files are included with `MDTS` and can be loaded as follows:
+```{r, message=FALSE}
+setwd(system.file("extdata", package="MDTS"))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+```
+The pedigree file is of form:
+```{r}
+head(pD)
+```
+The MDTS bins are
+```{r}
+bins
+```
+The count matrix where each column is a sample and each row is a bin:
+```{r}
+head(counts)
+```
+
+## Normalizing counts and calculating Minimum Distance
+```{r}
+mCounts = normalizeCounts(counts, bins)
+md = calcMD(mCounts, bins, pD)
+```
+
+## Circular Binary Segmentation and Deletion Calling
+```{r}
+cbs = segmentMD(md, bins)
+denovo = denovoDeletions(cbs, mCounts, bins)
+```
+
+The final output is a single detected de novo deletion in family F3:
+```{r}
+denovo
+```
