@@ -10,7 +10,7 @@
 #'	load('bins.RData')
 #'	load('counts.RData')
 #'	load('pD.RData')
-#' 	mCounts = normalizeCounts(counts, bins)
+#'	mCounts = normalizeCounts(counts, bins)
 #'	md = calcMD(mCounts, bins, pD)
 #' @export
 calcMD = function(mCounts, bins, pData){

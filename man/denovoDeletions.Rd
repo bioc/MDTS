@@ -17,4 +17,14 @@ denovoDeletions(cbs, mCounts, bins)
 This function will return a single GRanges object containing all denovo deletions 
 		that passed filtering from a Circular Binary Segmentation object with supplementary information.
 }
+\examples{
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+mCounts = normalizeCounts(counts, bins)
+md = calcMD(mCounts, bins, pD)
+cbs = segmentMD(md, bins)
+denovo = denovoDeletions(cbs, mCounts, bins)
+}
 \keyword{denovoDeletions}

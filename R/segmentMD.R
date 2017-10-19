@@ -9,6 +9,14 @@
 #' @param undo.splits Controls the undo.splits option in calling DNAcopy::segment()
 #' @param undo.SD Controls the undo.SD option in calling DNAcopy::segment()
 #' @keywords segmentMD
+#' @examples 
+#'	setwd(system.file('extdata', package='MDTS'))
+#'	load('bins.RData')
+#'	load('counts.RData')
+#'	load('pD.RData')
+#'	mCounts = normalizeCounts(counts, bins)
+#'	md = calcMD(mCounts, bins, pD)
+#'	cbs = segmentMD(md, bins)
 #' @export
 segmentMD = function(md, bins, alpha='0.01', undo.splits='sdundo', undo.SD=4){
 	cna = CNA(genomdat=md, chrom=as.vector(seqnames(bins)),

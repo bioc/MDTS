@@ -22,4 +22,13 @@ This function will return a GRanges object containing the copy number
 segments of all families in the input minimum distance matrix. It calls
 segment() from DNAcopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4).
 }
+\examples{
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+mCounts = normalizeCounts(counts, bins)
+md = calcMD(mCounts, bins, pD)
+cbs = segmentMD(md, bins)
+}
 \keyword{segmentMD}

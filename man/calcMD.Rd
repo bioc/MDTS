@@ -21,7 +21,7 @@ setwd(system.file('extdata', package='MDTS'))
 load('bins.RData')
 load('counts.RData')
 load('pD.RData')
-	mCounts = normalizeCounts(counts, bins)
+mCounts = normalizeCounts(counts, bins)
 md = calcMD(mCounts, bins, pD)
 }
 \keyword{calcMD}
