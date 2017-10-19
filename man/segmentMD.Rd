@@ -20,6 +20,6 @@ segmentMD(md, bins, alpha = "0.01", undo.splits = "sdundo", undo.SD = 4)
 \description{
 This function will return a GRanges object containing the copy number 
 segments of all families in the input minimum distance matrix. It calls
-segment() from DNACopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4)
+segment() from DNAcopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4).
 }
 \keyword{segmentMD}

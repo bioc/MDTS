@@ -2,7 +2,7 @@
 #'
 #' This function will return a GRanges object containing the copy number 
 #'	segments of all families in the input minimum distance matrix. It calls
-#'	segment() from DNACopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4)
+#'	segment() from DNAcopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4).
 #' @param md The minimum distance matrix produced by calcMD.
 #' @param bins The set of bins determined by calcBins.
 #' @param alpha Controls the alpha option in calling DNAcopy::segment()
