@@ -2,10 +2,7 @@
 #'
 #' This function allows constructor of phenotype information necessary for downstream analysis. See format of required fields. Function will also rearrange the rows such that trios are grouped together - with proband first, mother second, and father third. 
 #' @param path The path to tab-delimited file storing the phenotype information.
-#' @keywords pData
 #' @export
-#' @examples
-#' pData() 
 pData <- function(path){
 	tab = read.table(path, sep="\t", header=T, colClasses = "character")
 	col_ind = match(c("subj_id", "family_id", "father_id", "mother_id", "gender", "bam_path"), colnames(tab))

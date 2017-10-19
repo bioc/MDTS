@@ -14,7 +14,7 @@ normalizeCounts = function(counts, bins){
 	print("GC Adjust"); flush.console()
 	res_gc = do.call(cbind, lapply(1:dim(counts)[2], fitLoess, bins, res, "GC"))
 	print("Mappability Adjust"); flush.console()
-	res_gc_map = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability", mc.cores=detectCores()))
+	res_gc_map = do.call(cbind, lapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability"))
 	colnames(res_gc_map) = colnames(counts)
 	return(res_gc_map)
 }

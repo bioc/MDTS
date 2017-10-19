@@ -12,7 +12,3 @@ pData(path)
 \description{
 This function allows constructor of phenotype information necessary for downstream analysis. See format of required fields. Function will also rearrange the rows such that trios are grouped together - with proband first, mother second, and father third.
 }
-\examples{
-pData() 
-}
-\keyword{pData}
