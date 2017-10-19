@@ -5,9 +5,9 @@
 #'	segment() from DNACopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4)
 #' @param md The minimum distance matrix produced by calcMD.
 #' @param bins The set of bins determined by calcBins.
-#' @param alpha Controls the alpha option in calling cbs()
-#' @param undo.splits Controls the undo.splits option in calling cbs()
-#' @param undo.SD Controls the undo.SD option in calling cbs()
+#' @param alpha Controls the alpha option in calling DNAcopy::segment()
+#' @param undo.splits Controls the undo.splits option in calling DNAcopy::segment()
+#' @param undo.SD Controls the undo.SD option in calling DNAcopy::segment()
 #' @keywords segmentMD
 #' @export
 segmentMD = function(md, bins, alpha='0.01', undo.splits='sdundo', undo.SD=4){
