@@ -17,11 +17,11 @@ calcMD(mCounts, bins, pData)
 This function will return a matrix of minimum distances where ecah column is a family, and each row is a bin.
 }
 \examples{
-		setwd(system.file('extdata', package='MDTS'))
-	load('bins.RData')
-	load('counts.RData')
-	load('pD.RData')
-		mCounts = normalizeCounts(counts, bins)
-	md = calcMD(mCounts, bins, pD)
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+	mCounts = normalizeCounts(counts, bins)
+md = calcMD(mCounts, bins, pD)
 }
 \keyword{calcMD}

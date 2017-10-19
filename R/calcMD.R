@@ -6,12 +6,12 @@
 #' @param bins The set of bins determined by calcBins().
 #' @keywords calcMD
 #' @examples 
-#' 		setwd(system.file('extdata', package='MDTS'))
-#'		load('bins.RData')
-#'		load('counts.RData')
-#'		load('pD.RData')
-#' 		mCounts = normalizeCounts(counts, bins)
-#'		md = calcMD(mCounts, bins, pD)
+#'	setwd(system.file('extdata', package='MDTS'))
+#'	load('bins.RData')
+#'	load('counts.RData')
+#'	load('pD.RData')
+#' 	mCounts = normalizeCounts(counts, bins)
+#'	md = calcMD(mCounts, bins, pD)
 #' @export
 calcMD = function(mCounts, bins, pData){
 	proband_ind = which(pData$father_id %in% pData$subj_id)
