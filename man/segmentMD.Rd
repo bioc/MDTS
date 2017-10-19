@@ -4,12 +4,18 @@
 \alias{segmentMD}
 \title{Circular Binary Segmentation on Minimum Distances}
 \usage{
-segmentMD(md, bins)
+segmentMD(md, bins, alpha = "0.01", undo.splits = "sdundo", undo.SD = 4)
 }
 \arguments{
 \item{md}{The minimum distance matrix produced by calcMD.}
 
 \item{bins}{The set of bins determined by calcBins.}
+
+\item{alpha}{Controls the alpha option in calling DNAcopy::segment()}
+
+\item{undo.splits}{Controls the undo.splits option in calling DNAcopy::segment()}
+
+\item{undo.SD}{Controls the undo.SD option in calling DNAcopy::segment()}
 }
 \description{
 This function will return a GRanges object containing the copy number 
