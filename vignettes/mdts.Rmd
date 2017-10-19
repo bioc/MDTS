@@ -1,11 +1,7 @@
----
-title: "MDTS Workflow"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{MDTS}
-  %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
----
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{MDTS}
+-->
 
 ## Overview
 

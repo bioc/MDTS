@@ -3,6 +3,7 @@
 #' This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
 #' @param pD A table in the format of the output of pData()
 #' @param n The number of subsamples to use
+#' @param rl The read length of the experiment
 #' @param med The median number of reads across sub-samples to reach before creating a new bin
 #' @param min The miminum number of coverage across all sub-samples required to create the proto-region
 #' @param genome The BSGenome object that assists in calculations of the GC content of the bins
@@ -10,8 +11,6 @@
 #' @param seed Sets the seed so results are reproducible. Defaults to 1337
 #' @keywords calcBins
 #' @export
-#' @examples
-#' calcBins() 
 calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]

@@ -11,6 +11,8 @@ calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 
 \item{n}{The number of subsamples to use}
 
+\item{rl}{The read length of the experiment}
+
 \item{med}{The median number of reads across sub-samples to reach before creating a new bin}
 
 \item{min}{The miminum number of coverage across all sub-samples required to create the proto-region}
@@ -23,8 +25,5 @@ calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 }
 \description{
 This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
-}
-\examples{
-calcBins() 
 }
 \keyword{calcBins}

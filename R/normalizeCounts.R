@@ -12,7 +12,7 @@ normalizeCounts = function(counts, bins){
 	res = intermediate - apply(intermediate, 1, median)
 
 	print("GC Adjust"); flush.console()
-	res_gc = do.call(cbind,mclapply(1:dim(counts)[2], fitLoess, bins, res, "GC", mc.cores=detectCores()))
+	res_gc = do.call(cbind, lapply(1:dim(counts)[2], fitLoess, bins, res, "GC"))
 	print("Mappability Adjust"); flush.console()
 	res_gc_map = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability", mc.cores=detectCores()))
 	colnames(res_gc_map) = colnames(counts)
