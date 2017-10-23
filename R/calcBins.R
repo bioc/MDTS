@@ -32,11 +32,10 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	}
 
 	print("Calculating Proto-regions"); flush.console()
-	track = covs[[1]]
-	for(i in 2:length(covs)){
-		track = track + covs[[i]]
-	}
-	red = which(track>=min*n)
+	rle_threshold = sapply(covs, function(x) x>=min)
+	rle_track = rle_threshold[[1]]
+		for(i in 2:length(covs)){rle_track = rle_track + rle_threshold[[i]]}
+	red = which(rle_track>0)
 
 	bins = NULL
 	for(chromosome in names(red)){
