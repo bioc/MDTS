@@ -40,10 +40,9 @@ divideSegs = function(seg, covs, rl, med){
 	cov_sub = lapply(covs, function(x) x[seg])
 	cov_sub_mat = do.call(rbind, lapply(cov_sub, extractCounts))
 
-	output = NULL
 	cov_sub_cs_normed = t(apply(cov_sub_mat, 1, cumsum))/rl
 	medz = apply(cov_sub_cs_normed, 2, median)
-	while(max(medz)>=med*2){
+	while(max(medz)>=med){
 		cut = which(medz>=med)[1]
 		output = rbind(output, c(cut, medz[cut]))
 		count = count+1; j = sum(output[,1])+1
@@ -69,7 +68,7 @@ divideSegs = function(seg, covs, rl, med){
 	# cov_sub_cs_normed = cov_sub_cs/rl
 	# medz = apply(cov_sub_cs_normed, 2, median)
 	# output = rbind(output, c(width(seg)-sum(output[,1]), max(medz)))
-	
+
 	cs = cumsum(output[,1])
 	coords = cbind(c(0, cs[-length(cs)]), cs-1)
 	gr_out = GRanges(seqnames=seqnames(seg), IRanges(start(seg)+coords[,1], start(seg)+coords[,2]))
