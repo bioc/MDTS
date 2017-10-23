@@ -18,7 +18,7 @@
 #'	md = calcMD(mCounts, bins, pD)
 #'	cbs = segmentMD(md, bins)
 #' @export
-segmentMD = function(md, bins, alpha='0.001', undo.splits='sdundo', undo.SD=4){
+segmentMD = function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4){
 	cna = CNA(genomdat=md, chrom=as.vector(seqnames(bins)),
 		maploc=start(bins), data.type="logratio", sampleid=colnames(md), presorted=T)
 	cbs = segment(cna, alpha=alpha, undo.splits=undo.splits, undo.SD=undo.SD)
