@@ -5,18 +5,17 @@
 #' @param bins The set of bins determined by calcBins().
 #' @keywords normalizeCounts
 #' @export
-normalizeCounts = function(counts, bins){
+normalizeCounts = function(counts, bins, mc.cores){
 	print("Log Transforming Counts"); flush.console()
 	log_counts = log(counts+1, 2)
 	intermediate = t(t(log_counts) - apply(log_counts, 2, median))
 	res = intermediate - apply(intermediate, 1, median)
 
 	print("GC Adjust"); flush.console()
-	# res_gc = do.call(cbind, lapply(1:dim(counts)[2], fitLoess, bins, res, "GC"))
-	res_gc = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res, "GC", mc.cores=20))
+	control = loess.control(trace.hat="approximate")
+	res_gc = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res, "GC", mc.cores=mc.cores))
 	print("Mappability Adjust"); flush.console()
-	# res_gc_map = do.call(cbind, lapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability"))
-	res_gc_map = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability", mc.cores=20))
+	res_gc_map = do.call(cbind, mclapply(1:dim(counts)[2], fitLoess, bins, res_gc, "Mappability", mc.cores=mc.cores))
 	colnames(res_gc_map) = colnames(counts)
 	return(res_gc_map)
 }

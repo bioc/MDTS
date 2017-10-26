@@ -1,6 +1,7 @@
 fitLoess = function(i, bins, full_data, adjust){
 	if(adjust=="GC"){
-		res = residuals(loess(full_data[,i]~bins$GC, statistics='approximate'))
+		control = loess.control(trace.hat="approximate")
+		res = residuals(loess(full_data[,i]~bins$GC, control = control))
 	}
 	if(adjust=="Mappability"){
 		loess_ind = which(bins$mappability<1)
