@@ -28,7 +28,3 @@ countHelper = function(path, bins){
 #           aligns.gr <- as(aligns, "GRanges")
 # 	      values(aligns.gr) <- aligns.info
 # 	      aligns.gr
-
-fls <- BamFileList(pD$bam_path[1:2])
-names(fls) <- c("first","second")
-so1 <- summarizeOverlaps(features=bins, reads=fls, ignore.strand=TRUE)
