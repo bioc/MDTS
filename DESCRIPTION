@@ -14,7 +14,8 @@ Imports: utils,
 	stringr,
 	DNAcopy,
 	Repitools
-Suggests: testthat
+Suggests: testthat,
+	parallel
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
