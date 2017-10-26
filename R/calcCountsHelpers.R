@@ -10,9 +10,25 @@ countHelper = function(path, bins){
 # 	what = character()
 # 	flag = scanBamFlag(isUnmappedQuery = FALSE, isDuplicate = FALSE)
 # 	filters <- ScanBamParam(what = what, flag = flag, which=bins)	
-# 	aligns <- readGAlignments(pD$bam_path[1], param = filters)
+# 	aligns <- readGAlignments(path, paste0(path, ".bai"), param = filters)
 # 	aligns.info <- values(aligns)
 # 	  aligns.gr <- as(aligns, "GRanges")
 # 	values(aligns.gr) <- aligns.info
 # 	return(aligns.gr)
 # }
+
+# bv = BamViews(pD$bam_path[1:5], bamRanges=bins[1])
+# test = countBam(bv)
+
+# 		  what = character()
+# 		  flag = scanBamFlag(isUnmappedQuery = FALSE, isDuplicate = FALSE)
+#           filters <- ScanBamParam(what = what, flag = flag)
+# 	      aligns <- readGAlignments(path, param = filters)
+# 	      aligns.info <- values(aligns)
+#           aligns.gr <- as(aligns, "GRanges")
+# 	      values(aligns.gr) <- aligns.info
+# 	      aligns.gr
+
+fls <- BamFileList(pD$bam_path[1:2])
+names(fls) <- c("first","second")
+so1 <- summarizeOverlaps(features=bins, reads=fls, ignore.strand=TRUE)

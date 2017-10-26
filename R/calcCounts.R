@@ -6,8 +6,9 @@
 #' @param rl The read length of the experiment.
 #' @keywords calcCounts
 #' @export
-calcCounts <- function(pData, bins, rl){
-	cov_list = lapply(pData$bam_path, countHelper, bins)
+calcCounts <- function(pData, bins, rl, mc.cores=1){
+	# cov_list = lapply(pData$bam_path, countHelper, bins)
+	cov_list = mclapply(pDdata$bam_path, countHelper, bins, mc.cores=mc.cores)
 	cov_matrix = do.call(cbind, cov_list)
 	colnames(cov_matrix) = pData$subj_id
 	count_matrix = cov_matrix*width(bins)/rl
