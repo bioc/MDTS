@@ -16,7 +16,7 @@ pullReads = function(bam_path, bait){
 	GR2 = GRanges(seqnames=as.character(seqnames(bait)[1]), IRanges(bam2$pos[ord], bam2$pos[ord]+99), isize=bam2$isize[ord], rn=bam2$qname[ord])
 	return(GRangesList(GR1, GR2))
 }
-visualize = function(GRL, track, window, title, yl, denote, coll, bait){
+visualize = function(GRL, track, window, title, yl, denote, coll, bait, scale){
 	GR1 = GRL[[1]]
 	GR2 = GRL[[2]]
 	coords = c(start(GR1), start(GR2), end(GR1), end(GR2))
@@ -66,9 +66,9 @@ visualizeFamily = function(famid, bait, track, window, row_inds, col_inds, pD, s
 
 	par(xpd=F)
 	par(mar=rep(5,4))
-	visualize(cands1, track, window=window, "Proband", yl="", denote="B", coll=1, bait=bait)
-	visualize(cands2, track, window=window, "Parent 1", yl="", denote="C", coll=col1, bait=bait)
-	visualize(cands3, track, window=window, "Parent 2", yl="", denote="D", coll=col2, bait=bait)	
+	visualize(cands1, track, window=window, "Proband", yl="", denote="B", coll=1, bait=bait, scale=scale)
+	visualize(cands2, track, window=window, "Parent 1", yl="", denote="C", coll=col1, bait=bait, scale=scale)
+	visualize(cands3, track, window=window, "Parent 2", yl="", denote="D", coll=col2, bait=bait, scale=scale)	
 
 	par(mar=rep(0,4))
 	plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")
