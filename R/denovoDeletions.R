@@ -25,8 +25,9 @@ denovoDeletions = function(cbs, mCounts, bins){
 	mCounts_local = mCounts
 
 	print("Calculating problematic bins")
-	# win = 0.5
-	win = 0.45
+	wind = 0.5
+	# win = 0.4
+	# win = 0.45
 	raw = abs(mCounts_local)<win
 	raw_perc = apply(raw, 1, mean)
 	raw_perc = sapply(raw_perc+1/dim(mCounts)[2], min, 1)
