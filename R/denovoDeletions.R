@@ -25,35 +25,36 @@ denovoDeletions = function(cbs, mCounts, bins){
 	mCounts_local = mCounts
 
 	print("Calculating problematic bins")
-	# win = 0.5
-	win = 0.35
+	win = 0.5
+	# win = 0.35
 	raw = abs(mCounts_local)<win
 	raw_perc = apply(raw, 1, mean)
+	raw_perc = sapply(raw_perc+1/dim(mCounts)[2], min, 1)
 
-	### New version
-	ol = findOverlaps(candidate, bins)
-	percs = by(subjectHits(ol), queryHits(ol), function(x) mean(raw_perc[x]))
-	keep = which(percs>=0.95)
-	dels = candidate[keep]
+	# ### New version
+	# ol = findOverlaps(candidate, bins)
+	# percs = by(subjectHits(ol), queryHits(ol), function(x) mean(raw_perc[x]))
+	# keep = which(percs>=0.95)
+	# dels = candidate[keep]
 
-	### Old version
-	# bins_filter = bins[which(apply(raw, 1, mean)<0.95)]
+	# ### Old version
+	bins_filter = bins[which(apply(raw, 1, mean)<0.95)]
 
-	# print("Filtering candidates by problematic bins")
-	# ol_filter = findOverlaps(candidate, bins_filter)
-	# ol_bins = findOverlaps(candidate, bins)
-	# if(length(ol_filter)>0){
-	# 	count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
-	# 	count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
-	# 	filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
-	# 	filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
-	# 	filtering = merge(filtering_info, filtering_info2, by="id", sort=F)
-	# 	ratios = filtering[,3]/filtering[,2]
-	# 	cut = which(ratios>=0.5)
-	# 	drop_ids = as.numeric(as.character(filtering$id[cut]))
-	# 	dels = candidate[-drop_ids]
-	# }else{
-	# 	dels = candidate
-	# }
+	print("Filtering candidates by problematic bins")
+	ol_filter = findOverlaps(candidate, bins_filter)
+	ol_bins = findOverlaps(candidate, bins)
+	if(length(ol_filter)>0){
+		count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
+		count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
+		filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
+		filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
+		filtering = merge(filtering_info, filtering_info2, by="id", sort=F)
+		ratios = filtering[,3]/filtering[,2]
+		cut = which(ratios>=0.5)
+		drop_ids = as.numeric(as.character(filtering$id[cut]))
+		dels = candidate[-drop_ids]
+	}else{
+		dels = candidate
+	}
 	return(dels)
 }
