@@ -66,9 +66,9 @@ visualizeFamily = function(famid, bait, track, window, row_inds, col_inds, pD, s
 
 	par(xpd=F)
 	par(mar=rep(5,4))
-	visualize(cands1, track, window=window, "Proband", yl="", denote="B", coll=1)
-	visualize(cands2, track, window=window, "Parent 1", yl="", denote="C", coll=col1)
-	visualize(cands3, track, window=window, "Parent 2", yl="", denote="D", coll=col2)	
+	visualize(cands1, track, window=window, "Proband", yl="", denote="B", coll=1, bait=bait)
+	visualize(cands2, track, window=window, "Parent 1", yl="", denote="C", coll=col1, bait=bait)
+	visualize(cands3, track, window=window, "Parent 2", yl="", denote="D", coll=col2, bait=bait)	
 
 	par(mar=rep(0,4))
 	plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")
