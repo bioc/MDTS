@@ -1,5 +1,4 @@
 fitLoess = function(i, bins, full_data, adjust){
-	print(i); flush.console()
 	if(adjust=="GC"){
 		control = loess.control(trace.hat="approximate")
 		res = residuals(loess(full_data[,i]~bins$GC, control = control))
