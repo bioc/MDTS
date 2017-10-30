@@ -1,9 +1,9 @@
 pullReads = function(bam_path, bait){
 	target = bait
-	flag1 = Rsamtools::scanBamFlag(isPaired=T, isFirstMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
-	flag2 = Rsamtools::scanBamFlag(isPaired=T, isSecondMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
-	bam1 = Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag1, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
-	bam2 = Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag2, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
+	flag1 = scanBamFlag(isPaired=T, isFirstMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
+	flag2 = scanBamFlag(isPaired=T, isSecondMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
+	bam1 = scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag1, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
+	bam2 = scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag2, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
 	
 	counts = by(rep(1, length(bam1$rname)+length(bam2$rname)), c(bam1$qname, bam2$qname), sum)
 	purge = names(counts)[which(as.vector(counts)==2)]

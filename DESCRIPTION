@@ -5,7 +5,8 @@ Maintainer: Jack Fu <jmfu@jhsph.edu>
 Author: Jack Fu <jmfu@jhsph.edu>
 Description: What the package does (one paragraph).
 Depends: R (>= 3.3.0),
-	GenomicRanges
+	GenomicRanges,
+	Rsamtools
 Imports: utils,
 	stats,
 	IRanges,
@@ -13,8 +14,7 @@ Imports: utils,
 	methods,
 	stringr,
 	DNAcopy,
-	Repitools,
-	Rsamtools
+	Repitools
 Suggests: testthat,
 	parallel
 License: What license is it under?
