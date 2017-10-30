@@ -20,6 +20,5 @@
 #' @export
 segmentMD = function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4, mc.cores=1){
 	family_segments = mclapply(1:dim(md)[2], segmentMDCore, md, bins, alpha=alpha, undo.splits = undo.splits, undo.SD=undo.SD, mc.cores=mc.cores)
-	family_segments = mclapply(1:150, segmentMDCore, md, bins, alpha=alpha, undo.splits = undo.splits, undo.SD=undo.SD, mc.cores=mc.cores)
 	return(do.call(c, family_segments))
 }
