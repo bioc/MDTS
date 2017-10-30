@@ -11,7 +11,7 @@
 visualizeDeletion = function(deletion, bins, pD, mCounts, save=F){
 	window = 1000
 	famid = pD$family_id[pD$subj_id==deletion$famid]
-	pD_sub = pD[str_detect(pD$family_id, famid),]
+	pD_sub = pD[stringr::str_detect(pD$family_id, famid),]
 	track = deletion
 	bait = GRanges(seqnames(track)[1], IRanges(min(start(track))-window, max(end(track))+window))
 	row_inds = subjectHits(findOverlaps(track, bins))
