@@ -4,7 +4,8 @@
 \alias{segmentMD}
 \title{Circular Binary Segmentation on Minimum Distances}
 \usage{
-segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4)
+segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4,
+  mc.cores = 1)
 }
 \arguments{
 \item{md}{The minimum distance matrix produced by calcMD.}

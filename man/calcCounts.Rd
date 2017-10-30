@@ -4,7 +4,7 @@
 \alias{calcCounts}
 \title{Creating the raw count matrix}
 \usage{
-calcCounts(pData, bins, rl)
+calcCounts(pData, bins, rl, mc.cores = 1)
 }
 \arguments{
 \item{pData}{A table in the format of the output of pData().}

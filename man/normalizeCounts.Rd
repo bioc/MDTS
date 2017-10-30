@@ -4,7 +4,7 @@
 \alias{normalizeCounts}
 \title{Calculating the normalized M scores}
 \usage{
-normalizeCounts(counts, bins)
+normalizeCounts(counts, bins, mc.cores = 1)
 }
 \arguments{
 \item{counts}{A matrix of raw coverage output by calcCounts().}
