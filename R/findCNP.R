@@ -20,17 +20,34 @@ findCNP = function(mCounts, bins, pData){
 		candidate = cnp[i]
 		ol = findOverlaps(candidate, bins)
 		mCountsCandidate = apply(mCounts[subjectHits(ol),], 2, mean)
-		s0 = sum(mCountsCandidate<=-1.5)
-		s1 = sum(mCountsCandidate>-1.5 & mCountsCandidate<=0.5)
-		s2 = sum(mCountsCandidate>0.5)
+		# mCountsCandidate = mCountsCandidate[pD$mother_id==0]
 
-		mCountsParents = mCountsCandidate[names(mCountsCandidate) %in% pD$subj_id[pD$mother_id==0]]
-		p0 = sum(mCountsParents<=-1.5)
-		p1 = sum(mCountsParents>-1.5 & mCountsParents<=0.5)
-		p2 = sum(mCountsParents>0.5)
-		vals = rbind(vals, c(s0, s1, s2, p0, p1, p2))
+		## CNPBayes
+		set.seed(1337)
+		mp <- McmcParams()
+		up <- CNPBayes:::paramUpdates(mp)
+		up["theta"] <- 0L  ## the L is important because it requires an integer  
+		CNPBayes:::paramUpdates(mp) <- up
+		hypp=Hyperparameters(k=3, eta.0=0.1, m2.0=0.0035)
+		mcmc.params <- McmcParams(iter=1000, burnin=1000, nStarts=2)
+		mcmc.params@param_updates = up
+		m = MarginalModel(data=mCountsCandidate, k=3, hypp = hypp, mcmc.params=mp); m@theta=c(-4, 0, 1)
+		pm = posteriorSimulation(m)
+
+		counts = pm@zfreq
+		n = length(mCountsCandidate)
+		p = (2*counts[3]+counts[2])/(2*(counts[3]+counts[2]+counts[1]))
+		q = 1-p
+		exp2 = p^2*n
+		exp1 = 2*p*q*n
+		exp0 = q^2*n
+
+		test.stat = (counts[3]-exp2)^2/exp2 + (counts[2]-exp1)^2/exp1 + (counts[1]-exp0)^2/exp0
+		hw = 1-pchisq(test.stat, 1)
+
+		
 	}
-	colnames(vals) = c("s0", "s1", "s2", "p0", "p1", "p2")
+	colnames(vals) = c("s0", "s1", "s2", "p0", "p1", "p2", "hw")
 	values(cnp) = vals
 
 	return(cnp)
