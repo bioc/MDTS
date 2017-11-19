@@ -16,7 +16,9 @@ Imports: utils,
 	DNAcopy,
 	Repitools
 Suggests: testthat,
-	parallel
+	parallel,
+	knitr
+VignetteBuilder: knitr
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
