@@ -25,7 +25,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 	mCounts_local = mCounts
 
 	print("Calculating problematic bins")
-	wind = 0.5
+	win = 0.5
 	# win = 0.4
 	# win = 0.45
 	raw = abs(mCounts_local)<win
