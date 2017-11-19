@@ -37,7 +37,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 	# dels = candidate[keep]
 
 	# ### Old version
-	bins_filter = bins[which(apply(raw_perc, 1, mean)<0.95)]
+	bins_filter = bins[which(raw_perc<0.95)]
 
 	print("Filtering candidates by problematic bins")
 	ol_filter = findOverlaps(candidate, bins_filter)
