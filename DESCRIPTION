@@ -14,8 +14,7 @@ Imports: utils,
 	methods,
 	stringr,
 	DNAcopy,
-	Repitools,
-	CNPBayes
+	Repitools
 Suggests: testthat,
 	parallel
 License: What license is it under?
