@@ -4,7 +4,7 @@
 \alias{findCNP}
 \title{Reports probable CNP regions}
 \usage{
-findCNP(mCounts, bins, pData)
+findCNP(mCounts, bins, pData, plot = F)
 }
 \arguments{
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}

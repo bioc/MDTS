@@ -48,9 +48,9 @@ visualizeFamily = function(famid, bait, track, window, row_inds, col_inds, pD, s
 	res = apply(res, 2, mean)
 	res = round(res, 3)
 
-	i1 = which(names(res)==paste0(famid, "_1"))
-	i2 = which(names(res)==paste0(famid, "_2"))
-	i3 = which(names(res)==paste0(famid, "_3"))
+	i1 = which(names(res)==sub$subj_id[1])
+	i2 = which(names(res)==sub$subj_id[2])
+	i3 = which(names(res)==sub$subj_id[3])
 
 	layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, rep(10, 3)), 2, 6, byrow=T), widths=c(0.5, 0.5, rep(5, 4)), heights = c(4, 0.1))
 		par(mar=rep(0,4))
