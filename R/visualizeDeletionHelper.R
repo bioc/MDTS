@@ -16,11 +16,11 @@ pullReads = function(bam_path, bait){
 	GR2 = GRanges(seqnames=as.character(seqnames(bait)[1]), IRanges(bam2$pos[ord], bam2$pos[ord]+99), isize=bam2$isize[ord], rn=bam2$qname[ord])
 	return(GRangesList(GR1, GR2))
 }
-visualize = function(GRL, track, window, title, yl, denote, coll, bait, scale){
+visualize = function(GRL, track, window, title, yl, denote, coll, scale){
 	GR1 = GRL[[1]]
 	GR2 = GRL[[2]]
 	coords = c(start(GR1), start(GR2), end(GR1), end(GR2))
-	plot(c(start(bait), end(bait)), c(0, length(GR1)+1), ty="n", main=title, ylab=yl, xaxt="n", cex.lab=scale, cex.axis=scale*.8, cex.main=scale, cex.sub=scale, xlab="", col=coll, col.axis=coll, col.sub=coll, col.main=coll, col.lab=coll)
+	plot(c(start(track), end(track)), c(0, length(GR1)+1), ty="n", main=paste0(title, " M= ", denote), ylab=yl, xaxt="n", cex.lab=scale, cex.axis=scale*.8, cex.main=scale, cex.sub=scale, xlab="", col=coll, col.axis=coll, col.sub=coll, col.main=coll, col.lab=coll)
 	j=0.1
 	tmp = (start(GR1)<start(GR2))*1
 	cls = rep("#6495ed", length(tmp))
@@ -29,46 +29,50 @@ visualize = function(GRL, track, window, title, yl, denote, coll, bait, scale){
 	rect(xleft=start(GR2), xright=start(GR2)+99, ytop = 1:length(GR2)-j, ybot = 0:(length(GR2)-1)-j, col=cls, border=cls)
 	segments(x0 = start(GR1)+99, x1=start(GR2), y0 = 1:length(GR1)-j-0.5, y1 = 1:length(GR2)-j-0.5, lwd=0.1, col= cls)
 	
-	segments(x0=start(track), x1=end(track), y0 = length(GR1)-length(GR1)/20, y1 = length(GR1)-length(GR1)/20, lty=2, col=coll)
-	text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=width(track), cex=scale, col=coll)
-	abline(v=c(start(track), end(track)), lty=2, col=coll)
-	text(x=min(start(bait)), y=length(GR1), labels = denote, cex=scale, col=coll)
+	text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=paste0(width(track), "bp"), cex=scale, col=coll)
+	ylims = par("usr")[3:4]
+	rect(xleft=start(track)+window, xright=end(track)-window, ytop = ylims[2], ybot=ylims[1], col=rgb(0, 0, 0, 0.2), border=rgb(0,0,0,0)) 
+	# text(x=min(start(track)), y=length(GR1)*.9, labels = paste0("M=\n", denote), cex=scale, col=coll, pos=4)
 }
 
-visualizeFamily = function(famid, bait, track, window, row_inds, col_inds, pD, scale=4, col1 = rgb(0, 146, 146, max=255), col2 = rgb(255, 109, 182, max=255)){
+visualizeFamily = function(famid, bait, window, row_inds, col_inds, pD, mCounts, scale=4, col1 = rgb(0, 146, 146, max=255), col2 = rgb(255, 109, 182, max=255)){
 	sub = pD[pD$family_id==famid,]
+	label = paste0(seqnames(bait), ":", start(bait), "-", end(bait))
 	bamids = as.character(sub$bamid)
 	bamids = sub$bam_path
+	start(bait) = start(bait)-window; end(bait) = end(bait)+window
 		
 	cands1 = pullReads(bamids[1], bait)
 	cands2 = pullReads(bamids[2], bait)
 	cands3 = pullReads(bamids[3], bait)
 
-	res = mCounts[row_inds, ,drop=F]
+	res = mCounts[row_inds, ,drop=F];i1 = which(colnames(res)==sub$subj_id[1]); i2 = which(colnames(res)==sub$subj_id[2]); i3 = which(colnames(res)==sub$subj_id[3])
+	md1 = res[,i1,drop=F]-res[,i2,drop=F]; md2 = res[,i1,drop=F]-res[,i3,drop=F]; md = md1
+	      md[abs(md1)>abs(md2)] = md2[abs(md1)>abs(md2)]; md = mean(md); md = round(md, 3)
 	res = apply(res, 2, mean)
 	res = round(res, 3)
-
-	i1 = which(names(res)==sub$subj_id[1])
-	i2 = which(names(res)==sub$subj_id[2])
-	i3 = which(names(res)==sub$subj_id[3])
 
 	layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, rep(10, 3)), 2, 6, byrow=T), widths=c(0.5, 0.5, rep(5, 4)), heights = c(4, 0.1))
 		par(mar=rep(0,4))
 		plot(c(0, 1), c(0,1), xlab="", ylab="", xaxt="n", yaxt="n", type="n", main="", xaxs="i", yaxs="i", bty="n")
-			text(x=0.6, y=0.5, srt=90, famid, cex=2, pos=3)
+			text(x=0.6, y=0.5, srt=90, paste0(famid, " - MD = ", md), cex=4, pos=3)
 		plot(c(0, 1), c(0,1), xlab="", ylab="", xaxt="n", yaxt="n", type="n", main="", xaxs="i", yaxs="i", bty="n")
-			text(x=0.6, y=0.5, srt=90, paste0(seqnames(bait), ":", start(bait), "-", end(bait)), cex=2, pos=3)
+			text(x=0.6, y=0.5, srt=90, label, cex=4, pos=3)
 		par(mar=c(scale, scale*3, scale, scale))
 		hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
-		rect(xleft=res[i1]-0.07, xright=res[i1]+0.07, ytop=seq(100, 3000, by=200), ybot= seq(200, 3000, by=200), col=1)
-		rect(xleft=res[i2]-0.07, xright=res[i2]+0.07, ytop=seq(0, 3000, by=200), ybot= seq(100, 3000, by=200), col=col1, bord=col1)
-		rect(xleft=res[i3]-0.07, xright=res[i3]+0.07, ytop=seq(100, 3000, by=200), ybot= seq(200, 3000, by=200), col=col2, bord=col2)
+		plot_lims = par("usr"); ylim = plot_lims[3:4]; lens = (ylim[2]-ylim[1])/30; ynotches = seq(ylim[1], ylim[2], by = lens)
+		rect(xleft=res[i1]-0.07, xright=res[i1]+0.07, 
+		     ytop=ynotches[seq(1, length(ynotches), by=3)]+lens, ybot= ynotches[seq(1, length(ynotches), by=3)], col=1)
+		rect(xleft=res[i2]-0.07, xright=res[i2]+0.07, 
+		     ytop=ynotches[seq(2, length(ynotches), by=3)]+lens, ybot= ynotches[seq(2, length(ynotches), by=3)], col=col1, bord=col1)
+		rect(xleft=res[i3]-0.07, xright=res[i3]+0.07, 
+		     ytop=ynotches[seq(3, length(ynotches), by=3)]+lens, ybot= ynotches[seq(3, length(ynotches), by=3)], col=col2, bord=col2)
 
 	par(xpd=F)
 	par(mar=rep(5,4))
-	visualize(cands1, track, window=window, "Proband", yl="", denote="B", coll=1, bait=bait, scale=scale)
-	visualize(cands2, track, window=window, "Parent 1", yl="", denote="C", coll=col1, bait=bait, scale=scale)
-	visualize(cands3, track, window=window, "Parent 2", yl="", denote="D", coll=col2, bait=bait, scale=scale)	
+	visualize(cands1, bait, window, "Proband", yl="", denote=res[i1], coll=1, scale=scale)
+	visualize(cands2, bait, window, "Parent 1", yl="", denote=res[i2], coll=col1, scale=scale)
+	visualize(cands3, bait, window, "Parent 2", yl="", denote=res[i3], coll=col2, scale=scale)	
 
 	par(mar=rep(0,4))
 	plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")

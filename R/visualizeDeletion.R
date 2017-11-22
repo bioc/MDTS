@@ -8,13 +8,11 @@
 #' @param save If TRUE will save plot to current working directory instead of rendering.
 #' @keywords visualizeDeletion
 #' @export
-visualizeDeletion = function(deletion, bins, pD, mCounts, save=F){
+visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
 	window = 1000
 	famid = pD$family_id[pD$subj_id==deletion$famid]
 	pD_sub = pD[stringr::str_detect(pD$family_id, famid),]
-	track = deletion
-	bait = GRanges(seqnames(track)[1], IRanges(min(start(track))-window, max(end(track))+window))
-	row_inds = subjectHits(findOverlaps(track, bins))
+	row_inds = subjectHits(findOverlaps(deletion, bins))
 	col_inds = match(pD_sub$subj_id, colnames(mCounts))
 	
 	id = paste0(famid, "-", seqnames(deletion), ":", start(deletion), "-", end(deletion), ".pdf")
@@ -23,7 +21,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, save=F){
 	}else{
 		dev.new(width=30, height=8)	
 	}
-	visualizeFamily(famid, bait, track, window, row_inds, col_inds, pD)
+	visualizeFamily(famid, deletion, window, row_inds, col_inds, pD, mCounts)
 	dev.off()
 }
 
