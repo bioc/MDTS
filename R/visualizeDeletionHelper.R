@@ -29,7 +29,8 @@ visualize = function(GRL, track, window, title, yl, denote, coll, scale){
 	rect(xleft=start(GR2), xright=start(GR2)+99, ytop = 1:length(GR2)-j, ybot = 0:(length(GR2)-1)-j, col=cls, border=cls)
 	segments(x0 = start(GR1)+99, x1=start(GR2), y0 = 1:length(GR1)-j-0.5, y1 = 1:length(GR2)-j-0.5, lwd=0.1, col= cls)
 	
-	text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=paste0(width(track), "bp"), cex=scale, col=coll)
+	z=width(track)-2*window
+	text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=paste0(z, "bp"), cex=scale, col=coll)
 	ylims = par("usr")[3:4]
 	rect(xleft=start(track)+window, xright=end(track)-window, ytop = ylims[2], ybot=ylims[1], col=rgb(0, 0, 0, 0.2), border=rgb(0,0,0,0)) 
 	# text(x=min(start(track)), y=length(GR1)*.9, labels = paste0("M=\n", denote), cex=scale, col=coll, pos=4)
