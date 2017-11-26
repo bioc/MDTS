@@ -39,7 +39,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 
 	bins = NULL
 	for(chromosome in names(red)){
-		bins = c(bins, processChr(as.character(chromosome), red, covs, rl, med))
+		bins = c(bins, .processChr(as.character(chromosome), red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
 	print("Bin segmentation complete"); flush.console()
@@ -47,7 +47,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	seqlevels(bins_out) = paste0("chr", seqlevels(bins_out))
 	seqs = getSeq(genome, bins_out)
 	print("Calculating GC content"); flush.console()
-	GC = sapply(seqs, calcGC)
+	GC = sapply(seqs, .calcGC)
 	bins_out$GC = GC
 
 	print("Calculating mappability"); flush.console()
@@ -58,7 +58,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	map = rep(0, length(segment_sums))
 		map[segment_sums_1] = map_track$score[subjectHits(ol)[match(segment_sums_1, queryHits(ol))]]
 	ol_remain = ol[!queryHits(ol) %in% segment_sums_1]
-	map[unique(queryHits(ol_remain))] = sapply(unique(queryHits(ol_remain)), mappabilityHelper, ol_remain, bins_out, map_track)
+	map[unique(queryHits(ol_remain))] = sapply(unique(queryHits(ol_remain)), .mappabilityHelper, ol_remain, bins_out, map_track)
 	bins_out$mappability = map
 
 	print("Filtering bins based on GC and Mappability"); flush.console()
@@ -69,4 +69,73 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 		seqlevels(bins_out) = str_replace(seqlevels(bins_out), "chr", "")
 	}
 	return(bins_out)
+}
+
+## Helper functions
+.processChr = function(chr, proto_info, covs, rl, med){
+      print(paste0("Selecting Proto-regions in Chr ", chr)); flush.console()
+      proto_region = proto_info[[chr]]
+      proto_gr = reduce(GRanges(seqnames=chr, IRanges(start=proto_region, end=proto_region)))
+      
+      proto_gr_covs_rle = lapply(covs, function(x) x[proto_gr])
+      proto_gr_covs = lapply(proto_gr_covs_rle, function(x) lapply(x, sum))
+      proto_gr_covs_mat = apply(do.call(rbind, proto_gr_covs), 2, as.numeric)
+      proto_gr_covs_mat_normed = t(t(proto_gr_covs_mat)/rl)
+      proto_gr_covs_mat_med = apply(proto_gr_covs_mat_normed, 2, median)
+      proto_gr$reads = proto_gr_covs_mat_med
+      proto_gr_select = proto_gr[proto_gr$reads>=med]
+      
+      if(length(proto_gr_select)>0){
+            print(paste0("Segmenting Chr ", chr, " Proto-regions")); flush.console()
+            pb = txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
+            chr_out = NULL
+            for(i in 1:length(proto_gr_select)){
+                  setTxtProgressBar(pb, i)
+                  chr_out = c(chr_out, .divideSegs(proto_gr_select[i], covs, rl, med))
+            }
+            print(""); flush.console()
+            chr_out = do.call('c', chr_out)
+      }else{
+            return(NULL)
+      }
+      return(chr_out)
+}
+.extractCounts = function(cov_list){
+      return(suppressWarnings((as.numeric(unlist(cov_list)))))
+}
+.divideSegs = function(seg, covs, rl, med){
+      output = NULL
+      j = 1
+      count = 1
+      reads_remain = seg$read
+      num_segs = floor(seg$reads/med)
+      cov_sub = lapply(covs, function(x) x[seg])
+      cov_sub_mat = do.call(rbind, lapply(cov_sub, .extractCounts))
+      
+      cov_sub_cs_normed = t(apply(cov_sub_mat, 1, cumsum))/rl
+      medz = apply(cov_sub_cs_normed, 2, median)
+      while(max(medz)>=med){
+            cut = which(medz>=med)[1]
+            output = rbind(output, c(cut, medz[cut]))
+            count = count+1; j = sum(output[,1])+1
+            cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
+            cov_sub_cs_normed = cov_sub_cs/rl
+            medz = apply(cov_sub_cs_normed, 2, median)
+      }
+      output = rbind(output, c(width(seg)-sum(output[,1]), max(medz)))
+
+      cs = cumsum(output[,1])
+      coords = cbind(c(0, cs[-length(cs)]), cs-1)
+      gr_out = GRanges(seqnames=seqnames(seg), IRanges(start(seg)+coords[,1], start(seg)+coords[,2]))
+      gr_out$median_count = output[,2]
+      return(gr_out)
+}
+.calcGC = function(biostring){
+      string = as.character(biostring)
+      return(str_count(string, "G|C")/nchar(string))
+}
+.mappabilityHelper = function(i, ol, bins, map){
+      overlaps <- pintersect(map[subjectHits(ol)[queryHits(ol)==i]], bins[i])
+      percentOverlap <- width(overlaps) / width(bins[i])
+      return(sum(percentOverlap*overlaps$score))
 }
