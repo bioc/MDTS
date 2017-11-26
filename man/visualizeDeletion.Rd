@@ -4,18 +4,18 @@
 \alias{visualizeDeletion}
 \title{Visualization for deletions}
 \usage{
-visualizeDeletion(deletion, bins, pD, mCounts, save = F)
+visualizeDeletion(deletion, bins, pD, mCounts, md, save = F)
 }
 \arguments{
 \item{deletion}{A GRanges object in the format of the output of denovoDeletions().}
 
 \item{bins}{The set of bins determined by calcBins().}
 
+\item{pD}{A table in the format of the output of pData().}
+
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}
 
 \item{save}{If TRUE will save plot to current working directory instead of rendering.}
-
-\item{pData}{A table in the format of the output of pData().}
 }
 \description{
 This function plots the raw read information from the location of interest for a family.

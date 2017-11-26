@@ -10,6 +10,8 @@ normalizeCounts(counts, bins, mc.cores = 1)
 \item{counts}{A matrix of raw coverage output by calcCounts().}
 
 \item{bins}{The set of bins determined by calcBins().}
+
+\item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
 }
 \description{
 This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.

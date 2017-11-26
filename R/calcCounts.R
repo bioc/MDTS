@@ -4,6 +4,7 @@
 #' @param pData A table in the format of the output of pData().
 #' @param bins The set of bins determined by calcBins().
 #' @param rl The read length of the experiment.
+#' @param mc.cores The number of cores to use for multi-threaded analysis. Defaults to 1.
 #' @keywords calcCounts
 #' @export
 calcCounts <- function(pData, bins, rl, mc.cores=1){

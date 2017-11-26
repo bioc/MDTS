@@ -8,6 +8,7 @@
 #' @param alpha Controls the alpha option in calling DNAcopy::segment()
 #' @param undo.splits Controls the undo.splits option in calling DNAcopy::segment()
 #' @param undo.SD Controls the undo.SD option in calling DNAcopy::segment()
+#' @param mc.cores The number of cores to use for multi-threaded analysis. Defaults to 1.
 #' @keywords segmentMD
 #' @examples 
 #'	setwd(system.file('extdata', package='MDTS'))

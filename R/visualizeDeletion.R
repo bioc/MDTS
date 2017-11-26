@@ -3,7 +3,7 @@
 #' This function plots the raw read information from the location of interest for a family.
 #' @param deletion A GRanges object in the format of the output of denovoDeletions().
 #' @param bins The set of bins determined by calcBins().
-#' @param pData A table in the format of the output of pData().
+#' @param pD A table in the format of the output of pData().
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
 #' @param save If TRUE will save plot to current working directory instead of rendering.
 #' @keywords visualizeDeletion

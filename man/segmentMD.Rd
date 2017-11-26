@@ -17,6 +17,8 @@ segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4,
 \item{undo.splits}{Controls the undo.splits option in calling DNAcopy::segment()}
 
 \item{undo.SD}{Controls the undo.SD option in calling DNAcopy::segment()}
+
+\item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
 }
 \description{
 This function will return a GRanges object containing the copy number 

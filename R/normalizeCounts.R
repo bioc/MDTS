@@ -3,6 +3,7 @@
 #' This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.
 #' @param counts A matrix of raw coverage output by calcCounts().
 #' @param bins The set of bins determined by calcBins().
+#' @param mc.cores The number of cores to use for multi-threaded analysis. Defaults to 1.
 #' @keywords normalizeCounts
 #' @export
 normalizeCounts = function(counts, bins, mc.cores=1){
