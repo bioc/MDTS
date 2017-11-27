@@ -16,7 +16,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
 	hasChr = FALSE
 
-	print("Reading coverage information of subsamples"); flush.console()
+	message("Reading coverage information of subsamples")
 	covs = list()
 	for(i in 1:length(pD_sub$bam_path)){
 		GR=BAM2GRanges(pD_sub$bam_path[i])
@@ -31,7 +31,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 		covs[[i]] = reads
 	}
 
-	print("Calculating Proto-regions"); flush.console()
+	message("Calculating Proto-regions")
 	rle_threshold = sapply(covs, function(x) x>=min)
 	rle_track = rle_threshold[[1]]
 		for(i in 2:length(covs)){rle_track = rle_track + rle_threshold[[i]]}
@@ -42,15 +42,16 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 		bins = c(bins, .processChr(as.character(chromosome), red, covs, rl, med))
 	}
 	bins_out = suppressWarnings(do.call('c', bins))
-	print("Bin segmentation complete"); flush.console()
+	message("Bin segmentation complete")
 
 	seqlevels(bins_out) = paste0("chr", seqlevels(bins_out))
 	seqs = getSeq(genome, bins_out)
-	print("Calculating GC content"); flush.console()
+	
+	message("Calculating GC content")
 	GC = sapply(seqs, .calcGC)
 	bins_out$GC = GC
 
-	print("Calculating mappability"); flush.console()
+	message("Calculating mappability")
 	map_track = import(map_file)
 	ol = findOverlaps(bins_out, map_track)
 	segment_sums = by(rep(1, length(ol)), queryHits(ol), sum)
@@ -61,13 +62,13 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	map[unique(queryHits(ol_remain))] = sapply(unique(queryHits(ol_remain)), .mappabilityHelper, ol_remain, bins_out, map_track)
 	bins_out$mappability = map
 
-	print("Filtering bins based on GC and Mappability"); flush.console()
+	message("Filtering bins based on GC and Mappability")
 	rm_ind = unique(c(which(bins_out$mappability<0.75), which(bins_out$GC>0.85 | bins_out$GC<0.15)))
 	if(length(rm_ind)>0){bins_out = bins_out[-rm_ind]}
 
-	if(hasChr==FALSE){
+	if(hasChr==FALSE)
 		seqlevels(bins_out) = str_replace(seqlevels(bins_out), "chr", "")
-	}
+	
 	return(bins_out)
 }
 
