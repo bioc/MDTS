@@ -10,7 +10,7 @@ vignette: >
 
 ## Overview
 
-This package provides the necessary infrastructure to take raw bam files of targeted sequencing trios to produce de novo deletion calls of high sensitivity and low false positives. Our method benefits tremendously from pooling information from across many trios to determine regions of interest, normalize read-depth, and to filter candidate deletion signals.
+MDTS provides the necessary infrastructure to take raw bam files of targeted sequencing trios to produce de novo deletion calls of high sensitivity and low false positives. Our method benefits tremendously from pooling information from across many trios to determine regions of interest, normalize read-depth, and to filter candidate deletion signals.
 
 ## Raw Data
 
@@ -31,7 +31,11 @@ pD
 ```
 3. A bw file that includes the 100mer mappability of the genome
 
-Slighly processed versions of the data is included with `MDTS`.
+Slighly processed versions of the data is included with `MDTS`. To obtain the raw data use:
+```{r, eval=F}
+devtools::install_github('jmf47/MDTSdata')
+library(MDTSdata)
+```
 
 ## Outline of Method Steps
 
