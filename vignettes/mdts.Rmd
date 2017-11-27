@@ -28,7 +28,6 @@ devtools::install_github('jmf47/MDTSdata')
 ```
 
 It includes:
-
 1. 15 simulated bam files (5 trios) from the software `capsim`
       + Sequencing read length of 100bp 
       + 1 true de novo deletion at X in family F3
@@ -37,7 +36,8 @@ It includes:
       + *5/15 individuals have 1 copy (2/5 probands)*
       + *5/15 inviduals have 0 copies (1/5 probands)*
       + *50/50 Mendelian inheritance of allels in trios*
-2. A pedigree file 
+2. A bw file that includes the 100mer mappability of the genome
+3. A pedigree file 
       + Records the trio kinships 
       + Records the file paths to the raw bam files of each sample
 ```{r, echo=F, message=F, warning=F}
@@ -46,7 +46,7 @@ setwd(system.file("extdata", package="MDTS"))
 load('pD.RData')
 pD
 ```
-3. A bw file that includes the 100mer mappability of the genome
+
 
 Slighly processed versions of the data is included with `MDTS`. To obtain the raw data use:
 
@@ -59,7 +59,7 @@ The general approach is first to examine the mapped coverage of a subset of the 
 
 Information on GC content and mappability of the bins are also calculated at this stage. As a result, MDTS requires a BSgenome object that is consistent with the reference annotation the bam files were aligned to, as well as a mappability bigwig that contains mappability information in windows consistent with sequencing read length. In our example, we require `BSgenome.Hsapiesn.UCSC.hg19` and 100mer mappability.
 
-This portion of the vignette requires using raw data from `MDTSData`. However the resulting bins are included in the `data` directory of MDTS.
+This portion of the vignette requires using raw data from `MDTSData`. However the resulting bins are included in the `data` directory of MDTS as a `.rda`.
 
 ```{r, echo=FALSE, message=FALSE}
 library(MDTS)
