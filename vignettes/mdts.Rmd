@@ -22,7 +22,12 @@ MDTS is broken down into the following major steps:
 
 ## Raw Data
 
-The raw example sequencing data used in this vignette can be obtained from the github repo `jmf47/MDTSdata`. It includes:
+The raw example sequencing data used in this vignette can be obtained from the github repo `jmf47/MDTSdata` using:
+```{r, eval=FALSE}
+devtools::install_github('jmf47/MDTSdata')
+```
+
+It includes:
 
 1. 15 simulated bam files (5 trios) from the software `capsim`
       + Sequencing read length of 100bp 
@@ -44,9 +49,7 @@ pD
 3. A bw file that includes the 100mer mappability of the genome
 
 Slighly processed versions of the data is included with `MDTS`. To obtain the raw data use:
-```{r, eval=FALSE}
-devtools::install_github('jmf47/MDTSdata')
-```
+
 
 ## 1. Calculating MDTS Bins
 
