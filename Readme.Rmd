@@ -2,4 +2,6 @@
 
 MDTS provides the necessary infrastructure to take raw bam files of targeted sequencing trios to produce de novo deletion calls of high sensitivity and low false positives. Our method benefits tremendously from pooling information from across many trios to determine regions of interest, normalize read-depth, and to filter candidate deletion signals.
 
-For a vignette please see Bioconductor, or after installing MDTS use `vignette(package="MDTS")`.
+To install please use `install_github('jmf47/MDTS', build_vignettes=TRUE)`.
+
+To view the vignette after installing MDTS use `vignette("mdts", package="MDTS")`.
