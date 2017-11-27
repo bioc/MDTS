@@ -59,7 +59,7 @@ The general approach is first to examine the mapped coverage of a subset of the 
 
 Information on GC content and mappability of the bins are also calculated at this stage. As a result, MDTS requires a BSgenome object that is consistent with the reference annotation the bam files were aligned to, as well as a mappability bigwig that contains mappability information in windows consistent with sequencing read length. In our example, we require `BSgenome.Hsapiesn.UCSC.hg19` and 100mer mappability.
 
-This portion of the vignette requires using raw data from `MDTSData`. However the resulting bins are included in the `data` directory of MDTS as a `.rda`.
+This portion of the vignette requires using raw data from `MDTSData`. However the resulting bins are included in the `data` directory of MDTS as a `.RData`.
 
 ```{r, echo=FALSE, message=FALSE}
 library(MDTS)
