@@ -27,7 +27,7 @@ segmentMD = function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4, mc.
 
 ## Helper function
 .segmentMDCore = function(i, md, bins, alpha, undo.splits, undo.SD){
-      set.seed(1337)
+      set.seed(137)
       print(paste0("Processing family number: ", i)); flush.console()
       cna = CNA(genomdat=md[,i,drop=FALSE], chrom=as.vector(seqnames(bins)),
                 maploc=start(bins), data.type="logratio", sampleid=colnames(md), presorted=T)

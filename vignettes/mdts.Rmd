@@ -18,8 +18,12 @@ The raw example sequencing data used in this vignette can be obtained from the g
 
 1. 15 simulated bam files (5 trios) from the software `capsim`
       + Sequencing read length of 100bp 
-      + 1 true de novo deletion at X in family X1
-      + 1 inherited deletion at Y in family Y1
+      + 1 true de novo deletion at X in family F3
+      + 1 simulated CNP region
+            + 5/15 individuals have 2 copies (2/5 probands)
+            + 5/15 individuals have 1 copy (2/5 probands)
+            + 5/15 inviduals have 0 copies (1/5 probands)
+            + 50/50 Mendelian inheritance of allels in trios
 2. A pedigree file 
       + Records the trio kinships 
       + Records the file paths to the raw bam files of each sample
@@ -32,9 +36,8 @@ pD
 3. A bw file that includes the 100mer mappability of the genome
 
 Slighly processed versions of the data is included with `MDTS`. To obtain the raw data use:
-```{r, eval=F}
+```{r, eval=FALSE}
 devtools::install_github('jmf47/MDTSdata')
-library(MDTSdata)
 ```
 
 ## Outline of Method Steps
