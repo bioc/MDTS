@@ -63,7 +63,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
       
       z=width(track)-2*window
       text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=paste0(z, "bp"), cex=scale, col=coll)
-      text(x=(start(track)+end(track))/2, length(GR1)/20, labels=paste0(frags, " fragments"), cex=scale, col=coll)
+      text(x=(start(track)+end(track))/2, length(GR1)/20, labels=paste0(frags, " reads"), cex=scale, col=coll)
       ylims = par("usr")[3:4]
       rect(xleft=start(track)+window, xright=end(track)-window, ytop = ylims[2], ybot=ylims[1], col=rgb(0, 0, 0, 0.2), border=rgb(0,0,0,0)) 
 }
