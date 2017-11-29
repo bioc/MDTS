@@ -47,6 +47,8 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
 .visualize = function(GRL, track, window, title, yl, denote, coll, scale){
       GR1 = GRL[[1]]
       GR2 = GRL[[2]]
+      del = track; start(del) = start(del) + window; end(del) = end(del)- window
+      frags = countOverlaps(del, GR1)+ countOverlaps(del, GR2)
       coords = c(start(GR1), start(GR2), end(GR1), end(GR2))
       plot(c(start(track), end(track)), c(0, length(GR1)+1), ty="n", main=paste0(title, " M= ", denote), 
            ylab=yl, xaxt="n", cex.lab=scale, cex.axis=scale*.8, cex.main=scale, cex.sub=scale, xlab="", 
@@ -61,6 +63,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
       
       z=width(track)-2*window
       text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, labels=paste0(z, "bp"), cex=scale, col=coll)
+      text(x=(start(track)+end(track))/2, length(GR1)/20, labels=paste0(frags, " fragments"), cex=scale, col=coll)
       ylims = par("usr")[3:4]
       rect(xleft=start(track)+window, xright=end(track)-window, ytop = ylims[2], ybot=ylims[1], col=rgb(0, 0, 0, 0.2), border=rgb(0,0,0,0)) 
 }
@@ -87,8 +90,9 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
       text(x=0.6, y=0.5, srt=90, paste0(famid, " - MD = ", md), cex=4, pos=3)
       plot(c(0, 1), c(0,1), xlab="", ylab="", xaxt="n", yaxt="n", type="n", main="", xaxs="i", yaxs="i", bty="n")
       text(x=0.6, y=0.5, srt=90, label, cex=4, pos=3)
+      par(xpd=NA); text(x=1.2, y=0.5, srt=90,  paste0(length(row_inds), " bins"), pos=3, cex=4); par(xpd=F)
       par(mar=c(scale, scale*3, scale, scale))
-      hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
+      hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
       plot_lims = par("usr"); ylim = plot_lims[3:4]; lens = (ylim[2]-ylim[1])/30; ynotches = seq(ylim[1], ylim[2], by = lens)
       rect(xleft=res[i1]-0.07, xright=res[i1]+0.07, 
            ytop=ynotches[seq(1, length(ynotches), by=3)]+lens, ybot= ynotches[seq(1, length(ynotches), by=3)], col=1)
