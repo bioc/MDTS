@@ -51,7 +51,11 @@ denovoDeletions = function(cbs, mCounts, bins){
 		ratios = filtering[,3]/filtering[,2]
 		cut = which(ratios>=0.5)
 		drop_ids = as.numeric(as.character(filtering$id[cut]))
-		dels = candidate[-drop_ids]
+		if(length(drop_ids)>0){
+		      dels = candidate[-drop_ids]
+		}else{
+		      dels = candidate
+		}
 	}else{
 		dels = candidate
 	}

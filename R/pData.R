@@ -4,7 +4,7 @@
 #' @param path The path to tab-delimited file storing the phenotype information.
 #' @export
 pData <- function(path){
-	tab = read.table(path, sep="\t", header=T, colClasses = "character")
+	tab = read.table(path, header=T, colClasses = "character")
 	col_ind = match(c("subj_id", "family_id", "father_id", "mother_id", "gender", "bam_path"), colnames(tab))
 	tab_selected = tab[,col_ind]
 	proband_id = sort(tab_selected$subj_id[tab_selected$father_id %in% tab_selected$subj_id & 
