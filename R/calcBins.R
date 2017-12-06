@@ -92,8 +92,8 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
             pb = txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
             chr_out = NULL
             for(i in 1:length(proto_gr_select)){
-                  setTxtProgressBar(pb, i)
                   chr_out = c(chr_out, .divideSegs(proto_gr_select[i], covs, rl, med))
+                  setTxtProgressBar(pb, i)
             }
             chr_out = do.call('c', chr_out)
       }else{
