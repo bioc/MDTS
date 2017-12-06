@@ -36,6 +36,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	rle_track = rle_threshold[[1]]
 		for(i in 2:length(covs)){rle_track = rle_track + rle_threshold[[i]]}
 	red = which(rle_track>0)
+	      red = red[which(sapply(red, length)>0)]
 
 	bins = NULL
 	for(chromosome in names(red)){
@@ -74,7 +75,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 
 ## Helper functions
 .processChr = function(chr, proto_info, covs, rl, med){
-      print(paste0("Selecting Proto-regions in Chr ", chr)); flush.console()
+      message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region = proto_info[[chr]]
       proto_gr = reduce(GRanges(seqnames=chr, IRanges(start=proto_region, end=proto_region)))
       
@@ -87,14 +88,13 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
       proto_gr_select = proto_gr[proto_gr$reads>=med]
       
       if(length(proto_gr_select)>0){
-            print(paste0("Segmenting Chr ", chr, " Proto-regions")); flush.console()
+            message(paste0("Segmenting Chr ", chr, " Proto-regions"))
             pb = txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
             chr_out = NULL
             for(i in 1:length(proto_gr_select)){
                   setTxtProgressBar(pb, i)
                   chr_out = c(chr_out, .divideSegs(proto_gr_select[i], covs, rl, med))
             }
-            print(""); flush.console()
             chr_out = do.call('c', chr_out)
       }else{
             return(NULL)
