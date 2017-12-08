@@ -5,6 +5,7 @@
 #' @param bins The set of bins determined by calcBins().
 #' @param pD A table in the format of the output of pData().
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
+#' @param md The minimum distance matrix output by calcMD()
 #' @param save If TRUE will save plot to current working directory instead of rendering.
 #' @keywords visualizeDeletion
 #' @export

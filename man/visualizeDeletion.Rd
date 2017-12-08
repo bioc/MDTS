@@ -15,6 +15,8 @@ visualizeDeletion(deletion, bins, pD, mCounts, md, save = F)
 
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}
 
+\item{md}{The minimum distance matrix output by calcMD()}
+
 \item{save}{If TRUE will save plot to current working directory instead of rendering.}
 }
 \description{
