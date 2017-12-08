@@ -30,6 +30,7 @@ devtools::install_github('jmf47/MDTSdata')
 ```
 
 It includes:
+
 1. 21 simulated bam files (7 trios)
       + Sequencing read length of 100bp 
       + 1 true de novo deletion in family F4
@@ -37,6 +38,7 @@ It includes:
 3. A pedigree file 
       + Records the trio kinships 
       + Records the file paths to the raw bam files of each sample
+      
 ```{r, echo=F, message=F, warning=F}
 library(MDTS); library(BSgenome.Hsapiens.UCSC.hg19)
 setwd(system.file("extdata", package="MDTS"))
