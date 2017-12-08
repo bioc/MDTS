@@ -30,15 +30,10 @@ devtools::install_github('jmf47/MDTSdata')
 ```
 
 It includes:
-1. 15 simulated bam files (5 trios) from the software `capsim`
+1. 21 simulated bam files (7 trios)
       + Sequencing read length of 100bp 
       + 1 true de novo deletion at X in family F3
-      + 1 simulated CNP region where:
-      + *5/15 individuals have 2 copies (2/5 probands)*
-      + *5/15 individuals have 1 copy (2/5 probands)*
-      + *5/15 inviduals have 0 copies (1/5 probands)*
-      + *50/50 Mendelian inheritance of allels in trios*
-2. A bw file that includes the 100mer mappability of the genome
+2. A bw file that includes the 100mer mappability of chr1
 3. A pedigree file 
       + Records the trio kinships 
       + Records the file paths to the raw bam files of each sample
@@ -73,10 +68,10 @@ library(MDTS); library(BSgenome.Hsapiens.UCSC.hg19)
 setwd(system.file("data", package="MDTSData")) 
 
 # Importing the pedigree file that includes information on where to locate the raw bam files
-pD = pData("pData.ped")
+pD = pData("pD.ped")
 
 # Information on the GC content and mappability to estimate GC and mappability for the MDTS bins
-genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr22_100mer_map.bw"
+genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
 
 # This command now subsets 5 samples to determine MDTS bins
 # pD is the phenotype matrix
@@ -84,7 +79,7 @@ genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr22_100mer_map.bw"
 # rl is the sequencing read length
 # min is the minimum read depth before a location is to be included in a proto region
 # med is the minimum number of the median number of reads across the n samples in a bin.
-bins = calcBins(pD, n=5, rl=100, med=100, min=5, genome, map_file)
+bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
 ```
 
 ## 2. Calculating coverage of MDTS bins
