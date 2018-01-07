@@ -7,32 +7,36 @@
 calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 }
 \arguments{
-\item{pD}{A table in the format of the output of pData()}
+\item{pD}{A table in the format of the output of pData().}
 
-\item{n}{The number of subsamples to use}
+\item{n}{The number of subsamples to use.}
 
-\item{rl}{The read length of the experiment}
+\item{rl}{The read length of the experiment.}
 
-\item{med}{The median number of reads across sub-samples to reach before creating a new bin}
+\item{med}{The median number of reads across sub-samples to reach before 
+creating a new bin.}
 
-\item{min}{The miminum number of coverage across all sub-samples required to create the proto-region}
+\item{min}{The miminum number of coverage across all sub-samples required to 
+create the proto-region.}
 
-\item{genome}{The BSGenome object that assists in calculations of the GC content of the bins}
+\item{genome}{The BSGenome object that assists in calculations of the GC 
+content of the bins.}
 
-\item{map_file}{A path to the bigwig file of 100mer mappability of the corresponding genome}
+\item{map_file}{A path to the bigwig file of 100mer mappability of the 
+corresponding genome.}
 
-\item{seed}{Sets the seed so results are reproducible. Defaults to 1337}
+\item{seed}{Sets the seed so results are reproducible. Defaults to 1337.}
 }
 \value{
 Returns a \code{GRanges} object depicting the dynamic bins that MDTS calculates.
 }
 \description{
-This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
+This function will randomly select a sample of bam files to calculate dynamic
+MDTS bins for subsequent read-depth analysis.
 }
 \examples{
 \dontrun{
 pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
-pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
 genome = BSgenome.Hsapiens.UCSC.hg19
 map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
 bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)

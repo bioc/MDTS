@@ -7,7 +7,8 @@
 visualizeDeletion(deletion, bins, pD, mCounts, md, save = FALSE)
 }
 \arguments{
-\item{deletion}{A GRanges object in the format of the output of denovoDeletions().}
+\item{deletion}{A GRanges object in the format of the output of 
+denovoDeletions().}
 
 \item{bins}{The set of bins determined by calcBins().}
 
@@ -17,13 +18,15 @@ visualizeDeletion(deletion, bins, pD, mCounts, md, save = FALSE)
 
 \item{md}{The minimum distance matrix output by calcMD()}
 
-\item{save}{If TRUE will save plot to current working directory instead of rendering.}
+\item{save}{If TRUE will save plot to current working directory instead of 
+rendering.}
 }
 \value{
 The file name if the plot was saved.
 }
 \description{
-This function plots the raw read information from the location of interest for a family.
+This function plots the raw read information from the location of interest 
+for a trio.
 }
 \examples{
 \dontrun{
@@ -38,6 +41,5 @@ denovo = denovoDeletions(cbs, mCounts, bins)
 pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
 visualizeDeletion(denovo[1], bins, pD, mCounts, md)
 }
-
 }
 \keyword{visualizeDeletion}

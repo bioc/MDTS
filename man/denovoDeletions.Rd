@@ -7,7 +7,8 @@
 denovoDeletions(cbs, mCounts, bins)
 }
 \arguments{
-\item{cbs}{The GRanges output from segmentMD() that contains the copy number segments of the families.}
+\item{cbs}{The GRanges output from segmentMD() that contains the copy number 
+segments of the families.}
 
 \item{mCounts}{The normalized counts matrix output by normalizeCounts().}
 
@@ -18,8 +19,9 @@ A \code{GRanges} object that reports all detected denovo deletions
 passing requite filters.
 }
 \description{
-This function will return a single GRanges object containing all denovo deletions 
-		that passed filtering from a Circular Binary Segmentation object with supplementary information.
+This function will return a single GRanges object containing all denovo 
+deletions that passed filtering from a Circular Binary Segmentation object 
+with supplementary information.
 }
 \examples{
 setwd(system.file('extdata', package='MDTS'))
