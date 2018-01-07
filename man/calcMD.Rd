@@ -13,6 +13,10 @@ calcMD(mCounts, bins, pData)
 
 \item{pData}{A table in the format of the output of pData().}
 }
+\value{
+A \code{data.frame} of minimum distances. Each column is a trio,
+while each row is an entry in \code{bins}
+}
 \description{
 This function will return a matrix of minimum distances where ecah column is a family, and each row is a bin.
 }

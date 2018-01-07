@@ -7,9 +7,25 @@
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
 #' @param md The minimum distance matrix output by calcMD()
 #' @param save If TRUE will save plot to current working directory instead of rendering.
+#' @import Rsamtools
 #' @keywords visualizeDeletion
+#' @examples 
+#' \dontrun{
+#'	setwd(system.file('extdata', package='MDTS'))
+#'	load('bins.RData')
+#'	load('counts.RData')
+#'	load('pD.RData')
+#'	mCounts = normalizeCounts(counts, bins)
+#'	md = calcMD(mCounts, bins, pD)
+#'	cbs = segmentMD(md, bins)
+#'	denovo = denovoDeletions(cbs, mCounts, bins)
+#'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
+#'	visualizeDeletion(denovo[1], bins, pD, mCounts, md)
+#'	}
+#'	
+#' @return The file name if the plot was saved.
 #' @export
-visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
+visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
 	window = 1000
 	famid = pD$family_id[pD$subj_id==deletion$famid]
 	pD_sub = pD[stringr::str_detect(pD$family_id, famid),]
@@ -17,20 +33,25 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
 	col_inds = match(pD_sub$subj_id, colnames(mCounts))
 	
 	id = paste0(famid, "-", seqnames(deletion), ":", start(deletion), "-", end(deletion), ".pdf")
-	if(save==T){
+	if(save==TRUE){
 		pdf(width=30, height=8, file=id)	
 	}else{
 		dev.new(width=30, height=8)	
 	}
 	.visualizeFamily(famid, deletion, window, row_inds, col_inds, pD, mCounts)
 	dev.off()
+	return(id)
 }
 
 ### Helper functions
 .pullReads = function(bam_path, bait){
       target = bait
-      flag1 = scanBamFlag(isPaired=T, isFirstMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
-      flag2 = scanBamFlag(isPaired=T, isSecondMateRead=T, hasUnmappedMate=F, isDuplicate=F, isSecondaryAlignment=F)
+      flag1 = scanBamFlag(isPaired=TRUE, isFirstMateRead=TRUE, 
+                          hasUnmappedMate=FALSE, isDuplicate=FALSE, 
+                          isSecondaryAlignment=FALSE)
+      flag2 = scanBamFlag(isPaired=TRUE, isSecondMateRead=TRUE, 
+                          hasUnmappedMate=FALSE, isDuplicate=FALSE, 
+                          isSecondaryAlignment=FALSE)
       bam1 = scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag1, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
       bam2 = scanBam(bam_path, index=paste0(bam_path, ".bai"), param=ScanBamParam(flag=flag2, what=c("qname", "rname", "pos", "isize"), which=target))[[1]]
       
@@ -40,7 +61,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
       GR1 = GRanges(seqnames=as.character(seqnames(bait)[1]), IRanges(bam1$pos[ind], bam1$pos[ind]+99), isize=bam1$isize[ind],rn=bam1$qname[ind])
       x1 = data.frame(ord=GR1$rn)
       x2 = data.frame(ord=bam2$qname, 1:length(bam2$qname))
-      x = merge(x1, x2, sort=F, all=F, by="ord")
+      x = merge(x1, x2, sort=FALSE, all=FALSE, by="ord")
       ord=x[,2]
       GR2 = GRanges(seqnames=as.character(seqnames(bait)[1]), IRanges(bam2$pos[ord], bam2$pos[ord]+99), isize=bam2$isize[ord], rn=bam2$qname[ord])
       return(GRangesList(GR1, GR2))
@@ -79,44 +100,48 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=F){
       cands2 = .pullReads(bamids[2], bait)
       cands3 = .pullReads(bamids[3], bait)
       
-      res = mCounts[row_inds, ,drop=F];i1 = which(colnames(res)==sub$subj_id[1]); i2 = which(colnames(res)==sub$subj_id[2]); i3 = which(colnames(res)==sub$subj_id[3])
-      md1 = res[,i1,drop=F]-res[,i2,drop=F]; md2 = res[,i1,drop=F]-res[,i3,drop=F]; md = md1
+      res = mCounts[row_inds, ,drop=FALSE];i1 = which(colnames(res)==sub$subj_id[1]); i2 = which(colnames(res)==sub$subj_id[2]); i3 = which(colnames(res)==sub$subj_id[3])
+      md1 = res[,i1,drop=FALSE]-res[,i2,drop=FALSE]; md2 = res[,i1,drop=FALSE]-res[,i3,drop=FALSE]; md = md1
       md[abs(md1)>abs(md2)] = md2[abs(md1)>abs(md2)]; md = mean(md); md = round(md, 3)
       res = apply(res, 2, mean)
       res = round(res, 3)
       
-      layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, rep(10, 3)), 2, 6, byrow=T), widths=c(0.5, 0.5, rep(5, 4)), heights = c(4, 0.1))
+      layout(matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, rep(10, 3)), 2, 6, byrow=TRUE), widths=c(0.5, 0.5, rep(5, 4)), heights = c(4, 0.1))
       par(mar=rep(0,4))
       plot(c(0, 1), c(0,1), xlab="", ylab="", xaxt="n", yaxt="n", type="n", main="", xaxs="i", yaxs="i", bty="n")
       text(x=0.6, y=0.5, srt=90, paste0(famid, " - MD = ", md), cex=4, pos=3)
       plot(c(0, 1), c(0,1), xlab="", ylab="", xaxt="n", yaxt="n", type="n", main="", xaxs="i", yaxs="i", bty="n")
       text(x=0.6, y=0.5, srt=90, label, cex=4, pos=3)
-      par(xpd=NA); text(x=1.2, y=0.5, srt=90,  paste0(length(row_inds), " bins"), pos=3, cex=4); par(xpd=F)
+      par(xpd=NA); text(x=1.2, y=0.5, srt=90,  paste0(length(row_inds), " bins"), pos=3, cex=4); par(xpd=FALSE)
       par(mar=c(scale, scale*3, scale, scale))
-      hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
+      minM = quantile(res, 0.3)-1
+      maxM = quantile(res, 0.97)+1
+      plot_wid = (maxM-minM)
+      hist(res, main="", xlim=c(minM, maxM), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
+      # hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
       plot_lims = par("usr"); ylim = plot_lims[3:4]; lens = (ylim[2]-ylim[1])/30; ynotches = seq(ylim[1], ylim[2], by = lens)
-      rect(xleft=res[i1]-0.07, xright=res[i1]+0.07, 
+      rect(xleft=res[i1]-plot_wid/100, xright=res[i1]+plot_wid/100, 
            ytop=ynotches[seq(1, length(ynotches), by=3)]+lens, ybot= ynotches[seq(1, length(ynotches), by=3)], col=1)
-      rect(xleft=res[i2]-0.07, xright=res[i2]+0.07, 
+      rect(xleft=res[i2]-plot_wid/100, xright=res[i2]+plot_wid/100, 
            ytop=ynotches[seq(2, length(ynotches), by=3)]+lens, ybot= ynotches[seq(2, length(ynotches), by=3)], col=col1, bord=col1)
-      rect(xleft=res[i3]-0.07, xright=res[i3]+0.07, 
+      rect(xleft=res[i3]-plot_wid/100, xright=res[i3]+plot_wid/100, 
            ytop=ynotches[seq(3, length(ynotches), by=3)]+lens, ybot= ynotches[seq(3, length(ynotches), by=3)], col=col2, bord=col2)
       
-      par(xpd=F)
+      par(xpd=FALSE)
       par(mar=rep(5,4))
       .visualize(cands1, bait, window, "Proband", yl="", denote=res[i1], coll=1, scale=scale)
       .visualize(cands2, bait, window, "Parent 1", yl="", denote=res[i2], coll=col1, scale=scale)
       .visualize(cands3, bait, window, "Parent 2", yl="", denote=res[i3], coll=col2, scale=scale)	
       
       par(mar=rep(0,4))
-      plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")
-      plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")
-      plot(c(0,1), c(0,1), type="n", axes=F, xlab="", ylab="")
+      plot(c(0,1), c(0,1), type="n", axes=FALSE, xlab="", ylab="")
+      plot(c(0,1), c(0,1), type="n", axes=FALSE, xlab="", ylab="")
+      plot(c(0,1), c(0,1), type="n", axes=FALSE, xlab="", ylab="")
       par(xpd=NA)
-      plot(c(0,3), c(0,1), type="n", axes=F, xlab="", ylab="")
+      plot(c(0,3), c(0,1), type="n", axes=FALSE, xlab="", ylab="")
       rect(xleft=0.6, xright=0.7, ybot=1.2, ytop=1.4, bord="#ffb90f", col="#ffb90f")
       rect(xleft=1.7, xright=1.8, ybot=1.2, ytop=1.4, bord="#6495ed", col="#6495ed")
       text(x=1, y=1.3, labels="+ Strand Reads", cex=scale*.8)
       text(x=2.1, y=1.3, labels="- Strand Reads", cex=scale*.8)
-      par(xpd=F)
+      par(xpd=FALSE)
 }

@@ -23,7 +23,21 @@ calcBins(pD, n, rl, med, min, genome, map_file, seed = 1337)
 
 \item{seed}{Sets the seed so results are reproducible. Defaults to 1337}
 }
+\value{
+Returns a \code{GRanges} object depicting the dynamic bins that MDTS calculates.
+}
 \description{
 This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
+}
+\examples{
+\dontrun{
+pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
+pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
+genome = BSgenome.Hsapiens.UCSC.hg19
+map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
+bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
+}
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
 }
 \keyword{calcBins}

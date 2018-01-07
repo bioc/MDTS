@@ -13,6 +13,10 @@ denovoDeletions(cbs, mCounts, bins)
 
 \item{bins}{The set of bins determined by calcBins().}
 }
+\value{
+A \code{GRanges} object that reports all detected denovo deletions
+passing requite filters.
+}
 \description{
 This function will return a single GRanges object containing all denovo deletions 
 		that passed filtering from a Circular Binary Segmentation object with supplementary information.

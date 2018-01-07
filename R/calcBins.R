@@ -10,10 +10,21 @@
 #' @param map_file A path to the bigwig file of 100mer mappability of the corresponding genome
 #' @param seed Sets the seed so results are reproducible. Defaults to 1337
 #' @keywords calcBins
+#' @examples 
+#' \dontrun{
+#'	pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
+#'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
+#'	genome = BSgenome.Hsapiens.UCSC.hg19
+#'	map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
+#'	bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
+#'	}
+#'	setwd(system.file('extdata', package='MDTS'))
+#'	load('bins.RData')
 #' @export
+#' @return Returns a \code{GRanges} object depicting the dynamic bins that MDTS calculates.
 calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
-	pD_sub = pD[sample(1:dim(pD)[1], n, replace=F),]
+	pD_sub = pD[sample(1:dim(pD)[1], n, replace=FALSE),]
 	hasChr = FALSE
 
 	message("Reading coverage information of subsamples")
@@ -89,11 +100,11 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
       
       if(length(proto_gr_select)>0){
             message(paste0("Segmenting Chr ", chr, " Proto-regions"))
-            pb = txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
+            pb = utils::txtProgressBar(min = 0, max = length(proto_gr_select), style = 3)
             chr_out = NULL
             for(i in 1:length(proto_gr_select)){
                   chr_out = c(chr_out, .divideSegs(proto_gr_select[i], covs, rl, med))
-                  setTxtProgressBar(pb, i)
+                  utils::setTxtProgressBar(pb, i)
             }
             chr_out = do.call('c', chr_out)
       }else{

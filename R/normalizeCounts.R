@@ -1,11 +1,21 @@
 #' Calculating the normalized M scores
 #'
-#' This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.
+#' This function will return a matrix of normalized M scores where ecah column 
+#' is a sample, and each row is a bin.
 #' @param counts A matrix of raw coverage output by calcCounts().
 #' @param bins The set of bins determined by calcBins().
-#' @param mc.cores The number of cores to use for multi-threaded analysis. Defaults to 1.
+#' @param mc.cores The number of cores to use for multi-threaded analysis. 
+#' Defaults to 1.
 #' @keywords normalizeCounts
+#' @examples 
+#'	setwd(system.file('extdata', package='MDTS'))
+#'	load('bins.RData')
+#'	load('counts.RData')
+#'	load('pD.RData')
+#'	mCounts = normalizeCounts(counts, bins)
 #' @export
+#' @return A \code{data.frame} of normalized counts. Each column is a sample,
+#' and each row is a entry of \code{bins}.
 normalizeCounts = function(counts, bins, mc.cores=1){
 	message("Log Transforming Counts")
 	log_counts = log(counts+1, 2)
@@ -25,13 +35,13 @@ normalizeCounts = function(counts, bins, mc.cores=1){
 ## Helper functions
 .fitLoess = function(i, bins, full_data, adjust){
       if(adjust=="GC"){
-            control = loess.control(trace.hat="approximate")
-            res = residuals(loess(full_data[,i]~bins$GC, control = control))
+            control = stats::loess.control(trace.hat="approximate")
+            res = stats::residuals(stats::loess(full_data[,i]~bins$GC, control = control))
       }
       if(adjust=="Mappability"){
             loess_ind = which(bins$mappability<1)
             res = full_data[,i]
-            res[loess_ind] = residuals(loess(full_data[loess_ind,i]~bins$mappability[loess_ind]))
+            res[loess_ind] = stats::residuals(stats::loess(full_data[loess_ind,i]~bins$mappability[loess_ind]))
       }
       return(res)
 }

@@ -11,9 +11,22 @@ normalizeCounts(counts, bins, mc.cores = 1)
 
 \item{bins}{The set of bins determined by calcBins().}
 
-\item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
+\item{mc.cores}{The number of cores to use for multi-threaded analysis. 
+Defaults to 1.}
+}
+\value{
+A \code{data.frame} of normalized counts. Each column is a sample,
+and each row is a entry of \code{bins}.
 }
 \description{
-This function will return a matrix of normalized M scores where ecah column is a sample, and each row is a bin.
+This function will return a matrix of normalized M scores where ecah column 
+is a sample, and each row is a bin.
+}
+\examples{
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+mCounts = normalizeCounts(counts, bins)
 }
 \keyword{normalizeCounts}

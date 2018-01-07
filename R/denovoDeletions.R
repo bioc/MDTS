@@ -16,6 +16,8 @@
 #'	cbs = segmentMD(md, bins)
 #'	denovo = denovoDeletions(cbs, mCounts, bins)
 #' @export
+#' @return A \code{GRanges} object that reports all detected denovo deletions
+#' passing requite filters.
 denovoDeletions = function(cbs, mCounts, bins){
 	dels = GRanges()
 
@@ -47,7 +49,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 		count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
 		filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
 		filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
-		filtering = merge(filtering_info, filtering_info2, by="id", sort=F)
+		filtering = merge(filtering_info, filtering_info2, by="id", sort=FALSE)
 		ratios = filtering[,3]/filtering[,2]
 		cut = which(ratios>=0.5)
 		drop_ids = as.numeric(as.character(filtering$id[cut]))

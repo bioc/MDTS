@@ -20,6 +20,10 @@ segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4,
 
 \item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
 }
+\value{
+A \code{GRanges} containing the segmented regions based on the input
+minimum distance.
+}
 \description{
 This function will return a GRanges object containing the copy number 
 segments of all families in the input minimum distance matrix. It calls

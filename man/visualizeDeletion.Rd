@@ -4,7 +4,7 @@
 \alias{visualizeDeletion}
 \title{Visualization for deletions}
 \usage{
-visualizeDeletion(deletion, bins, pD, mCounts, md, save = F)
+visualizeDeletion(deletion, bins, pD, mCounts, md, save = FALSE)
 }
 \arguments{
 \item{deletion}{A GRanges object in the format of the output of denovoDeletions().}
@@ -19,7 +19,25 @@ visualizeDeletion(deletion, bins, pD, mCounts, md, save = F)
 
 \item{save}{If TRUE will save plot to current working directory instead of rendering.}
 }
+\value{
+The file name if the plot was saved.
+}
 \description{
 This function plots the raw read information from the location of interest for a family.
+}
+\examples{
+\dontrun{
+setwd(system.file('extdata', package='MDTS'))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
+mCounts = normalizeCounts(counts, bins)
+md = calcMD(mCounts, bins, pD)
+cbs = segmentMD(md, bins)
+denovo = denovoDeletions(cbs, mCounts, bins)
+pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
+visualizeDeletion(denovo[1], bins, pD, mCounts, md)
+}
+
 }
 \keyword{visualizeDeletion}

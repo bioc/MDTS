@@ -2,9 +2,13 @@
 #'
 #' This function allows constructor of phenotype information necessary for downstream analysis. See format of required fields. Function will also rearrange the rows such that trios are grouped together - with proband first, mother second, and father third. 
 #' @param path The path to tab-delimited file storing the phenotype information.
+#' @examples 
+#'	system.file('extdata', package='MDTS')
+#'	pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
 #' @export
+#' @return Returns a \code{data.frame} of required sample information for running MDTS.
 pData <- function(path){
-	tab = read.table(path, header=T, colClasses = "character")
+	tab = utils::read.table(path, header=TRUE, colClasses = "character")
 	col_ind = match(c("subj_id", "family_id", "father_id", "mother_id", "gender", "bam_path"), colnames(tab))
 	tab_selected = tab[,col_ind]
 	proband_id = sort(tab_selected$subj_id[tab_selected$father_id %in% tab_selected$subj_id & 

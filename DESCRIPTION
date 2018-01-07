@@ -4,7 +4,7 @@ Version: 0.99.0
 Maintainer: Jack Fu <jmfu@jhsph.edu>
 Author: Jack Fu <jmfu@jhsph.edu>
 Description: What the package does (one paragraph).
-Depends: R (>= 3.3.0),
+Depends: R (>= 3.4.0),
 	GenomicRanges,
 	Rsamtools
 Imports: utils,
@@ -23,3 +23,4 @@ License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
+biocViews: StatisticalMethod, Technology, Sequencing, TargetedResequencing, Coverage, DataImport
