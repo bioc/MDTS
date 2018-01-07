@@ -1,6 +1,7 @@
 #' Calculating the Minimum Distance matrix
 #'
-#' This function will return a matrix of minimum distances where ecah column is a family, and each row is a bin.
+#' This function will return a matrix of minimum distances where ecah column is 
+#' a family, and each row is a bin.
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
 #' @param pData A table in the format of the output of pData().
 #' @param bins The set of bins determined by calcBins().

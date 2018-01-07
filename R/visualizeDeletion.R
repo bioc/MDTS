@@ -1,12 +1,15 @@
 #' Visualization for deletions
 #'
-#' This function plots the raw read information from the location of interest for a family.
-#' @param deletion A GRanges object in the format of the output of denovoDeletions().
+#' This function plots the raw read information from the location of interest 
+#' for a trio.
+#' @param deletion A GRanges object in the format of the output of 
+#' denovoDeletions().
 #' @param bins The set of bins determined by calcBins().
 #' @param pD A table in the format of the output of pData().
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
 #' @param md The minimum distance matrix output by calcMD()
-#' @param save If TRUE will save plot to current working directory instead of rendering.
+#' @param save If TRUE will save plot to current working directory instead of 
+#' rendering.
 #' @import Rsamtools
 #' @keywords visualizeDeletion
 #' @examples 
@@ -22,7 +25,6 @@
 #'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
 #'	visualizeDeletion(denovo[1], bins, pD, mCounts, md)
 #'	}
-#'	
 #' @return The file name if the plot was saved.
 #' @export
 visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){

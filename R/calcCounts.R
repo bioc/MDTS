@@ -9,7 +9,6 @@
 #' @examples 
 #' \dontrun{
 #'	pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
-#'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
 #'	genome = BSgenome.Hsapiens.UCSC.hg19
 #'	map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
 #'	bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)

@@ -1,19 +1,23 @@
 #' Sample driven calculation of bins for counting
 #'
-#' This function will randomly select a sample of bam files to calculate a range of bins to calculate read-depth on
-#' @param pD A table in the format of the output of pData()
-#' @param n The number of subsamples to use
-#' @param rl The read length of the experiment
-#' @param med The median number of reads across sub-samples to reach before creating a new bin
-#' @param min The miminum number of coverage across all sub-samples required to create the proto-region
-#' @param genome The BSGenome object that assists in calculations of the GC content of the bins
-#' @param map_file A path to the bigwig file of 100mer mappability of the corresponding genome
-#' @param seed Sets the seed so results are reproducible. Defaults to 1337
+#' This function will randomly select a sample of bam files to calculate dynamic
+#' MDTS bins for subsequent read-depth analysis.
+#' @param pD A table in the format of the output of pData().
+#' @param n The number of subsamples to use.
+#' @param rl The read length of the experiment.
+#' @param med The median number of reads across sub-samples to reach before 
+#' creating a new bin.
+#' @param min The miminum number of coverage across all sub-samples required to 
+#' create the proto-region.
+#' @param genome The BSGenome object that assists in calculations of the GC 
+#' content of the bins.
+#' @param map_file A path to the bigwig file of 100mer mappability of the 
+#' corresponding genome.
+#' @param seed Sets the seed so results are reproducible. Defaults to 1337.
 #' @keywords calcBins
 #' @examples 
 #' \dontrun{
 #'	pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
-#'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
 #'	genome = BSgenome.Hsapiens.UCSC.hg19
 #'	map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
 #'	bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
