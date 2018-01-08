@@ -95,9 +95,10 @@ counts = calcCounts(pD, bins, rl=100)
 
 The MDTS bins, raw counts, and pedigree files are included with `MDTS` and can be loaded as follows:
 ```{r, message=FALSE, warning=F}
-load(system.file("extdata", 'bins.RData', package = "MDTS"))
-load(system.file("extdata", 'counts.RData', package = "MDTS"))
-load(system.file("extdata", 'pD.Rdata', package = "MDTS"))
+setwd(system.file("extdata", package="MDTS"))
+load('bins.RData')
+load('counts.RData')
+load('pD.RData')
 ```
 The MDTS bins are
 ```{r}
