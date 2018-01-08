@@ -37,22 +37,23 @@ denovoDeletions = function(cbs, mCounts, bins){
 	print("Filtering candidates by problematic bins")
 	ol_filter = IRanges::findOverlaps(candidate, bins_filter)
 	ol_bins = IRanges::findOverlaps(candidate, bins)
-	if(length(ol_filter)>0){
-		count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
-		count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
-		filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
-		filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
-		filtering = merge(filtering_info, filtering_info2, by="id", sort=FALSE)
-		ratios = filtering[,3]/filtering[,2]
-		cut = which(ratios>=0.5)
-		drop_ids = as.numeric(as.character(filtering$id[cut]))
-		if(length(drop_ids)>0){
-		      dels = candidate[-drop_ids]
-		}else{
-		      dels = candidate
-		}
-	}else{
-		dels = candidate
-	}
-	return(dels)
+	# if(length(ol_filter)>0){
+	# 	count_filter = by(rep(1, length(ol_filter)), queryHits(ol_filter), sum)
+	# 	count_bins = by(rep(1, length(ol_bins)), queryHits(ol_bins), sum)
+	# 	filtering_info = data.frame(id = names(count_bins), count_base = as.numeric(count_bins))
+	# 	filtering_info2 = data.frame(id = names(count_filter), count_filter = as.numeric(count_filter))
+	# 	filtering = merge(filtering_info, filtering_info2, by="id", sort=FALSE)
+	# 	ratios = filtering[,3]/filtering[,2]
+	# 	cut = which(ratios>=0.5)
+	# 	drop_ids = as.numeric(as.character(filtering$id[cut]))
+	# 	if(length(drop_ids)>0){
+	# 	      dels = candidate[-drop_ids]
+	# 	}else{
+	# 	      dels = candidate
+	# 	}
+	# }else{
+	# 	dels = candidate
+	# }
+	# return(dels)
+	return(candidate)
 }

@@ -3,6 +3,7 @@
 #' @name MDTS-package
 #' @aliases MDTS
 #' @docType package
+#' @import IRanges
 #' @import GenomicRanges
 #' @import DNAcopy
 #' @import stringr
