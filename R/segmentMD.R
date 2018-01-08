@@ -22,8 +22,9 @@
 #' @return A \code{GRanges} containing the segmented regions based on the input
 #' minimum distance.
 segmentMD = function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4, mc.cores=1){
-	family_segments = mclapply(1:dim(md)[2], .segmentMDCore, md, bins, 
-	                           alpha=alpha, undo.splits = undo.splits, undo.SD=undo.SD, mc.cores=mc.cores)
+	family_segments = mclapply(1:(dim(md)[2]), .segmentMDCore, 
+            md=md, bins=bins, alpha=alpha, undo.splits = undo.splits, undo.SD=undo.SD, 
+            mc.cores=mc.cores)
 	return(do.call(c, family_segments))
 }
 
@@ -31,14 +32,17 @@ segmentMD = function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4, mc.
 .segmentMDCore = function(i, md, bins, alpha, undo.splits, undo.SD){
       set.seed(137)
       message(paste0("Processing family number: ", i))
-      cna = CNA(genomdat=md[,i,drop=FALSE], chrom=as.vector(seqnames(bins)),
-                maploc=start(bins), data.type="logratio", sampleid=colnames(md), presorted=TRUE)
-      cbs = segment(cna, alpha=alpha, undo.splits=undo.splits, undo.SD=undo.SD, verbose=0)
+      md_sub = md[,i,drop=FALSE]
+      cna = CNA(genomdat=md_sub, chrom=as.vector(seqnames(bins)),
+                maploc=start(bins), data.type="logratio", 
+                sampleid=colnames(md_sub), presorted=TRUE)
+      cbs = segment(cna, alpha=alpha, undo.splits=undo.splits, undo.SD=undo.SD)
       
       segRows = cbs$segRows
-      gr = GRanges(seqnames=cbs$output$chrom, 
-                   IRanges(start(bins)[segRows[,1]], end(bins)[segRows[,2]]), 
-                   m=cbs$output$seg.mean, 
-                   famid=colnames(md)[i])
+      gr = GRanges(seqnames=seqnames(bins)[segRows[,1]],
+                   IRanges(GenomicRanges::start(bins)[segRows[,1]], 
+                           GenomicRanges::end(bins)[segRows[,2]]),
+                   m=cbs$output$seg.mean,
+                   famid=colnames(md_sub))
       return(gr)
 }

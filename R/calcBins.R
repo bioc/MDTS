@@ -35,8 +35,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	message("Reading coverage information of subsamples")
 	covs = list()
 	for(i in 1:length(pD_sub$bam_path)){
-		GR=BAM2GRanges(pD_sub$bam_path[i])
-		reads = coverage(GR)
+	      reads = .extractCov(pD_sub$bam_path[i])
 		if(sum(str_detect(names(reads), "chr"))>0){
 			hasChr=TRUE
 		}
@@ -90,6 +89,12 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 }
 
 ## Helper functions
+.extractCov = function(path){
+      flag = scanBamFlag(isUnmappedQuery = FALSE, isDuplicate = FALSE)
+      param = ScanBamParam(what = character(), flag=flag)      
+      ga = readGAlignments(path, param=param)
+      return(coverage(ga))
+}
 .processChr = function(chr, proto_info, covs, rl, med){
       message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region = proto_info[[chr]]

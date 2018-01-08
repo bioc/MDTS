@@ -10,7 +10,6 @@
 #' @param md The minimum distance matrix output by calcMD()
 #' @param save If TRUE will save plot to current working directory instead of 
 #' rendering.
-#' @import Rsamtools
 #' @keywords visualizeDeletion
 #' @examples 
 #' \dontrun{

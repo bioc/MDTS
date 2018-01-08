@@ -4,15 +4,19 @@
 \alias{normalizeCounts}
 \title{Calculating the normalized M scores}
 \usage{
-normalizeCounts(counts, bins, mc.cores = 1)
+normalizeCounts(counts, bins, GC = TRUE, map = TRUE, mc.cores = 1)
 }
 \arguments{
 \item{counts}{A matrix of raw coverage output by calcCounts().}
 
 \item{bins}{The set of bins determined by calcBins().}
 
-\item{mc.cores}{The number of cores to use for multi-threaded analysis. 
+\item{GC}{Whether to loess adjust for GC. Defaults to TRUE.}
+
+\item{map}{Whether to loess adjust for mappability. Defaults to TRUE.
 Defaults to 1.}
+
+\item{mc.cores}{The number of cores to use for multi-threaded analysis.}
 }
 \value{
 A \code{data.frame} of normalized counts. Each column is a sample,

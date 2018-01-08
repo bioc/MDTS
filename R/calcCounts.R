@@ -20,7 +20,7 @@
 #' @return A \code{data.frame} that contains the counts for each sample in the 
 #' \code{pData} input that fall into each segment of \code{bins}.
 calcCounts <- function(pData, bins, rl, mc.cores=1){
-	cov_list = mclapply(pData$bam_path, .countHelper, bins, mc.cores=mc.cores)
+	cov_list = mclapply(pData$bam_path, .extractCovBins, bins, mc.cores=mc.cores)
 	cov_matrix = do.call(cbind, cov_list)
 	colnames(cov_matrix) = pData$subj_id
 	count_matrix = cov_matrix*width(bins)/rl
@@ -28,10 +28,14 @@ calcCounts <- function(pData, bins, rl, mc.cores=1){
 }
 
 ## Helper function
-.countHelper = function(path, bins){
-      GR=BAM2GRanges(path)
-      reads = coverage(GR)
-      reads = reads[match(seqlevels(bins), names(reads))]
-      binned = binnedAverage(bins, reads, "count")
+.extractCovBins = function(path, target){
+      flag = scanBamFlag(isUnmappedQuery = FALSE, isDuplicate = FALSE)
+      param = ScanBamParam(what=character(), flag=flag)      
+      ga = readGAlignments(path, param=param)
+      cov = coverage(ga)
+      cov = cov[match(seqlevels(target), names(cov))]
+      binned = binnedAverage(target, cov, "count")
       return(binned$count)
 }
+
+

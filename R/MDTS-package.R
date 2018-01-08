@@ -4,11 +4,9 @@
 #' @aliases MDTS
 #' @docType package
 #' @import GenomicRanges
-#' @import IRanges
-#' @import S4Vectors
-#' @import Repitools
-#' @import stringr
-#' @import methods
 #' @import DNAcopy
 #' @import stringr
+#' @import Rsamtools
+#' @import stats
+#' @import GenomicAlignments
 NULL

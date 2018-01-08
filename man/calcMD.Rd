@@ -4,12 +4,10 @@
 \alias{calcMD}
 \title{Calculating the Minimum Distance matrix}
 \usage{
-calcMD(mCounts, bins, pData)
+calcMD(mCounts, pData)
 }
 \arguments{
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}
-
-\item{bins}{The set of bins determined by calcBins().}
 
 \item{pData}{A table in the format of the output of pData().}
 }

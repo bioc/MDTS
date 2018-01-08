@@ -1,22 +1,20 @@
 Package: MDTS
 Title: Detection of de novo deletion in targeted sequencing trios
-Version: 0.99.0
+Version: 0.99.1
 Maintainer: Jack Fu <jmfu@jhsph.edu>
 Author: Jack Fu <jmfu@jhsph.edu>
 Description: A package for the detection of de novo copy number deletions in targeted sequencing of trios with high sensitivity and positive predictive value.
-Depends: R (>= 3.5.0),
-	GenomicRanges,
-	Rsamtools
-Imports: utils,
+Depends: R (>= 3.5.0)
+Imports: GenomicRanges,
+      Rsamtools,
+      utils,
 	stats,
-	IRanges,
-	S4Vectors,
 	methods,
 	stringr,
-	DNAcopy,
-	Repitools
-Suggests: testthat,
 	parallel,
+	DNAcopy,
+	GenomicAlignments
+Suggests: testthat,
 	knitr
 VignetteBuilder: knitr
 License: Artistic-2.0

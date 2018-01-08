@@ -12,8 +12,6 @@ vignette: >
 
 MDTS provides the necessary infrastructure to take raw bam files of targeted sequencing trios to produce de novo deletion calls of high sensitivity and low false positives. Our method benefits tremendously from pooling information from across many trios to determine regions of interest, normalize read-depth, and to filter candidate deletion signals.
 
-[What else is on BioC for targeted/etc.]
-
 MDTS is broken down into the following major steps:
 
 1. Calculating the MDTS bins
@@ -133,7 +131,7 @@ To calculate the Minimum Distance of the dataset, MDTS takes as input the M scor
 # mCounts is the normalized read depth of [MDTS bins x samples]
 # bins is the previously calculated MDTS bins
 # pD is the phenotype matrix
-md = calcMD(mCounts, bins, pD)
+md = calcMD(mCounts, pD)
 ```
 
 ## 5. Call de novo deletions and filter
@@ -144,14 +142,14 @@ Using the Minimum Distance matrix calculated above, MDTS uses the tried and true
 # md is the Minimum Distance of [MDTS bins x trio]
 # bins is the previously calculated MDTS bins
 # mCounts is the normalized read depth of [MDTS bins x samples]
-cbs = segmentMD(md, bins)
+cbs = segmentMD(md=md, bins=bins)
 denovo = denovoDeletions(cbs, mCounts, bins)
 ```
 
 In our example, the final output is a single detected de novo deletion in family F4:
 
 ```{r}
-denovo
+# denovo
 ```
 
 No signals were picked up from the CNP region or elsewhere.
