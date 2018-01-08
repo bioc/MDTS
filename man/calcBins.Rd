@@ -28,7 +28,8 @@ corresponding genome.}
 \item{seed}{Sets the seed so results are reproducible. Defaults to 1337.}
 }
 \value{
-Returns a \code{GRanges} object depicting the dynamic bins that MDTS calculates.
+Returns a \code{GRanges} object depicting the dynamic bins that MDTS 
+calculates.
 }
 \description{
 This function will randomly select a sample of bam files to calculate dynamic

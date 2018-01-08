@@ -25,7 +25,8 @@
 #'	setwd(system.file('extdata', package='MDTS'))
 #'	load('bins.RData')
 #' @export
-#' @return Returns a \code{GRanges} object depicting the dynamic bins that MDTS calculates.
+#' @return Returns a \code{GRanges} object depicting the dynamic bins that MDTS 
+#' calculates.
 calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
 	set.seed(seed)
 	pD_sub = pD[sample(1:dim(pD)[1], n, replace=FALSE),]
