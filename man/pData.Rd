@@ -20,6 +20,5 @@ rearrange the rows such that trios are grouped together - with proband first,
 mother second, and father third.
 }
 \examples{
-system.file('extdata', package='MDTS')
 pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
 }

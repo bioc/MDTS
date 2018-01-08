@@ -23,10 +23,9 @@ deletions that passed filtering from a Circular Binary Segmentation object
 with supplementary information.
 }
 \examples{
-setwd(system.file('extdata', package='MDTS'))
-load('bins.RData')
-load('counts.RData')
-load('pD.RData')
+load(system.file("extdata", 'bins.RData', package = "MDTS"))
+load(system.file("extdata", 'counts.RData', package = "MDTS"))
+load(system.file("extdata", 'pD.Rdata', package = "MDTS"))
 mCounts = normalizeCounts(counts, bins)
 md = calcMD(mCounts, pD)
 cbs = segmentMD(md, bins)

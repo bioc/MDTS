@@ -10,10 +10,9 @@
 #' Defaults to 1.
 #' @keywords normalizeCounts
 #' @examples 
-#'	setwd(system.file('extdata', package='MDTS'))
-#'	load('bins.RData')
-#'	load('counts.RData')
-#'	load('pD.RData')
+#'	load(system.file("extdata", 'bins.RData', package = "MDTS"))
+#'	load(system.file("extdata", 'counts.RData', package = "MDTS"))
+#'	load(system.file("extdata", 'pD.Rdata', package = "MDTS"))
 #'	mCounts = normalizeCounts(counts, bins)
 #' @export
 #' @return A \code{data.frame} of normalized counts. Each column is a sample,

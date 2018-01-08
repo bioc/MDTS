@@ -6,7 +6,6 @@
 #' mother second, and father third. 
 #' @param path The path to tab-delimited file storing the phenotype information.
 #' @examples 
-#'	system.file('extdata', package='MDTS')
 #'	pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
 #' @export
 #' @return Returns a \code{data.frame} of required sample information for 

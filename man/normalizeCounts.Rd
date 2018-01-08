@@ -27,10 +27,9 @@ This function will return a matrix of normalized M scores where ecah column
 is a sample, and each row is a bin.
 }
 \examples{
-setwd(system.file('extdata', package='MDTS'))
-load('bins.RData')
-load('counts.RData')
-load('pD.RData')
+load(system.file("extdata", 'bins.RData', package = "MDTS"))
+load(system.file("extdata", 'counts.RData', package = "MDTS"))
+load(system.file("extdata", 'pD.Rdata', package = "MDTS"))
 mCounts = normalizeCounts(counts, bins)
 }
 \keyword{normalizeCounts}
