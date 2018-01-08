@@ -18,7 +18,7 @@
 #'	load('counts.RData')
 #'	load('pD.RData')
 #'	mCounts = normalizeCounts(counts, bins)
-#'	md = calcMD(mCounts, bins, pD)
+#'	md = calcMD(mCounts, pD)
 #'	cbs = segmentMD(md, bins)
 #'	denovo = denovoDeletions(cbs, mCounts, bins)
 #'	pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
@@ -115,8 +115,8 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
       text(x=0.6, y=0.5, srt=90, label, cex=4, pos=3)
       par(xpd=NA); text(x=1.2, y=0.5, srt=90,  paste0(length(row_inds), " bins"), pos=3, cex=4); par(xpd=FALSE)
       par(mar=c(scale, scale*3, scale, scale))
-      minM = quantile(res, 0.3)-1
-      maxM = quantile(res, 0.97)+1
+      minM = stats::quantile(res, 0.3)-1
+      maxM = stats::quantile(res, 0.97)+1
       plot_wid = (maxM-minM)
       hist(res, main="", xlim=c(minM, maxM), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")
       # hist(res, main="", xlim=c(-6.5, 2.5), breaks=seq(-10, 5, by=0.35), ylab="Hist M Scores", col="grey", cex.lab=scale*.8, cex.axis=scale*.7, cex.main=scale, cex.sub=scale, xlab="")

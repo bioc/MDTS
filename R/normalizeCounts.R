@@ -21,8 +21,8 @@
 normalizeCounts = function(counts, bins, GC=TRUE, map=TRUE, mc.cores=1){
 	message("Log Transforming Counts")
 	log_counts = log(counts+1, 2)
-	intermediate = t(t(log_counts) - apply(log_counts, 2, median))
-	res = intermediate - apply(intermediate, 1, median)
+	intermediate = t(t(log_counts) - apply(log_counts, 2, stats::median))
+	res = intermediate - apply(intermediate, 1, stats::median)
 	if(GC==TRUE){
 	      message("GC Adjust")
 	      res = do.call(cbind, mclapply(1:dim(counts)[2], .fitLoess, bins, res, "GC", mc.cores=mc.cores))      

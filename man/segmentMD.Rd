@@ -21,7 +21,8 @@ segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4,
 \item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
 }
 \value{
-A \code{GRanges} containing the segmented regions based on the input
+A \code{data.frame} containing the segmented regions based to be
+parsed by denovoDeletions()
 minimum distance.
 }
 \description{
@@ -35,7 +36,7 @@ load('bins.RData')
 load('counts.RData')
 load('pD.RData')
 mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, bins, pD)
+md = calcMD(mCounts, pD)
 cbs = segmentMD(md, bins)
 }
 \keyword{segmentMD}

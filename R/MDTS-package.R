@@ -3,11 +3,13 @@
 #' @name MDTS-package
 #' @aliases MDTS
 #' @docType package
-#' @import IRanges
+#' @import parallel
 #' @import GenomicRanges
 #' @import DNAcopy
 #' @import stringr
 #' @import Rsamtools
-#' @import stats
 #' @import GenomicAlignments
+#' @import stringr
+#' @import methods
+#' @import IRanges
 NULL

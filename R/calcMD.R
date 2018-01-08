@@ -11,7 +11,7 @@
 #'	load('counts.RData')
 #'	load('pD.RData')
 #'	mCounts = normalizeCounts(counts, bins)
-#'	md = calcMD(mCounts, bins, pD)
+#'	md = calcMD(mCounts, pD)
 #' @export
 #' @return A \code{data.frame} of minimum distances. Each column is a trio,
 #' while each row is an entry in \code{bins}

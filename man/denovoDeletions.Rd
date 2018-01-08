@@ -7,8 +7,7 @@
 denovoDeletions(cbs, mCounts, bins)
 }
 \arguments{
-\item{cbs}{The GRanges output from segmentMD() that contains the copy number 
-segments of the families.}
+\item{cbs}{The output from segmentMD().}
 
 \item{mCounts}{The normalized counts matrix output by normalizeCounts().}
 
@@ -29,7 +28,7 @@ load('bins.RData')
 load('counts.RData')
 load('pD.RData')
 mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, bins, pD)
+md = calcMD(mCounts, pD)
 cbs = segmentMD(md, bins)
 denovo = denovoDeletions(cbs, mCounts, bins)
 }

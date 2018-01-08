@@ -104,7 +104,7 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
       proto_gr_covs = lapply(proto_gr_covs_rle, function(x) lapply(x, sum))
       proto_gr_covs_mat = apply(do.call(rbind, proto_gr_covs), 2, as.numeric)
       proto_gr_covs_mat_normed = t(t(proto_gr_covs_mat)/rl)
-      proto_gr_covs_mat_med = apply(proto_gr_covs_mat_normed, 2, median)
+      proto_gr_covs_mat_med = apply(proto_gr_covs_mat_normed, 2, stats::median)
       proto_gr$reads = proto_gr_covs_mat_med
       proto_gr_select = proto_gr[proto_gr$reads>=med]
       
@@ -135,14 +135,14 @@ calcBins <- function(pD, n, rl, med, min, genome, map_file, seed=1337){
       cov_sub_mat = do.call(rbind, lapply(cov_sub, .extractCounts))
       
       cov_sub_cs_normed = t(apply(cov_sub_mat, 1, cumsum))/rl
-      medz = apply(cov_sub_cs_normed, 2, median)
+      medz = apply(cov_sub_cs_normed, 2, stats::median)
       while(max(medz)>=med){
             cut = which(medz>=med)[1]
             output = rbind(output, c(cut, medz[cut]))
             count = count+1; j = sum(output[,1])+1
             cov_sub_cs = t(apply(cov_sub_mat[,j:dim(cov_sub_mat)[2]], 1, cumsum))
             cov_sub_cs_normed = cov_sub_cs/rl
-            medz = apply(cov_sub_cs_normed, 2, median)
+            medz = apply(cov_sub_cs_normed, 2, stats::median)
       }
       output = rbind(output, c(width(seg)-sum(output[,1]), max(medz)))
 

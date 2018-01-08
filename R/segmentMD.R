@@ -16,7 +16,7 @@
 #'	load('counts.RData')
 #'	load('pD.RData')
 #'	mCounts = normalizeCounts(counts, bins)
-#'	md = calcMD(mCounts, bins, pD)
+#'	md = calcMD(mCounts, pD)
 #'	cbs = segmentMD(md, bins)
 #' @export
 #' @return A \code{data.frame} containing the segmented regions based to be
