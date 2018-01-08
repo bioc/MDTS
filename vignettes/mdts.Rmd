@@ -149,7 +149,7 @@ denovo = denovoDeletions(cbs, mCounts, bins)
 In our example, the final output is a single detected de novo deletion in family F4:
 
 ```{r}
-# denovo
+denovo
 ```
 
 No signals were picked up from the CNP region or elsewhere.
