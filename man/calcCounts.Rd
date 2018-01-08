@@ -29,8 +29,8 @@ genome = BSgenome.Hsapiens.UCSC.hg19
 map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
 bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
 }
-setwd(system.file('extdata', package='MDTS'))
-load('bins.RData')
-load('counts.RData')
+load(system.file("extdata", 'bins.RData', package = "MDTS"))
+load(system.file("extdata", 'counts.RData', package = "MDTS"))
+counts
 }
 \keyword{calcCounts}
