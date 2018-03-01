@@ -14,11 +14,12 @@ segmentMD(md, bins, alpha = 0.001, undo.splits = "sdundo", undo.SD = 4,
 
 \item{alpha}{Controls the alpha option in calling DNAcopy::segment()}
 
-\item{undo.splits}{Controls the undo.splits option in calling DNAcopy::segment()}
+\item{undo.splits}{Controls the undo.splits option in DNAcopy::segment()}
 
 \item{undo.SD}{Controls the undo.SD option in calling DNAcopy::segment()}
 
-\item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
+\item{mc.cores}{The number of cores to use for multi-threaded analysis. 
+Defaults to 1.}
 }
 \value{
 A \code{data.frame} containing the segmented regions based to be
@@ -28,14 +29,14 @@ minimum distance.
 \description{
 This function will return a GRanges object containing the copy number 
 segments of all families in the input minimum distance matrix. It calls
-segment() from DNAcopy with (alpha=0.001, undo.splits="sdundo", undo.SD=4).
+segment() from DNAcopy (alpha=0.001, undo.splits="sdundo", undo.SD=4).
 }
 \examples{
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
-mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, pD)
-cbs = segmentMD(md, bins)
+mCounts <- normalizeCounts(counts, bins)
+md <- calcMD(mCounts, metaData)
+cbs <- segmentMD(md, bins)
 }
 \keyword{segmentMD}

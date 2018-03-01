@@ -30,6 +30,6 @@ is a sample, and each row is a bin.
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
-mCounts = normalizeCounts(counts, bins)
+mCounts <- normalizeCounts(counts, bins)
 }
 \keyword{normalizeCounts}

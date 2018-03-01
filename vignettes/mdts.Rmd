@@ -10,7 +10,11 @@ vignette: >
 
 ## Overview
 
-MDTS provides the necessary infrastructure to take raw bam files of targeted sequencing trios to produce de novo deletion calls of high sensitivity and low false positives. Our method benefits tremendously from pooling information from across many trios to determine regions of interest, normalize read-depth, and to filter candidate deletion signals.
+MDTS provides the necessary infrastructure to take raw bam files of targeted 
+sequencing trios to produce de novo deletion calls of high sensitivity and low 
+false positives. Our method benefits tremendously from pooling information from 
+across many trios to determine regions of interest, normalize read-depth, and to
+filter candidate deletion signals.
 
 MDTS is broken down into the following major steps:
 
@@ -22,12 +26,9 @@ MDTS is broken down into the following major steps:
 
 ## Raw Data
 
-The raw example sequencing data used in this vignette can be obtained from the github repo `jmf47/MDTSdata` using:
-```{r, eval=FALSE}
-devtools::install_github('jmf47/MDTSdata')
-```
-
-It includes:
+Preprocessed sample data is included with the package `MDTS`, but should you be 
+interested in the raw files, they can be found in the github repo 
+`jmf47/MDTSdata`. It includes:
 
 1. 21 simulated bam files (7 trios)
       + Sequencing read length of 100bp 
@@ -45,18 +46,38 @@ pD
 ```
 
 
-Slighly processed versions of the data is included with `MDTS`. To obtain the raw data use:
+Slighly processed versions of the data is included with `MDTS`. To obtain the 
+raw data use:
 
 
 ## 1. Calculating MDTS Bins
 
-One innovation of our method is that the bins to determine sequencing read depth is calculated based on the empirical capture. These bins can be significantly different from the standard practice of using probe design coordinates to create bins. Furthermore, our binning process allows the bins to be smaller in regions of high capture, and vice verse in low capture. This dynamic scaling of the bin size makes efficient use of varying depths of coverage - allowing us to call deletions with finer resolution in areas of higher coverage.
+One innovation of our method is that the bins to determine sequencing read depth
+is calculated based on the empirical capture. These bins can be significantly 
+different from the standard practice of using probe design coordinates to create
+bins. Furthermore, our binning process allows the bins to be smaller in regions 
+of high capture, and vice verse in low capture. This dynamic scaling of the bin 
+size makes efficient use of varying depths of coverage - allowing us to call 
+deletions with finer resolution in areas of higher coverage.
 
-The general approach is first to examine the mapped coverage of a subset of the full dataset across the entire genome. Basepairs that are covered passed a certain threshold in at least one sample is selected as a proto-region. Proto-regions are subdvided into non-overlapping bins such that the median number of reads falling into each bin meets a specified level spcified by the *med* parameter. The choice of *med* is a tradeoff between sensitivity and false positives. A larger *med* decreases sensitivity and false positives. For our publication, we used *med=160*, and for this example we used *med=100*.
+The general approach is first to examine the mapped coverage of a subset of the 
+full dataset across the entire genome. Basepairs that are covered passed a 
+certain threshold in at least one sample is selected as a proto-region. 
+Proto-regions are subdvided into non-overlapping bins such that the median 
+number of reads falling into each bin meets a specified level spcified by the 
+*med* parameter. The choice of *med* is a tradeoff between sensitivity and false
+positives. A larger *med* decreases sensitivity and false positives. For our 
+publication, we used *med=160*, and for this example we used *med=100*.
 
-Information on GC content and mappability of the bins are also calculated at this stage. As a result, MDTS requires a BSgenome object that is consistent with the reference annotation the bam files were aligned to, as well as a mappability bigwig that contains mappability information in windows consistent with sequencing read length. In our example, we require `BSgenome.Hsapiesn.UCSC.hg19` and 100mer mappability.
+Information on GC content and mappability of the bins are also calculated at 
+this stage. As a result, MDTS requires a BSgenome object that is consistent with
+the reference annotation the bam files were aligned to, as well as a mappability
+bigwig that contains mappability information in windows consistent with 
+sequencing read length. In our example, we require `BSgenome.Hsapiesn.UCSC.hg19`
+and 100mer mappability.
 
-This portion of the vignette requires using raw data from `MDTSData`. However the resulting bins are included in the `data` directory of MDTS as a `.RData`.
+This portion of the vignette requires using raw data from `MDTSData`. However 
+the resulting bins are included in the `data` directory of MDTS as a `.RData`.
 
 ```{r, echo=FALSE, message=FALSE}
 library(MDTS)
@@ -67,24 +88,31 @@ library(MDTS); library(BSgenome.Hsapiens.UCSC.hg19)
 # Using the raw data from MDTSData
 setwd(system.file("data", package="MDTSData")) 
 
-# Importing the pedigree file that includes information on where to locate the raw bam files
-pD = pData("pD.ped")
+# Importing the pedigree file that includes information on where to locate the 
+# raw bam files
+pD = getMetaData("pD.ped")
 
-# Information on the GC content and mappability to estimate GC and mappability for the MDTS bins
+# Information on the GC content and mappability to estimate GC and mappability 
+# for the MDTS bins
 genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
 
 # This command now subsets 5 samples to determine MDTS bins
 # pD is the phenotype matrix
 # n is the number of samples to examine to calculate the bins
 # rl is the sequencing read length
-# min is the minimum read depth before a location is to be included in a proto region
-# med is the minimum number of the median number of reads across the n samples in a bin.
+# min is the minimum read depth for a location to be included in a proto region
+# med is the median number of reads across the n samples in a bin.
 bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
 ```
 
 ## 2. Calculating coverage of MDTS bins
 
-Given a set of dynamic MDTS bins, we can proceed to calculate the number of reads that fall into these bins for the entirety of our sample. We organize the number of reads as a matrix, where each column is a sample, and each row corresponds to a bin. This portion of the vignette is a continuation of the usage of the raw data from `MDTSdata` above. However the resulting `counts` matrix is also shipped as a `rda` in `MDTS`.
+Given a set of dynamic MDTS bins, we can proceed to calculate the number of 
+reads that fall into these bins for the entirety of our sample. We organize the 
+number of reads as a matrix, where each column is a sample, and each row 
+corresponds to a bin. This portion of the vignette is a continuation of the 
+usage of the raw data from `MDTSdata` above. However the resulting `counts` 
+matrix is also shipped as a `rda` in `MDTS`.
 
 ```{r, eval=F}
 # pD is the phenotype matrix
@@ -93,7 +121,8 @@ Given a set of dynamic MDTS bins, we can proceed to calculate the number of read
 counts = calcCounts(pD, bins, rl=100)
 ```
 
-The MDTS bins, raw counts, and pedigree files are included with `MDTS` and can be loaded as follows:
+The MDTS bins, raw counts, and pedigree files are included with `MDTS` and can 
+be loaded as follows:
 ```{r, message=FALSE, warning=F}
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
@@ -110,7 +139,12 @@ head(counts)
 
 ## 3. Normalizing the read-depth
 
-After obtaining the raw read-depth matrix, MDTS calculates a vector M score matrix of the same organization - each row corresponds to a row and each column a sample. The M score is based on a log2 transformation, followed by median polish, and GC and mappability adjust via a loess smoother. The resulting M scores have critical values where (0, -1, <-4) are generally consistent with 2, 1, and 0 copy numbers [barring Copy Number Polymorphisms].
+After obtaining the raw read-depth matrix, MDTS calculates a vector M score 
+matrix of the same organization - each row corresponds to a row and each column 
+a sample. The M score is based on a log2 transformation, followed by median 
+polish, and GC and mappability adjust via a loess smoother. The resulting M 
+scores have critical values where (0, -1, <-4) are generally consistent with 2, 
+1, and 0 copy numbers [barring Copy Number Polymorphisms].
 
 ```{r, warning=F}
 # counts is the raw read depth of [MDTS bins x samples]
@@ -120,11 +154,24 @@ mCounts = normalizeCounts(counts, bins)
 
 ## 4. Creating the Minimum Distance for each trio
 
-The second advantage of MDTS is the use of Minimum Distances for candidate de novo deletion identification. The assumption underlying the development of the Minimum Distance is that it is vastly more likely for a deletion to be inherited than de novo if the proband shares a deletion with one of the parents in the trio. Based on that assumption, the Minimum Distance is calculated per family - bin combination. For each bin, the Minimum Distance is smallest (in absolute terms) difference between the proband's M score and both parents'. 
+The second advantage of MDTS is the use of Minimum Distances for candidate de 
+novo deletion identification. The assumption underlying the development of the 
+Minimum Distance is that it is vastly more likely for a deletion to be inherited
+than de novo if the proband shares a deletion with one of the parents in the 
+trio. Based on that assumption, the Minimum Distance is calculated per family - 
+bin combination. For each bin, the Minimum Distance is smallest (in absolute 
+terms) difference between the proband's M score and both parents'. 
 
-For example, if the M scores are (-1, -1, 0) for a proband and the 2 parents respectively, a situation consistent with an inherited deletion in the proband from parent 1, the Minimum Distance of the 2 possible pairwise comparisons is 0. On the other hand, if the M scores are (-1, 0, 0) for the proband and the 2 parents, the Minimum Distance stands out at -1, and is consistent with a de novo deletion. 
+For example, if the M scores are (-1, -1, 0) for a proband and the 2 parents 
+respectively, a situation consistent with an inherited deletion in the proband 
+from parent 1, the Minimum Distance of the 2 possible pairwise comparisons is 0.
+On the other hand, if the M scores are (-1, 0, 0) for the proband and the 2 
+parents, the Minimum Distance stands out at -1, and is consistent with a de novo
+deletion. 
 
-To calculate the Minimum Distance of the dataset, MDTS takes as input the M score matrix. The output matrix is organized where each row corresponds still to a bin, but each column now refers to a trio.
+To calculate the Minimum Distance of the dataset, MDTS takes as input the M 
+score matrix. The output matrix is organized where each row corresponds still to
+a bin, but each column now refers to a trio.
 
 ```{r, warning=F}
 # mCounts is the normalized read depth of [MDTS bins x samples]
@@ -135,7 +182,11 @@ md = calcMD(mCounts, pD)
 
 ## 5. Call de novo deletions and filter
 
-Using the Minimum Distance matrix calculated above, MDTS uses the tried and true Circular Binary Segmentation method to infer deletion states. Inferred candidate de novo deletions are further filtered to remove likely false positive signals that arose out of regions of highly variable read-depth (generally indicative of sequence artifacts or polymorphic events).
+Using the Minimum Distance matrix calculated above, MDTS uses the tried and true
+Circular Binary Segmentation method to infer deletion states. Inferred candidate
+de novo deletions are further filtered to remove likely false positive signals 
+that arose out of regions of highly variable read-depth (generally indicative of
+sequence artifacts or polymorphic events).
 
 ```{r, warning=FALSE, message=FALSE, warning=F}
 # md is the Minimum Distance of [MDTS bins x trio]
@@ -145,10 +196,16 @@ cbs = segmentMD(md=md, bins=bins)
 denovo = denovoDeletions(cbs, mCounts, bins)
 ```
 
-In our example, the final output is a single detected de novo deletion in family F4:
+In our example, the output is a single detected de novo deletion in family F4:
 
 ```{r}
 denovo
 ```
 
 No signals were picked up from the CNP region or elsewhere.
+
+## 6. SessionInfo
+
+```{r}
+sessionInfo()
+```

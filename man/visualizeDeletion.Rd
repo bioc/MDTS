@@ -33,11 +33,10 @@ for a trio.
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
-mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, pD)
-cbs = segmentMD(md, bins)
-denovo = denovoDeletions(cbs, mCounts, bins)
-pD$bam_path = paste0('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/', pD$bam_path)
+mCounts <- normalizeCounts(counts, bins)
+md <- calcMD(mCounts, pD)
+cbs <- segmentMD(md, bins)
+denovo <- denovoDeletions(cbs, mCounts, bins)
 visualizeDeletion(denovo[1], bins, pD, mCounts, md)
 }
 }

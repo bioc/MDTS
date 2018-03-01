@@ -27,7 +27,7 @@ load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
 mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, pD)
+md = calcMD(mCounts, metaData)
 cbs = segmentMD(md, bins)
 denovo = denovoDeletions(cbs, mCounts, bins)
 }

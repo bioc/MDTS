@@ -13,20 +13,24 @@ calcCounts(pData, bins, rl, mc.cores = 1)
 
 \item{rl}{The read length of the experiment.}
 
-\item{mc.cores}{The number of cores to use for multi-threaded analysis. Defaults to 1.}
+\item{mc.cores}{The number of cores to use for multi-threaded analysis. 
+Defaults to 1.}
 }
 \value{
 A \code{data.frame} that contains the counts for each sample in the 
 \code{pData} input that fall into each segment of \code{bins}.
 }
 \description{
-This function will return a matrix of read counts where ecah column is a sample, and each row is a bin.
+This function will return a matrix of read counts where ecah column is a 
+sample, and each row is a bin.
 }
 \examples{
 \dontrun{
-pD = pData('https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
+pD <- getMetaData(
+'https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
 genome = BSgenome.Hsapiens.UCSC.hg19
-map_file = "https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
+map_file <- 
+"https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
 bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
 }
 load(system.file("extdata", 'bins.RData', package = "MDTS"))

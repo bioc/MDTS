@@ -13,38 +13,34 @@
 #'	load(system.file("extdata", 'bins.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'counts.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'pD.RData', package = "MDTS"))
-#'	mCounts = normalizeCounts(counts, bins)
+#'	mCounts <- normalizeCounts(counts, bins)
 #' @export
 #' @return A \code{data.frame} of normalized counts. Each column is a sample,
 #' and each row is a entry of \code{bins}.
-normalizeCounts = function(counts, bins, GC=TRUE, map=TRUE, mc.cores=1){
+normalizeCounts <- function(counts, bins, GC=TRUE, map=TRUE, mc.cores=1){
 	message("Log Transforming Counts")
-	log_counts = log(counts+1, 2)
-	intermediate = t(t(log_counts) - apply(log_counts, 2, stats::median))
-	res = intermediate - apply(intermediate, 1, stats::median)
-	if(GC==TRUE){
+	log_counts <- log(counts+1, 2)
+	intermediate <- t(t(log_counts) - apply(log_counts, 2, stats::median))
+	res <- intermediate - apply(intermediate, 1, stats::median)
+	
+	if(GC){
 	      message("GC Adjust")
-	      res = do.call(cbind, mclapply(1:dim(counts)[2], .fitLoess, bins, res, "GC", mc.cores=mc.cores))      
+	      res <- do.call(cbind, mclapply(seq_len(dim(res)[2]), function(i){
+	            control <- stats::loess.control(trace.hat="approximate")
+                  res <- stats::residuals(stats::loess(res[,i]~bins$GC, 
+                        control = control))
+	      }, mc.cores=mc.cores))
 	}
-	if(map==TRUE){
+	if(map){
 	      message("Mappability Adjust")
-	      res = do.call(cbind, mclapply(1:dim(counts)[2], .fitLoess, bins, res, "Mappability", mc.cores=mc.cores))
+            loess_ind <- which(bins$mappability<1)
+	      res <- do.call(cbind, mclapply(seq_len(dim(res)[2]), function(i){
+                  tmp <- res[,i]
+                  tmp[loess_ind] <- stats::residuals(stats::loess(
+                        tmp[loess_ind]~bins$mappability[loess_ind]))
+                  return(tmp)
+	      }, mc.cores=mc.cores))
 	}
-	colnames(res) = colnames(counts)
+	colnames(res) <- colnames(counts)
 	return(res)
 }
-
-## Helper functions
-.fitLoess = function(i, bins, full_data, adjust){
-      if(adjust=="GC"){
-            control = stats::loess.control(trace.hat="approximate")
-            res = stats::residuals(stats::loess(full_data[,i]~bins$GC, control = control))
-      }
-      if(adjust=="Mappability"){
-            loess_ind = which(bins$mappability<1)
-            res = full_data[,i]
-            res[loess_ind] = stats::residuals(stats::loess(full_data[loess_ind,i]~bins$mappability[loess_ind]))
-      }
-      return(res)
-}
-

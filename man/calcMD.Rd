@@ -4,12 +4,12 @@
 \alias{calcMD}
 \title{Calculating the Minimum Distance matrix}
 \usage{
-calcMD(mCounts, pData)
+calcMD(mCounts, metaData)
 }
 \arguments{
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}
 
-\item{pData}{A table in the format of the output of pData().}
+\item{metaData}{A table in the format of the output of metaData().}
 }
 \value{
 A \code{data.frame} of minimum distances. Each column is a trio,
@@ -23,7 +23,7 @@ a family, and each row is a bin.
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
-mCounts = normalizeCounts(counts, bins)
-md = calcMD(mCounts, pD)
+mCounts <- normalizeCounts(counts, bins)
+md <- calcMD(mCounts, metaData)
 }
 \keyword{calcMD}

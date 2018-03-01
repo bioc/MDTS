@@ -5,11 +5,5 @@
 #' @docType package
 #' @import parallel
 #' @import GenomicRanges
-#' @import DNAcopy
-#' @import stringr
-#' @import Rsamtools
 #' @import GenomicAlignments
-#' @import stringr
-#' @import methods
-#' @import IRanges
 NULL
