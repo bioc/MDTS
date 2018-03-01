@@ -16,7 +16,7 @@
 #'	load(system.file("extdata", 'counts.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'pD.RData', package = "MDTS"))
 #'	mCounts <- normalizeCounts(counts, bins)
-#'	md <- calcMD(mCounts, metaData)
+#'	md <- calcMD(mCounts, pD)
 #'	cbs <- segmentMD(md, bins)
 #' @export
 #' @return A \code{data.frame} containing the segmented regions based to be

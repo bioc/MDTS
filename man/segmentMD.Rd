@@ -36,7 +36,7 @@ load(system.file("extdata", 'bins.RData', package = "MDTS"))
 load(system.file("extdata", 'counts.RData', package = "MDTS"))
 load(system.file("extdata", 'pD.RData', package = "MDTS"))
 mCounts <- normalizeCounts(counts, bins)
-md <- calcMD(mCounts, metaData)
+md <- calcMD(mCounts, pD)
 cbs <- segmentMD(md, bins)
 }
 \keyword{segmentMD}

@@ -10,7 +10,7 @@
 #'	load(system.file("extdata", 'counts.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'pD.RData', package = "MDTS"))
 #'	mCounts <- normalizeCounts(counts, bins)
-#'	md <- calcMD(mCounts, metaData)
+#'	md <- calcMD(mCounts, pD)
 #' @export
 #' @return A \code{data.frame} of minimum distances. Each column is a trio,
 #' while each row is an entry in \code{bins}
