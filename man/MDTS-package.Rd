@@ -4,7 +4,9 @@
 \name{MDTS-package}
 \alias{MDTS-package}
 \alias{MDTS}
-\title{The MDTS package for Detection of Denovo Deletions from Targeted Sequencing Data Using Minimum-Distance}
+\title{The MDTS package for Detection of Denovo Deletions from Targeted Sequencing 
+Data Using Minimum-Distance}
 \description{
-The MDTS package for Detection of Denovo Deletions from Targeted Sequencing Data Using Minimum-Distance
+The MDTS package for Detection of Denovo Deletions from Targeted Sequencing 
+Data Using Minimum-Distance
 }

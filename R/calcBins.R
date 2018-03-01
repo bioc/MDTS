@@ -11,7 +11,7 @@
 #' required to create the proto-region.
 #' @param genome The BSGenome object that assists in calculations of the GC 
 #' content of the bins.
-#' @param mappabilityFile A path to the bigwig file of 100mer mappability of the 
+#' @param mappabilityFile A path to the bigwig file of 100mer mappability of the
 #' corresponding genome.
 #' @param seed Sets the seed so results are reproducible. Defaults to 1337.
 #' @keywords calcBins
@@ -61,7 +61,7 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
 	message("Bin segmentation complete")
 
       seqlevels(bins_out) <- paste0("chr", seqlevels(bins_out))
-	seqs <- getSeq(genome, bins_out)
+	seqs <- Biostrings::getSeq(genome, bins_out)
 	
 	message("Calculating GC content")
 	GC <- vapply(seqs, .calcGC, double(1))
@@ -106,7 +106,7 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
 .processChr = function(chr, proto_info, covs, rl, med){
       message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region <- proto_info[[chr]]
-      proto_gr <- GRanges(seqnames=chr, IRanges(proto_region))
+      proto_gr <- GRanges(seqnames=chr, IRanges::IRanges(proto_region))
       proto_gr_covs_rle <- lapply(covs, function(x) x[proto_gr])
       proto_gr_covs <- lapply(proto_gr_covs_rle, function(x) lapply(x, sum))
       proto_gr_covs_mat <- apply(do.call(rbind, proto_gr_covs), 2, as.numeric)
@@ -138,7 +138,7 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
       changePoint <- c(0, changePoint)
             changePoint[length(changePoint)] <- width(seg)
       gr_out <- GRanges(seqnames=seqnames(seg),
-            IRanges(start(seg)+changePoint[-length(changePoint)],
+            IRanges::IRanges(start(seg)+changePoint[-length(changePoint)],
             start(seg)+changePoint[-1]-1))
       gr_medz <- medz[changePoint]
       gr_out$median_count <- gr_medz-med*(seq_len(length(gr_medz))-1)

@@ -34,8 +34,8 @@ calcCounts <- function(pData, bins, rl, mc.cores=1){
 
 ## Helper function
 .extractCovBins <- function(path, target){
-      flag <- scanBamFlag(isUnmappedQuery = FALSE, isDuplicate = FALSE)
-      param <- ScanBamParam(what=character(), flag=flag)      
+      flag <- Rsamtools::scanBamFlag(isUnmappedQuery=FALSE, isDuplicate=FALSE)
+      param <- Rsamtools::ScanBamParam(what=character(), flag=flag)      
       ga <- readGAlignments(path, param=param)
       cov <- coverage(ga)
       cov <- cov[match(seqlevels(target), names(cov))]

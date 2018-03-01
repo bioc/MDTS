@@ -1,4 +1,5 @@
-#' The MDTS package for Detection of Denovo Deletions from Targeted Sequencing Data Using Minimum-Distance
+#' The MDTS package for Detection of Denovo Deletions from Targeted Sequencing 
+#' Data Using Minimum-Distance
 #'
 #' @name MDTS-package
 #' @aliases MDTS

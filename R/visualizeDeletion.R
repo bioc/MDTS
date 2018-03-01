@@ -45,30 +45,32 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
 
 ### Helper functions
 .pullReads = function(bam_path, bait){
-      flag1 <- scanBamFlag(isPaired=TRUE, isFirstMateRead=TRUE, 
-                          hasUnmappedMate=FALSE, isDuplicate=FALSE, 
-                          isSecondaryAlignment=FALSE)
-      flag2 <- scanBamFlag(isPaired=TRUE, isSecondMateRead=TRUE, 
-                          hasUnmappedMate=FALSE, isDuplicate=FALSE, 
-                          isSecondaryAlignment=FALSE)
-      sbp <- ScanBamParam(flag=flag1, what=c("qname", "rname", "pos", "isize"), 
-                       which=bait)
-      bam1 <- scanBam(bam_path, index=paste0(bam_path, ".bai"), param=sbp)[[1]]
-      bam2 <- scanBam(bam_path, index=paste0(bam_path, ".bai"), param=sbp)[[1]]
+      flag1 <- Rsamtools::scanBamFlag(isPaired=TRUE, isFirstMateRead=TRUE, 
+            hasUnmappedMate=FALSE, isDuplicate=FALSE, 
+            isSecondaryAlignment=FALSE)
+      flag2 <- Rsamtools::scanBamFlag(isPaired=TRUE, isSecondMateRead=TRUE, 
+            hasUnmappedMate=FALSE, isDuplicate=FALSE, 
+            isSecondaryAlignment=FALSE)
+      sbp <- Rsamtools::ScanBamParam(flag=flag1, 
+            what=c("qname", "rname", "pos", "isize"), which=bait)
+      bam1 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
+            param=sbp)[[1]]
+      bam2 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
+            param=sbp)[[1]]
       
       counts <- by(rep(1, length(bam1$rname)+length(bam2$rname)), 
                   c(bam1$qname, bam2$qname), sum)
       purge <- names(counts)[which(as.vector(counts)==2)]
       ind <- which(bam1$qname %in% purge)
       GR1 <- GRanges(seqnames=as.character(seqnames(bait)[1]), 
-                    IRanges(bam1$pos[ind], bam1$pos[ind]+99), 
+                    IRanges::IRanges(bam1$pos[ind], bam1$pos[ind]+99), 
                     isize=bam1$isize[ind],rn=bam1$qname[ind])
       x1 <- data.frame(ord=GR1$rn)
       x2 <- data.frame(ord=bam2$qname, 1:length(bam2$qname))
       x <- merge(x1, x2, sort=FALSE, all=FALSE, by="ord")
       ord <- x[,2]
       GR2 <- GRanges(seqnames=as.character(seqnames(bait)[1]), 
-                    IRanges(bam2$pos[ord], bam2$pos[ord]+99), 
+                    IRanges::IRanges(bam2$pos[ord], bam2$pos[ord]+99), 
                     isize=bam2$isize[ord], rn=bam2$qname[ord])
       return(GRangesList(GR1, GR2))
 }

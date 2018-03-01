@@ -23,7 +23,7 @@ required to create the proto-region.}
 \item{genome}{The BSGenome object that assists in calculations of the GC 
 content of the bins.}
 
-\item{mappabilityFile}{A path to the bigwig file of 100mer mappability of the 
+\item{mappabilityFile}{A path to the bigwig file of 100mer mappability of the
 corresponding genome.}
 
 \item{seed}{Sets the seed so results are reproducible. Defaults to 1337.}

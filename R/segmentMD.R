@@ -37,10 +37,11 @@ segmentMD <- function(md, bins, alpha=0.001, undo.splits='sdundo', undo.SD=4,
       set.seed(137)
       message(paste0("Processing family number: ", i))
       md_sub <- md[,i,drop=FALSE]
-      cna <- CNA(genomdat=md_sub, chrom=as.vector(seqnames(bins)),
+      cna <- DNAcopy::CNA(genomdat=md_sub, chrom=as.vector(seqnames(bins)),
                 maploc=start(bins), data.type="logratio", 
                 sampleid=colnames(md_sub), presorted=TRUE)
-      cbs <- segment(cna, alpha=alpha, undo.splits=undo.splits, undo.SD=undo.SD)
+      cbs <- DNAcopy::segment(cna, alpha=alpha, 
+                              undo.splits=undo.splits, undo.SD=undo.SD)
       
       segRows <- cbs$segRows
       out <- data.frame(start=segRows[,1], end=segRows[,2], 
