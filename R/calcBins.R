@@ -14,6 +14,10 @@
 #' @param mappabilityFile A path to the bigwig file of 100mer mappability of the
 #' corresponding genome.
 #' @param seed Sets the seed so results are reproducible. Defaults to 1337.
+#' @importFrom Rsamtools scanBamFlag
+#' @importFrom  Biostrings getSeq
+#' @importFrom GenomicAlignments readGAlignments
+#' @importFrom GenomicAlignments coverage
 #' @keywords calcBins
 #' @examples 
 #' \dontrun{

@@ -7,6 +7,7 @@
 #' @param mCounts The normalized counts matrix output by normalizeCounts().
 #' @param bins The set of bins determined by calcBins().
 #' @keywords denovoDeletions
+#' @importFrom IRanges IRanges
 #' @examples 
 #'	load(system.file("extdata", 'bins.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'counts.RData', package = "MDTS"))

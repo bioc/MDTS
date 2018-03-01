@@ -11,6 +11,8 @@
 #' @param mc.cores The number of cores to use for multi-threaded analysis. 
 #' Defaults to 1.
 #' @keywords segmentMD
+#' @importFrom DNAcopy CNA
+#' @importFrom DNAcopy segment
 #' @examples 
 #'	load(system.file("extdata", 'bins.RData', package = "MDTS"))
 #'	load(system.file("extdata", 'counts.RData', package = "MDTS"))
