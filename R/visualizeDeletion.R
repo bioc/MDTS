@@ -48,15 +48,17 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
       flag1 <- Rsamtools::scanBamFlag(isPaired=TRUE, isFirstMateRead=TRUE, 
             hasUnmappedMate=FALSE, isDuplicate=FALSE, 
             isSecondaryAlignment=FALSE)
-      flag2 <- Rsamtools::scanBamFlag(isPaired=TRUE, isSecondMateRead=TRUE, 
+      flag2 <- Rsamtools::scanBamFlag(isPaired=TRUE, isFirstMateRead=FALSE, 
             hasUnmappedMate=FALSE, isDuplicate=FALSE, 
             isSecondaryAlignment=FALSE)
-      sbp <- Rsamtools::ScanBamParam(flag=flag1, 
+      sbp1 <- Rsamtools::ScanBamParam(flag=flag1, 
+            what=c("qname", "rname", "pos", "isize"), which=bait)
+      sbp2 <- Rsamtools::ScanBamParam(flag=flag2, 
             what=c("qname", "rname", "pos", "isize"), which=bait)
       bam1 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
-            param=sbp)[[1]]
+            param=sbp1)[[1]]
       bam2 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
-            param=sbp)[[1]]
+            param=sbp2)[[1]]
       
       counts <- by(rep(1, length(bam1$rname)+length(bam2$rname)), 
                   c(bam1$qname, bam2$qname), sum)
@@ -85,7 +87,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
       coords <- c(start(GR1), start(GR2), end(GR1), end(GR2))
       plot(c(start(track), end(track)), c(0, length(GR1)+1), ty="n", 
            main=paste0(title, " M= ", denote), 
-           ylab=yl, xaxt="n", cex.lab=scale, cex.axis=scale*.8, cex.main=scale, 
+           ylab="", xaxt="n", cex.lab=scale, cex.axis=scale*.8, cex.main=scale, 
            cex.sub=scale, xlab="", col=coll, col.axis=coll, col.sub=coll, 
            col.main=coll, col.lab=coll)
       j <- 0.1
@@ -108,6 +110,7 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
       rect(xleft=start(track)+window, xright=end(track)-window, ytop = ylims[2],
            ybot=ylims[1], col=rgb(0, 0, 0, 0.2), border=rgb(0,0,0,0)) 
 }
+
 .visualizeFamily = function(famid, bait, window, row_inds, col_inds, pD, 
             mCounts, scale=4, col1 = rgb(0, 146, 146, max=255), 
             col2 = rgb(255, 109, 182, max=255)){
@@ -145,8 +148,10 @@ visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
       text(x=1.2, y=.5, srt=90, paste0(length(row_inds), " bins"), pos=3, cex=4)
       par(xpd=FALSE)
       par(mar=c(scale, scale*3, scale, scale))
-      minM <- stats::quantile(res, 0.3)-1
-      maxM <- stats::quantile(res, 0.97)+1
+      # minM <- stats::quantile(res, 0.3)-1
+      # maxM <- stats::quantile(res, 0.97)+1
+      minM <- min(res)
+      maxM <- max(res)
       plot_wid = (maxM-minM)
       hist(res, main="", xlim=c(minM, maxM), breaks=seq(-10, 10, by=0.3), 
            ylab="Hist M Scores", col="grey", cex.lab=scale*.8, 
