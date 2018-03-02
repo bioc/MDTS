@@ -5,7 +5,7 @@
 #' @param deletion A GRanges object in the format of the output of 
 #' denovoDeletions().
 #' @param bins The set of bins determined by calcBins().
-#' @param pD A table in the format of the output of pData().
+#' @param metaData A table in the format of the output of getMetaData().
 #' @param mCounts A matrix of normalized coverage output by normalizedCounts().
 #' @param md The minimum distance matrix output by calcMD()
 #' @param save If TRUE will save plot to current working directory instead of 
@@ -24,12 +24,12 @@
 #'	}
 #' @return The file name if the plot was saved.
 #' @export
-visualizeDeletion = function(deletion, bins, pD, mCounts, md, save=FALSE){
+visualizeDeletion = function(deletion, bins, metaData, mCounts, md, save=FALSE){
 	window <- 1000
-	famid <- pD$family_id[pD$subj_id==deletion$famid]
-	pD_sub <- pD[stringr::str_detect(pD$family_id, famid),]
+	famid <- metaData$family_id[metaData$subj_id==deletion$famid]
+	metaData_sub <- metaData[stringr::str_detect(metaData$family_id, famid),]
 	row_inds <- subjectHits(findOverlaps(deletion, bins))
-	col_inds <- match(pD_sub$subj_id, colnames(mCounts))
+	col_inds <- match(metaData_sub$subj_id, colnames(mCounts))
 	
 	id <- paste0(famid, "-", seqnames(deletion), ":", start(deletion), 
 	            "-", end(deletion), ".pdf")

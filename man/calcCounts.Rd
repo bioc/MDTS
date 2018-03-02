@@ -4,10 +4,10 @@
 \alias{calcCounts}
 \title{Creating the raw count matrix}
 \usage{
-calcCounts(pData, bins, rl, mc.cores = 1)
+calcCounts(metaData, bins, rl, mc.cores = 1)
 }
 \arguments{
-\item{pData}{A table in the format of the output of pData().}
+\item{metaData}{A table in the format of the output of getMetaData().}
 
 \item{bins}{The set of bins determined by calcBins().}
 
@@ -18,7 +18,7 @@ Defaults to 1.}
 }
 \value{
 A \code{data.frame} that contains the counts for each sample in the 
-\code{pData} input that fall into each segment of \code{bins}.
+\code{metaData} input that fall into each segment of \code{bins}.
 }
 \description{
 This function will return a matrix of read counts where ecah column is a 

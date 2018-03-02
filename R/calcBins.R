@@ -2,7 +2,7 @@
 #'
 #' This function will randomly select a sample of bam files to calculate dynamic
 #' MDTS bins for subsequent read-depth analysis.
-#' @param metaData A table in the format of the output of pData().
+#' @param metaData A table in the format of the output of getMetaData().
 #' @param n The number of subsamples to use.
 #' @param readLength The read length of the experiment.
 #' @param medianCoverage The median number of reads across sub-samples to reach 
@@ -110,20 +110,27 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
 .processChr = function(chr, proto_info, covs, rl, med){
       message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region <- proto_info[[chr]]
-      proto_gr <- GRanges(seqnames=chr, IRanges::IRanges(proto_region))
-      proto_gr_covs_rle <- lapply(covs, function(x) x[proto_gr])
-      proto_gr_covs <- lapply(proto_gr_covs_rle, function(x) lapply(x, sum))
-      proto_gr_covs_mat <- apply(do.call(rbind, proto_gr_covs), 2, as.numeric)
-      proto_gr_covs_mat_normed <- t(t(proto_gr_covs_mat)/rl)
-      proto_gr_covs_mat_med <- apply(proto_gr_covs_mat_normed, 2, stats::median)
-      proto_gr$reads <- proto_gr_covs_mat_med
-      proto_gr_select <- proto_gr[proto_gr$reads>=med]
-      
-      if(length(proto_gr_select)>0){
-            message(paste0("Segmenting Chr ", chr, " Proto-regions"))
-            chr_out <- lapply(proto_gr_select, .divideSegs, covs, rl, med)
-            chr_out <- do.call(c, chr_out)
-            return(chr_out)
+      if(sum(proto_region)>0){
+            proto_gr <- GRanges(seqnames=chr, IRanges::IRanges(proto_region))
+            proto_gr_covs_rle <- lapply(covs, function(x) x[proto_gr])
+            proto_gr_covs <- lapply(proto_gr_covs_rle, function(x) 
+                  lapply(x, sum))
+            proto_gr_covs_mat <- apply(do.call(rbind, proto_gr_covs), 2, 
+                  as.numeric)
+            proto_gr_covs_mat_normed <- t(t(proto_gr_covs_mat)/rl)
+            proto_gr_covs_mat_med <- apply(proto_gr_covs_mat_normed, 2, 
+                  stats::median)
+            proto_gr$reads <- proto_gr_covs_mat_med
+            proto_gr_select <- proto_gr[proto_gr$reads>=med]
+            
+            if(length(proto_gr_select)>0){
+                  message(paste0("Segmenting Chr ", chr, " Proto-regions"))
+                  chr_out <- lapply(proto_gr_select, .divideSegs, covs, rl, med)
+                  chr_out <- do.call(c, chr_out)
+                  return(chr_out)
+            }else{
+                  return(NULL)
+            }
       }else{
             return(NULL)
       }

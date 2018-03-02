@@ -8,7 +8,7 @@ calcBins(metaData, n, readLength, medianCoverage, minimumCoverage, genome,
   mappabilityFile, seed = 1337)
 }
 \arguments{
-\item{metaData}{A table in the format of the output of pData().}
+\item{metaData}{A table in the format of the output of getMetaData().}
 
 \item{n}{The number of subsamples to use.}
 

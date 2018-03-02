@@ -4,7 +4,7 @@
 \alias{visualizeDeletion}
 \title{Visualization for deletions}
 \usage{
-visualizeDeletion(deletion, bins, pD, mCounts, md, save = FALSE)
+visualizeDeletion(deletion, bins, metaData, mCounts, md, save = FALSE)
 }
 \arguments{
 \item{deletion}{A GRanges object in the format of the output of 
@@ -12,7 +12,7 @@ denovoDeletions().}
 
 \item{bins}{The set of bins determined by calcBins().}
 
-\item{pD}{A table in the format of the output of pData().}
+\item{metaData}{A table in the format of the output of getMetaData().}
 
 \item{mCounts}{A matrix of normalized coverage output by normalizedCounts().}
 
