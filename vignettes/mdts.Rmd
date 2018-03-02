@@ -102,7 +102,8 @@ genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
 # rl is the sequencing read length
 # min is the minimum read depth for a location to be included in a proto region
 # med is the median number of reads across the n samples in a bin.
-bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
+bins = calcBins(metaData=pD, n=5, readLength=100, medianCoverage=150, 
+                minimumCoverage=5, genome=genome, mappabilityFile=map_file)
 ```
 
 ## 2. Calculating coverage of MDTS bins
