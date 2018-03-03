@@ -72,6 +72,11 @@ bigwig that contains mappability information in windows consistent with
 sequencing read length. In our example, we require `BSgenome.Hsapiesn.UCSC.hg19`
 and 100mer mappability.
 
+** In general you will need a bw file that contains the information for all
+autosomes 1-22 (unlike the bw file only for chr1 included in the example). **
+This is the link to some hg19 mappability bw files:
+http://rohsdb.cmb.usc.edu/GBshape/cgi-bin/hgFileUi?db=hg19&g=wgEncodeMapability
+
 This portion of the vignette example uses raw data from `MDTSData`. However 
 the resulting bins are included in the `data` directory of MDTS as a `.RData`.
 

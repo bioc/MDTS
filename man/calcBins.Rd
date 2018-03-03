@@ -37,14 +37,6 @@ This function will randomly select a sample of bam files to calculate dynamic
 MDTS bins for subsequent read-depth analysis.
 }
 \examples{
-\dontrun{
-pD <- getMetaData(
-'https://raw.githubusercontent.com/JMF47/MDTSData/master/data/pD.ped')
-genome <- BSgenome.Hsapiens.UCSC.hg19
-mappabilityFile <- 
-"https://raw.githubusercontent.com/JMF47/MDTSData/master/data/chr1.map.bw"
-bins = calcBins(pD, n=5, rl=100, med=150, min=5, genome, map_file)
-}
 load(system.file("extdata", 'bins.RData', package = "MDTS"))
 bins
 }
