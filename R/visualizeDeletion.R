@@ -52,28 +52,17 @@ visualizeDeletion = function(deletion, bins, metaData, mCounts, md, save=FALSE){
             hasUnmappedMate=FALSE, isDuplicate=FALSE, 
             isSecondaryAlignment=FALSE)
       sbp1 <- Rsamtools::ScanBamParam(flag=flag1, 
-            what=c("qname", "rname", "pos", "isize"), which=bait)
+            what=c("qname", "rname", "pos", "isize", "cigar"), which=bait)
       sbp2 <- Rsamtools::ScanBamParam(flag=flag2, 
-            what=c("qname", "rname", "pos", "isize"), which=bait)
-      bam1 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
-            param=sbp1)[[1]]
-      bam2 <- Rsamtools::scanBam(bam_path, index=paste0(bam_path, ".bai"), 
-            param=sbp2)[[1]]
+            what=c("qname", "rname", "pos", "isize", "cigar"), which=bait)
+      gal1 <- GenomicAlignments::readGAlignments(file=bam_path, param=sbp1)
+      gal1 <- as(gal1, "GRanges")
+      gal2 <- GenomicAlignments::readGAlignments(file=bam_path, param=sbp2)
+      gal2 <- as(gal2, "GRanges")
       
-      counts <- by(rep(1, length(bam1$rname)+length(bam2$rname)), 
-                  c(bam1$qname, bam2$qname), sum)
-      purge <- names(counts)[which(as.vector(counts)==2)]
-      ind <- which(bam1$qname %in% purge)
-      GR1 <- GRanges(seqnames=as.character(seqnames(bait)[1]), 
-                    IRanges::IRanges(bam1$pos[ind], bam1$pos[ind]+99), 
-                    isize=bam1$isize[ind],rn=bam1$qname[ind])
-      x1 <- data.frame(ord=GR1$rn)
-      x2 <- data.frame(ord=bam2$qname, 1:length(bam2$qname))
-      x <- merge(x1, x2, sort=FALSE, all=FALSE, by="ord")
-      ord <- x[,2]
-      GR2 <- GRanges(seqnames=as.character(seqnames(bait)[1]), 
-                    IRanges::IRanges(bam2$pos[ord], bam2$pos[ord]+99), 
-                    isize=bam2$isize[ord], rn=bam2$qname[ord])
+      qnames_keep <- gal1$qname[gal1$qname %in% gal2$qname]
+      GR1 <- gal1[match(qnames_keep, gal1$qname)]
+      GR2 <- gal2[match(qnames_keep, gal2$qname)]
       return(GRangesList(GR1, GR2))
 }
 
@@ -91,16 +80,14 @@ visualizeDeletion = function(deletion, bins, metaData, mCounts, md, save=FALSE){
            cex.sub=scale, xlab="", col=coll, col.axis=coll, col.sub=coll, 
            col.main=coll, col.lab=coll)
       j <- 0.1
-      tmp <- (start(GR1)<start(GR2))*1
-      cls <- rep("#6495ed", length(tmp))
-      cls[which(tmp==1)] <- "#ffb90f"
-      rect(xleft=start(GR1), xright=start(GR1)+99, ytop = 1:length(GR1)-j, 
+      cls <- rep("#ffb90f", length(GR1))
+      cls[which(strand(GR1)=="-")] <- "#6495ed"
+      rect(xleft=start(GR1), xright=end(GR1), ytop = 1:length(GR1)-j, 
            ybot = 0:(length(GR1)-1)-j, col=cls, border=cls)
-      rect(xleft=start(GR2), xright=start(GR2)+99, ytop = 1:length(GR2)-j, 
+      rect(xleft=start(GR2), xright=end(GR2), ytop = 1:length(GR2)-j, 
            ybot = 0:(length(GR2)-1)-j, col=cls, border=cls)
-      segments(x0 = start(GR1)+99, x1=start(GR2), y0 = 1:length(GR1)-j-0.5, 
+      segments(x0 = end(GR1), x1=start(GR2), y0 = 1:length(GR1)-j-0.5, 
                y1 = 1:length(GR2)-j-0.5, lwd=0.1, col= cls)
-      
       z <- width(track)-2*window
       text(x=(start(track)+end(track))/2, y=length(GR1)-length(GR1)/20, 
            labels=paste0(z, "bp"), cex=scale, col=coll)
