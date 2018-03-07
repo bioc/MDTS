@@ -30,12 +30,9 @@ denovoDeletions = function(cbs, mCounts, bins){
 	raw <- abs(mCounts)<win
 	raw_perc <- apply(raw, 1, mean)
 	raw_perc <- vapply(raw_perc+1/dim(mCounts)[2], min, double(1))
-	# raw_perc <- sapply(raw_perc+1/dim(mCounts)[2], min, 1)
 	filter_ind <- which(raw_perc<0.95)
 	
 	print("Filtering candidates by problematic bins")
-# 	candidates$num.segs.filtered <- sapply(1:dim(candidates)[1], 
-#             .countBadBins, candidates, filter_ind)
 	candidates$num.segs.filtered <- vapply(seq_along(dim(candidates)[1]), 
             .countBadBins, FUN.VALUE=double(1), candidates, filter_ind)
 	
