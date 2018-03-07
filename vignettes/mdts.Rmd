@@ -92,11 +92,11 @@ setwd(system.file("data", package="MDTSData"))
 
 # Importing the pedigree file that includes information on where to locate the 
 # raw bam files
-pD = getMetaData("pD.ped")
+pD <- getMetaData("pD.ped")
 
 # Information on the GC content and mappability to estimate GC and mappability 
 # for the MDTS bins
-genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
+genome <- BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
 
 # This command now subsets 5 samples to determine MDTS bins
 # pD is the metaData matrix from getMetaData()
@@ -105,7 +105,7 @@ genome = BSgenome.Hsapiens.UCSC.hg19; map_file = "chr1.map.bw"
 # minimumCoverage is the minimum read depth for a location to be included 
 #     in a proto region
 # medianCoverage is the median number of reads across the n samples in a bin
-bins = calcBins(metaData=pD, n=5, readLength=100, minimumCoverage=5, 
+bins <- calcBins(metaData=pD, n=5, readLength=100, minimumCoverage=5, 
                 medianCoverage=150, genome=genome, mappabilityFile=map_file)
 ```
 
@@ -153,7 +153,7 @@ scores have critical values where (0, -1, <-4) are generally consistent with 2,
 ```{r, warning=F}
 # counts is the raw read depth of [MDTS bins x samples]
 # bins is the previously calculated MDTS bins
-mCounts = normalizeCounts(counts, bins)
+mCounts <- normalizeCounts(counts, bins)
 ```
 
 ## 4. Creating the Minimum Distance for each trio
@@ -181,7 +181,7 @@ a bin, but each column now refers to a trio.
 # mCounts is the normalized read depth of [MDTS bins x samples]
 # bins is the previously calculated MDTS bins
 # pD is the phenotype matrix
-md = calcMD(mCounts, pD)
+md <- calcMD(mCounts, pD)
 ```
 
 ## 5. Call de novo deletions and filter
@@ -196,8 +196,8 @@ sequence artifacts or polymorphic events).
 # md is the Minimum Distance of [MDTS bins x trio]
 # bins is the previously calculated MDTS bins
 # mCounts is the normalized read depth of [MDTS bins x samples]
-cbs = segmentMD(md=md, bins=bins)
-denovo = denovoDeletions(cbs, mCounts, bins)
+cbs <- segmentMD(md=md, bins=bins)
+denovo <- denovoDeletions(cbs, mCounts, bins)
 ```
 
 In our example, the output is a single detected de novo deletion in family F4:
