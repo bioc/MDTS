@@ -33,7 +33,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 	filter_ind <- which(raw_perc<0.95)
 	
 	print("Filtering candidates by problematic bins")
-	candidates$num.segs.filtered <- vapply(seq_along(dim(candidates)[1]), 
+	candidates$num.segs.filtered <- vapply(seq_len(dim(candidates)[1]), 
             .countBadBins, FUN.VALUE=double(1), candidates, filter_ind)
 	
 	deletions <- candidates[(candidates$num.segs.filtered/
