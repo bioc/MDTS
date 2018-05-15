@@ -33,11 +33,11 @@ denovoDeletions = function(cbs, mCounts, bins){
 	filter_ind <- which(raw_perc<0.95)
 	
 	print("Filtering candidates by problematic bins")
-	candidates$num.segs.filtered <- vapply(seq_along(dim(candidates)[1]), 
+	candidates$num.segs.filtered <- vapply(seq_len(dim(candidates)[1]), 
             .countBadBins, FUN.VALUE=double(1), candidates, filter_ind)
 	
 	deletions <- candidates[(candidates$num.segs.filtered/
-            candidates$num.segs)<0.5]
+            candidates$num.segs)<0.5,]
 	deletions_gr <- GRanges(seqnames=seqnames(bins)[deletions$start],
             IRanges::IRanges(GenomicRanges::start(bins)[deletions$start],
             GenomicRanges::end(bins)[deletions$end]),
@@ -47,7 +47,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 
 .countBadBins <- function(i, candidates, filter_ind){
       candidate <- candidates[i,]
-      num.segs.bad <- sum((filter_ind<=candidate$start & 
-                                filter_ind>=candidate$start))
+      num.segs.bad <- sum((filter_ind>=candidate$start & 
+                                filter_ind<=candidate$end))
       return(num.segs.bad)
 }
