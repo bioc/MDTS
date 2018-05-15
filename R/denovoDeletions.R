@@ -37,7 +37,7 @@ denovoDeletions = function(cbs, mCounts, bins){
             .countBadBins, FUN.VALUE=double(1), candidates, filter_ind)
 	
 	deletions <- candidates[(candidates$num.segs.filtered/
-            candidates$num.segs)<0.5]
+            candidates$num.segs)<0.5,]
 	deletions_gr <- GRanges(seqnames=seqnames(bins)[deletions$start],
             IRanges::IRanges(GenomicRanges::start(bins)[deletions$start],
             GenomicRanges::end(bins)[deletions$end]),
