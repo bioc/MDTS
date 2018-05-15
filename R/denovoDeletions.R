@@ -47,7 +47,7 @@ denovoDeletions = function(cbs, mCounts, bins){
 
 .countBadBins <- function(i, candidates, filter_ind){
       candidate <- candidates[i,]
-      num.segs.bad <- sum((filter_ind<=candidate$start & 
-                                filter_ind>=candidate$start))
+      num.segs.bad <- sum((filter_ind>=candidate$start & 
+                                filter_ind<=candidate$end))
       return(num.segs.bad)
 }
