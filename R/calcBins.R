@@ -99,14 +99,20 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
       ga <- GenomicAlignments::readGAlignments(path, param=param)
       return(GenomicAlignments::coverage(ga))
 }
+
+bins <- lapply(seq_len(22), .processChr, 
+	              rle_track0, covs, readLength, medianCoverage)
+
 .processChr = function(chr, proto_info, covs, rl, med){
       message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region <- proto_info[[chr]]
       if(sum(proto_region)>0){
             proto_gr <- GRanges(seqnames=chr, IRanges::IRanges(proto_region))
             proto_gr_covs_rle <- lapply(covs, function(x) x[proto_gr])
-            proto_gr_covs <- lapply(proto_gr_covs_rle, function(x) 
-                  lapply(x, sum))
+            # proto_gr_covs <- lapply(proto_gr_covs_rle, function(x) 
+            #       lapply(x, sum))
+            proto_gr_covs <- lapply(seq_along(proto_gr_covs_rle), function(x) 
+                  lapply(proto_gr_covs_rle[[x]], sum))
             proto_gr_covs_mat <- apply(do.call(rbind, proto_gr_covs), 2, 
                   as.numeric)
             proto_gr_covs_mat_normed <- t(t(proto_gr_covs_mat)/rl)
@@ -117,7 +123,9 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
             
             if(length(proto_gr_select)>0){
                   message(paste0("Segmenting Chr ", chr, " Proto-regions"))
-                  chr_out <- lapply(proto_gr_select, .divideSegs, covs, rl, med)
+                  # chr_out <- lapply(proto_gr_select, .divideSegs, covs, rl, med)
+                  chr_out <- lapply(seq_along(proto_gr_select), .divideSegs, 
+                                    proto_gr_select, covs, rl, med)
                   chr_out <- do.call(c, chr_out)
                   return(chr_out)
             }else{
@@ -130,7 +138,9 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
 .extractCounts <- function(cov_list){
       return(suppressWarnings((as.numeric(unlist(cov_list)))))
 }
-.divideSegs <- function(seg, covs, rl, med){
+# .divideSegs <- function(seg, covs, rl, med){
+.divideSegs <- function(i, proto_gr_select, covs, rl, med){
+      seg = proto_gr_select[i]
       cov_sub <- lapply(covs, function(x) x[seg])
       cov_sub_mat <- do.call(rbind, lapply(cov_sub, .extractCounts))
       cov_sub_cs_normed <- t(apply(cov_sub_mat, 1, cumsum))/rl
