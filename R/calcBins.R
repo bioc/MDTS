@@ -100,9 +100,6 @@ calcBins <- function(metaData, n, readLength, medianCoverage, minimumCoverage,
       return(GenomicAlignments::coverage(ga))
 }
 
-bins <- lapply(seq_len(22), .processChr, 
-	              rle_track0, covs, readLength, medianCoverage)
-
 .processChr = function(chr, proto_info, covs, rl, med){
       message(paste0("Selecting Proto-regions in Chr ", chr))
       proto_region <- proto_info[[chr]]
